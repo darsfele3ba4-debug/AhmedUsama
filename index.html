@@ -95,6 +95,33 @@ footer .b { font-family: 'Cairo', sans-serif; color: var(--accent); font-weight:
     .hero-actions { justify-content: center; }
     .grade-head { justify-content: center; text-align: center; }
 }
+
+.grade-nav {
+    position: sticky; top: 0; z-index: 20; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+    padding: 12px 16px; background: rgba(236,253,245,0.92); backdrop-filter: blur(8px);
+    border-bottom: 2px solid #bbf7d0; box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+}
+.grade-nav a {
+    text-decoration: none; font-weight: 700; color: var(--primary-dark); background: white;
+    border: 2px solid #86efac; border-radius: 12px; padding: 8px 16px; display: inline-flex; gap: 8px; align-items: center;
+    transition: all 0.15s;
+}
+.grade-nav a:hover, .grade-nav a.active { background: var(--primary); border-color: var(--primary); color: white; }
+.grade-nav a .ar { font-family: 'Cairo', sans-serif; font-size: 0.9rem; font-weight: 700; opacity: 0.85; }
+.grade-nav .sep { width: 2px; background: #bbf7d0; border-radius: 2px; margin: 4px 4px; }
+.stage-title {
+    font-family: 'Cairo', sans-serif; font-weight: 900; font-size: 1.6rem; color: var(--primary);
+    display: flex; align-items: center; gap: 14px; margin: 6px 0 22px;
+}
+.stage-title::after { content: ''; flex: 1; height: 3px; background: linear-gradient(to right, #34d399, transparent); border-radius: 3px; }
+.grade { scroll-margin-top: 80px; }
+@media (max-width: 768px) {
+    .grade-nav { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; }
+    .grade-nav a { white-space: nowrap; padding: 7px 12px; font-size: 0.92rem; }
+    .grade-nav a .ar { display: none; }
+    .stage-title { font-size: 1.15rem; gap: 8px; white-space: nowrap; }
+    .stage-title::after { display: none; }
+}
 </style>
 </head>
 <body>
@@ -108,14 +135,213 @@ footer .b { font-family: 'Cairo', sans-serif; color: var(--accent); font-weight:
                 <p class="ar" dir="rtl">اختار الصف والوحدة وابدأ اللعب ✨</p>
                 <div class="hero-actions">
                     <a class="pill wa" href="https://wa.me/201278040762" target="_blank"><i class="fab fa-whatsapp"></i> 01278040762</a>
-                    <a class="pill ghost" href="#prep1"><i class="fas fa-graduation-cap"></i> Prep 1</a>
-                    <a class="pill ghost" href="#prep2"><i class="fas fa-graduation-cap"></i> Prep 2</a>
                 </div>
             </div>
         </div>
     </section>
 
+    <nav class="grade-nav" id="grade-nav">
+        <a href="#prim4"><i class="fas fa-graduation-cap"></i> Prim 4 <span class="ar" dir="rtl">رابعة ابتدائي</span></a>
+        <a href="#prim5"><i class="fas fa-graduation-cap"></i> Prim 5 <span class="ar" dir="rtl">خامسة ابتدائي</span></a>
+        <a href="#prim6"><i class="fas fa-graduation-cap"></i> Prim 6 <span class="ar" dir="rtl">سادسة ابتدائي</span></a>
+        <span class="sep"></span>
+        <a href="#prep1"><i class="fas fa-graduation-cap"></i> Prep 1 <span class="ar" dir="rtl">أولى إعدادي</span></a>
+        <a href="#prep2"><i class="fas fa-graduation-cap"></i> Prep 2 <span class="ar" dir="rtl">تانية إعدادي</span></a>
+        <a href="#prep3"><i class="fas fa-graduation-cap"></i> Prep 3 <span class="ar" dir="rtl">تالتة إعدادي</span></a>
+    </nav>
+
     <main>
+        <div class="stage-title">Primary Stage <span dir="rtl">المرحلة الابتدائية</span></div>
+        <section class="grade" id="prim4">
+            <div class="grade-head">
+                <h3><span class="grade-badge">4</span><span class="grade-title">Prim 4</span> <span class="ar" dir="rtl">رابعة ابتدائي</span></h3>
+                <button class="btn-all" onclick="copyGrade('prim4')"><i class="fas fa-copy"></i> Copy all Prim 4 links</button>
+            </div>
+            <div class="units">
+            <div class="unit-card" data-path="prim4/unit1.html" data-title="Prim 4 - Unit 1: The Five Senses">
+                <div class="unit-top">
+                    <div class="unit-num">1</div>
+                    <div><div class="unit-label">Unit 1</div><div class="unit-name">The Five Senses</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Present Simple (Affirmative)</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim4/unit1.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim4/unit1.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prim4/unit2.html" data-title="Prim 4 - Unit 2: My Community">
+                <div class="unit-top">
+                    <div class="unit-num">2</div>
+                    <div><div class="unit-label">Unit 2</div><div class="unit-name">My Community</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Present Simple (Negative / Question)</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim4/unit2.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim4/unit2.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prim4/unit3.html" data-title="Prim 4 - Unit 3: Animals In Our World">
+                <div class="unit-top">
+                    <div class="unit-num">3</div>
+                    <div><div class="unit-label">Unit 3</div><div class="unit-name">Animals In Our World</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Comparative Adjectives</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim4/unit3.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim4/unit3.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prim4/unit4.html" data-title="Prim 4 - Unit 4: Egypt - My Homeland">
+                <div class="unit-top">
+                    <div class="unit-num">4</div>
+                    <div><div class="unit-label">Unit 4</div><div class="unit-name">Egypt - My Homeland</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Prepositions of Place</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim4/unit4.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim4/unit4.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prim4/unit5.html" data-title="Prim 4 - Unit 5: A Day At Work">
+                <div class="unit-top">
+                    <div class="unit-num">5</div>
+                    <div><div class="unit-label">Unit 5</div><div class="unit-name">A Day At Work</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Superlative Adjectives</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim4/unit5.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim4/unit5.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            </div>
+        </section>
+        <section class="grade" id="prim5">
+            <div class="grade-head">
+                <h3><span class="grade-badge">5</span><span class="grade-title">Prim 5</span> <span class="ar" dir="rtl">خامسة ابتدائي</span></h3>
+                <button class="btn-all" onclick="copyGrade('prim5')"><i class="fas fa-copy"></i> Copy all Prim 5 links</button>
+            </div>
+            <div class="units">
+            <div class="unit-card" data-path="prim5/unit1.html" data-title="Prim 5 - Unit 1: Food, Nature, and Culture">
+                <div class="unit-top">
+                    <div class="unit-num">1</div>
+                    <div><div class="unit-label">Unit 1</div><div class="unit-name">Food, Nature, and Culture</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Adverbs of Frequency</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim5/unit1.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim5/unit1.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prim5/unit2.html" data-title="Prim 5 - Unit 2: My Healthy Body">
+                <div class="unit-top">
+                    <div class="unit-num">2</div>
+                    <div><div class="unit-label">Unit 2</div><div class="unit-name">My Healthy Body</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>a / an / some / any</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim5/unit2.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim5/unit2.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prim5/unit3.html" data-title="Prim 5 - Unit 3: When Nature Changes">
+                <div class="unit-top">
+                    <div class="unit-num">3</div>
+                    <div><div class="unit-label">Unit 3</div><div class="unit-name">When Nature Changes</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Past Simple</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim5/unit3.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim5/unit3.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prim5/unit4.html" data-title="Prim 5 - Unit 4: My Community">
+                <div class="unit-top">
+                    <div class="unit-num">4</div>
+                    <div><div class="unit-label">Unit 4</div><div class="unit-name">My Community</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Prepositions of Time</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim5/unit4.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim5/unit4.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prim5/unit5.html" data-title="Prim 5 - Unit 5: Our World, Our Resources">
+                <div class="unit-top">
+                    <div class="unit-num">5</div>
+                    <div><div class="unit-label">Unit 5</div><div class="unit-name">Our World, Our Resources</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Comparative Adjectives</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim5/unit5.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim5/unit5.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            </div>
+        </section>
+        <section class="grade" id="prim6">
+            <div class="grade-head">
+                <h3><span class="grade-badge">6</span><span class="grade-title">Prim 6</span> <span class="ar" dir="rtl">سادسة ابتدائي</span></h3>
+                <button class="btn-all" onclick="copyGrade('prim6')"><i class="fas fa-copy"></i> Copy all Prim 6 links</button>
+            </div>
+            <div class="units">
+            <div class="unit-card" data-path="prim6/unit1.html" data-title="Prim 6 - Unit 1: Lifestyles in Egypt">
+                <div class="unit-top">
+                    <div class="unit-num">1</div>
+                    <div><div class="unit-label">Unit 1</div><div class="unit-name">Lifestyles in Egypt</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Present Simple &amp; Synonyms/Antonyms</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim6/unit1.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim6/unit1.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prim6/unit2.html" data-title="Prim 6 - Unit 2: Our Nature">
+                <div class="unit-top">
+                    <div class="unit-num">2</div>
+                    <div><div class="unit-label">Unit 2</div><div class="unit-name">Our Nature</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Present Continuous</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim6/unit2.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim6/unit2.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prim6/unit3.html" data-title="Prim 6 - Unit 3: Community Builders">
+                <div class="unit-top">
+                    <div class="unit-num">3</div>
+                    <div><div class="unit-label">Unit 3</div><div class="unit-name">Community Builders</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>can / can&#x27;t / able to</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim6/unit3.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim6/unit3.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prim6/unit4.html" data-title="Prim 6 - Unit 4: Resources Around Us">
+                <div class="unit-top">
+                    <div class="unit-num">4</div>
+                    <div><div class="unit-label">Unit 4</div><div class="unit-name">Resources Around Us</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>must/mustn&#x27;t, should/shouldn&#x27;t</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim6/unit4.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim6/unit4.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prim6/unit5.html" data-title="Prim 6 - Unit 5: Made In Egypt">
+                <div class="unit-top">
+                    <div class="unit-num">5</div>
+                    <div><div class="unit-label">Unit 5</div><div class="unit-name">Made In Egypt</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Past Simple</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prim6/unit5.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prim6/unit5.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            </div>
+        </section>
+        <div class="stage-title">Preparatory Stage <span dir="rtl">المرحلة الإعدادية</span></div>
         <section class="grade" id="prep1">
             <div class="grade-head">
                 <h3><span class="grade-badge">1</span><span class="grade-title">Prep 1</span> <span class="ar" dir="rtl">أولى إعدادي</span></h3>
@@ -264,6 +490,80 @@ footer .b { font-family: 'Cairo', sans-serif; color: var(--accent); font-weight:
             </div>
             </div>
         </section>
+        <section class="grade" id="prep3">
+            <div class="grade-head">
+                <h3><span class="grade-badge">3</span><span class="grade-title">Prep 3</span> <span class="ar" dir="rtl">تالتة إعدادي</span></h3>
+                <button class="btn-all" onclick="copyGrade('prep3')"><i class="fas fa-copy"></i> Copy all Prep 3 links</button>
+            </div>
+            <div class="units">
+            <div class="unit-card" data-path="prep3/unit1.html" data-title="Prep 3 - Unit 1: Personal Identity">
+                <div class="unit-top">
+                    <div class="unit-num">1</div>
+                    <div><div class="unit-label">Unit 1</div><div class="unit-name">Personal Identity</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Present Perfect (Active &amp; Passive)</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prep3/unit1.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prep3/unit1.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prep3/unit2.html" data-title="Prep 3 - Unit 2: Communication with Family and Friends">
+                <div class="unit-top">
+                    <div class="unit-num">2</div>
+                    <div><div class="unit-label">Unit 2</div><div class="unit-name">Communication with Family and Friends</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>The Third Conditional</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prep3/unit2.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prep3/unit2.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prep3/unit3.html" data-title="Prep 3 - Unit 3: Artificial Intelligence">
+                <div class="unit-top">
+                    <div class="unit-num">3</div>
+                    <div><div class="unit-label">Unit 3</div><div class="unit-name">Artificial Intelligence</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>The Future Simple (Active &amp; Passive)</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prep3/unit3.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prep3/unit3.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prep3/unit4.html" data-title="Prep 3 - Unit 4: Screen Time">
+                <div class="unit-top">
+                    <div class="unit-num">4</div>
+                    <div><div class="unit-label">Unit 4</div><div class="unit-name">Screen Time</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Modal Verbs (Obligation, Permission &amp; Advice)</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prep3/unit4.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prep3/unit4.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prep3/unit5.html" data-title="Prep 3 - Unit 5: Design Thinking">
+                <div class="unit-top">
+                    <div class="unit-num">5</div>
+                    <div><div class="unit-label">Unit 5</div><div class="unit-name">Design Thinking</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Imperatives (Positive &amp; Negative)</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prep3/unit5.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prep3/unit5.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            <div class="unit-card" data-path="prep3/unit6.html" data-title="Prep 3 - Unit 6: Why do We Like Stories?">
+                <div class="unit-top">
+                    <div class="unit-num">6</div>
+                    <div><div class="unit-label">Unit 6</div><div class="unit-name">Why do We Like Stories?</div></div>
+                </div>
+                <div class="unit-topic"><i class="fas fa-pen-fancy"></i>Reported Speech (Statements)</div>
+                <div class="unit-actions">
+                    <a class="btn open" href="prep3/unit6.html"><i class="fas fa-play"></i> Open</a>
+                    <button class="btn copy" onclick="copyLink(this, 'prep3/unit6.html')"><i class="fas fa-link"></i> Copy link</button>
+                </div>
+            </div>
+            </div>
+        </section>
     </main>
 
     <footer>Mr Ahmed Usama — <span class="b" dir="rtl">المستـــR</span></footer>
@@ -313,6 +613,19 @@ footer .b { font-family: 'Cairo', sans-serif; color: var(--accent); font-weight:
             const text = lines.join('\n');
             copyText(text).then(() => showToast('All ' + title + ' links copied')).catch(() => window.prompt('Copy:', text));
         }
+
+        // highlight the grade currently on screen in the sticky nav
+        (function () {
+            const links = document.querySelectorAll('#grade-nav a');
+            const sections = [...document.querySelectorAll('.grade')];
+            function update() {
+                let cur = sections[0] ? sections[0].id : null;
+                sections.forEach(s => { if (s.getBoundingClientRect().top < 140) cur = s.id; });
+                links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+            }
+            window.addEventListener('scroll', update, { passive: true });
+            update();
+        })();
     </script>
 </body>
 </html>
