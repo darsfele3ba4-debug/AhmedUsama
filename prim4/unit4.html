@@ -508,6 +508,35 @@ body.compact .container { max-width: 1500px; margin: 12px auto; padding: 10px; }
 
         const TEACHER_PHONE = '201278040762';
         const Q_PER_TEAM = 10;
+        const SOLO_COUNT = 30;          // questions per solo game when the bank is large
+        const LARGE_BANK = 40;          // banks bigger than this are sampled instead of played in full
+
+        function soloCount(bank) { return bank.length > LARGE_BANK ? SOLO_COUNT : bank.length; }
+
+        // Picks n different questions, preferring ones this browser hasn't seen yet,
+        // so repeated plays rotate through the whole bank before anything repeats.
+        function pickFresh(bank, n, tag) {
+            n = Math.min(n, bank.length);
+            const key = 'qrot:' + location.pathname + ':' + currentSection + (tag || '');
+            let seen = [];
+            try {
+                const saved = JSON.parse(localStorage.getItem(key) || 'null');
+                if (saved && saved.len === bank.length && Array.isArray(saved.seen)) seen = saved.seen;
+            } catch (e) {}
+            const all = bank.map((_, i) => i);
+            const pool = shuffle(all.filter(i => seen.indexOf(i) < 0));
+            let chosen;
+            if (pool.length >= n) {
+                chosen = pool.slice(0, n);
+                seen = seen.concat(chosen);
+            } else {
+                const extra = shuffle(all.filter(i => pool.indexOf(i) < 0)).slice(0, n - pool.length);
+                chosen = shuffle(pool.concat(extra));
+                seen = extra.slice();
+            }
+            try { localStorage.setItem(key, JSON.stringify({ len: bank.length, seen: seen })); } catch (e) {}
+            return chosen.map(i => bank[i]);
+        }
         const GAME_NAMES = { 1: 'Multiple Choice', 2: 'Falling Bubbles', 3: 'Target Practice', 4: 'True or False', 5: 'Advanced Challenge' };
 
         let currentSection = HAS_GRAMMAR ? null : 'vocab';
@@ -570,9 +599,11 @@ body.compact .container { max-width: 1500px; margin: 12px auto; padding: 10px; }
             document.getElementById('mode-solo').classList.toggle('active', mode === 'solo');
             document.getElementById('mode-comp').classList.toggle('active', mode === 'comp');
             document.getElementById('comp-settings').style.display = mode === 'comp' ? 'grid' : 'none';
-            const n = currentBank().length;
+            const bankSize = currentBank().length;
+            const n = soloCount(currentBank());
             document.getElementById('mode-hint').innerHTML = mode === 'solo'
-                ? '<i class="fas fa-info-circle"></i> Play on your own — ' + n + ' questions, no time limit.'
+                ? '<i class="fas fa-info-circle"></i> Play on your own — ' + n + ' questions, no time limit.' +
+                  (n < bankSize ? ' A new random set from ' + bankSize + ' questions every time you play.' : '')
                 : '<i class="fas fa-info-circle"></i> Two teams play at the same time, each on its own half of the screen — ' + Q_PER_TEAM + ' questions per team. Highest score wins; if scores are equal, the faster team wins.';
         }
 
@@ -585,14 +616,14 @@ body.compact .container { max-width: 1500px; margin: 12px auto; padding: 10px; }
             return { q: t.text.replace(/_{5,}/, '_____'), options: shuffle([t.ans, ...t.wrong]), answer: t.ans };
         }
 
-        function prepareTeamSets(bank, type, mode) {
-            const pool = shuffle(bank);
+        function prepareTeamSets(bank, type, mode, tag) {
+            const pool = pickFresh(bank, mode === 'same' ? Q_PER_TEAM : Q_PER_TEAM * 2, tag);
             if (mode === 'same') {
                 const base = pool.slice(0, Q_PER_TEAM).map(t => buildQuestion(t, type));
                 return [0, 1].map(() => shuffle(base).map(q => ({ ...q, options: type === 'TF' ? q.options : shuffle(q.options) })));
             }
             if (pool.length < Q_PER_TEAM * 2) {
-                return [0, 1].map(() => shuffle(bank).slice(0, Q_PER_TEAM).map(t => buildQuestion(t, type)));
+                return [0, 1].map(() => shuffle(pool).slice(0, Q_PER_TEAM).map(t => buildQuestion(t, type)));
             }
             return [pool.slice(0, Q_PER_TEAM), pool.slice(Q_PER_TEAM, Q_PER_TEAM * 2)].map(set => set.map(t => buildQuestion(t, type)));
         }
@@ -663,7 +694,12 @@ body.compact .container { max-width: 1500px; margin: 12px auto; padding: 10px; }
             currentGameId = gameId;
             runMode = currentMode;
 
-            const bank = currentBank();
+            // Falling Bubbles and Target Practice need short answers to fit inside the moving shapes
+            const moving = (gameId === 2 || gameId === 3);
+            const fullBank = currentBank();
+            const shortBank = fullBank.filter(q => [q.ans].concat(q.wrong).every(o => o.length <= 22));
+            const bank = (moving && fullBank.length > LARGE_BANK && shortBank.length >= Q_PER_TEAM * 2) ? shortBank : fullBank;
+            const tag = bank === fullBank ? '' : ':short';
             const type = (gameId === 4) ? 'TF' : 'MCQ';
             const sectionName = currentSection === 'grammar' ? 'Grammar' : 'Vocabulary';
             arena.innerHTML = '';
@@ -671,7 +707,7 @@ body.compact .container { max-width: 1500px; margin: 12px auto; padding: 10px; }
             if (runMode === 'solo') {
                 questionTime = 0;
                 arena.className = 'arena solo';
-                teams = [createTeam(0, '🎯 Your Score', shuffle(bank).map(t => buildQuestion(t, type)), true)];
+                teams = [createTeam(0, '🎯 Your Score', pickFresh(bank, soloCount(bank), tag).map(t => buildQuestion(t, type)), true)];
                 document.getElementById('comp-title').innerText = GAME_NAMES[gameId] + ' — ' + sectionName;
                 document.getElementById('comp-time-wrap').style.display = 'none';
                 document.getElementById('btn-stop').innerHTML = '<i class="fas fa-arrow-left"></i> Back';
@@ -683,7 +719,7 @@ body.compact .container { max-width: 1500px; margin: 12px auto; padding: 10px; }
 
             questionTime = parseInt(document.getElementById('q-time').value, 10) || 20;
             const names = [val('team1-name') || 'Team A', val('team2-name') || 'Team B'];
-            const sets = prepareTeamSets(bank, type, document.getElementById('q-mode').value);
+            const sets = prepareTeamSets(bank, type, document.getElementById('q-mode').value, tag);
             arena.className = 'arena';
             teams = [0, 1].map(i => createTeam(i, names[i], sets[i], false));
             document.getElementById('comp-title').innerText = '🏆 ' + GAME_NAMES[gameId] + ' — ' + sectionName;
