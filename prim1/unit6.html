@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prim 1 Unit 6 * المستـــR - Mr Ahmed Usama</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --primary: #047857;
+    --secondary: #10b981;
+    --primary-dark: #064e3b;
+    --accent: #f5b301;
+    --success: #16a34a;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --dark: #0f2a22;
+    --light: #f0fdf4;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+.arabic-text { font-family: 'Cairo', sans-serif; }
+
+body {
+    background: radial-gradient(circle at top, #ecfdf5, #86efac);
+    color: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== Header ===== */
+header {
+    background: linear-gradient(135deg, #052e22, #064e3b 45%, #047857);
+    color: white;
+    padding: 26px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+    border-bottom: 5px solid var(--accent);
+}
+.header-content { display: flex; align-items: center; gap: 30px; }
+.logo-container {
+    width: 190px; height: 230px; border-radius: 22px; overflow: hidden;
+    background: #052e22; border: 4px solid var(--accent);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    transition: transform 0.3s ease; flex-shrink: 0;
+}
+.logo-container:hover { transform: scale(1.03) rotate(-2deg); }
+.logo-container img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.brand { display: inline-block;
+    font-family: 'Cairo', sans-serif; font-weight: 900; font-size: 3.2rem; line-height: 1.15;
+    color: var(--accent); text-shadow: 2px 3px 0 rgba(0,0,0,0.35); letter-spacing: 1px;
+}
+.titles h2 { font-size: 1.45rem; font-weight: 600; color: #d1fae5; letter-spacing: 0.5px; }
+.titles h3 {
+    font-size: 1.05rem; font-weight: 400; color: #ecfdf5; margin-top: 10px;
+    background: rgba(0,0,0,0.25); padding: 6px 15px; border-radius: 20px; display: inline-block;
+}
+.header-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.social-links a {
+    color: #25D366; font-size: 2.5rem; text-decoration: none; background: white; border-radius: 50%;
+    width: 65px; height: 65px; display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.social-links a:hover { transform: scale(1.15) translateY(-5px); box-shadow: 0 8px 15px rgba(37,211,102,0.4); }
+.home-link {
+    color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.35);
+    border-radius: 12px; padding: 8px 14px; display: flex; align-items: center; gap: 8px; white-space: nowrap;
+}
+.home-link:hover { background: rgba(255,255,255,0.22); }
+
+/* ===== Layout ===== */
+.container { max-width: 960px; margin: 36px auto; padding: 20px; flex-grow: 1; width: 100%; }
+.screen {
+    display: none; background: white; border-radius: 20px; padding: 40px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: center;
+    animation: fadeIn 0.4s ease-out; border: 1px solid #d1fae5;
+}
+.screen.active { display: block; }
+.screen h2 { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
+.screen p { font-size: 1.1rem; color: #64748b; margin-bottom: 25px; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; margin-top: 25px; }
+.game-card {
+    background: linear-gradient(135deg, #ffffff, #f0fdf4);
+    border: 2px solid #d1fae5; border-bottom: 6px solid var(--primary); border-radius: 20px;
+    padding: 28px 20px; cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex; flex-direction: column; align-items: center; gap: 15px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+}
+.game-card:hover {
+    transform: translateY(-10px);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-bottom-color: var(--primary-dark); color: white;
+    box-shadow: 0 15px 25px rgba(4,120,87,0.3);
+}
+.game-card h3 { font-size: 1.3rem; font-weight: 600; }
+.game-card i { font-size: 3.5rem; color: var(--primary); transition: color 0.3s; }
+.game-card:hover i { color: white; }
+
+.btn-back {
+    background: var(--danger); color: white; border: none; padding: 12px 25px; border-radius: 12px;
+    cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: 0 4px 0 #b91c1c;
+    transition: all 0.1s; display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-back:active { transform: translateY(4px); box-shadow: 0 0 0 #b91c1c; }
+.btn-section {
+    background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 12px;
+    cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: 0 4px 0 var(--primary-dark);
+    transition: all 0.1s; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px;
+}
+.btn-section:active { transform: translateY(4px); box-shadow: 0 0 0 var(--primary-dark); }
+
+/* ===== Mode switch ===== */
+.mode-switch { display: inline-flex; flex-wrap: wrap; justify-content: center; background: #e2e8f0; border-radius: 16px; padding: 6px; gap: 6px; margin-bottom: 14px; }
+.mode-btn {
+    border: none; background: transparent; padding: 12px 24px; border-radius: 12px;
+    font-weight: 700; font-size: 1.05rem; cursor: pointer; color: #334155;
+    display: inline-flex; gap: 9px; align-items: center; font-family: inherit; transition: all 0.2s;
+}
+.mode-btn.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(4,120,87,0.35); }
+.screen p.mode-hint { font-size: 0.98rem; color: #475569; margin-bottom: 10px; }
+
+.comp-settings {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px;
+    background: #f0fdf4; border: 2px dashed #86efac; border-radius: 16px; padding: 20px;
+    margin: 10px 0 10px; text-align: left;
+}
+.comp-settings label { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; color: #334155; }
+.comp-settings input, .comp-settings select {
+    width: 100%; padding: 10px 12px; border: 2px solid #cbd5e1; border-radius: 10px;
+    font-size: 1rem; font-family: inherit; background: white;
+}
+.comp-settings input:focus, .comp-settings select:focus { outline: none; border-color: var(--primary); }
+
+/* ===== Game screen ===== */
+#game-screen.screen { padding: 16px; }
+.comp-topbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.comp-topbar h3 { font-size: 1.15rem; color: #475569; }
+
+.arena { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.arena.solo { grid-template-columns: 1fr; max-width: 880px; margin: 0 auto; }
+
+.team-panel.solo { --team: var(--primary); --team-dark: var(--primary-dark); --team-soft: #f0fdf4; }
+.t0 { --team: #2563eb; --team-dark: #1e3a8a; --team-soft: #eff6ff; }
+.t1 { --team: #ea580c; --team-dark: #9a3412; --team-soft: #fff7ed; }
+
+.team-panel {
+    border: 4px solid var(--team); border-radius: 18px; padding: 14px; background: var(--team-soft);
+    display: flex; flex-direction: column; position: relative; overflow: hidden; min-height: 520px;
+}
+.team-panel.solo { min-height: 0; padding: 20px; }
+.team-head {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--team); color: white; border-radius: 12px; padding: 10px 14px; margin-bottom: 10px;
+}
+.team-name { font-size: 1.3rem; font-weight: 800; }
+.team-score { font-size: 1.5rem; font-weight: 800; background: rgba(255,255,255,0.22); padding: 2px 14px; border-radius: 10px; }
+.team-meta { display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--team-dark); margin-bottom: 6px; }
+.timer-num { font-size: 1.4rem; min-width: 48px; text-align: right; }
+.timer-bar { height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden; margin-bottom: 12px; }
+.timer-fill { height: 100%; width: 100%; background: var(--success); transition: width 0.1s linear, background 0.3s; }
+.timer-fill.warn { background: var(--warning); }
+.timer-fill.danger { background: var(--danger); }
+.team-panel.solo .timer-num, .team-panel.solo .timer-bar { display: none; }
+.team-panel.solo .team-meta { margin-bottom: 14px; }
+
+.question-text { font-size: 1.8rem; margin-bottom: 30px; font-weight: 800; color: var(--dark); line-height: 1.4; }
+.team-panel .question-text { font-size: 1.35rem; margin-bottom: 16px; min-height: 3.8em; display: flex; align-items: center; justify-content: center; }
+.team-panel.solo .question-text { font-size: 1.75rem; margin-bottom: 26px; }
+
+.options-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+.team-panel .options-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+.team-panel.solo .options-grid { grid-template-columns: 1fr; gap: 14px; }
+
+.option-btn {
+    background: white; border: 2px solid #e2e8f0; color: var(--dark); padding: 18px; border-radius: 15px;
+    font-size: 1.3rem; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 5px 0 #cbd5e1; position: relative;
+}
+.team-panel .option-btn { font-size: 1.15rem; padding: 14px 10px; }
+.team-panel.solo .option-btn { font-size: 1.3rem; padding: 18px; }
+.option-btn:active { transform: translateY(5px); box-shadow: 0 0 0 #cbd5e1; }
+.option-btn:hover { border-color: var(--team, var(--primary)); background: #f8fafc; }
+.option-btn.correct { background: var(--success); border-color: var(--success); color: white; box-shadow: 0 5px 0 #15803d; }
+.option-btn.wrong { background: var(--danger); border-color: var(--danger); color: white; box-shadow: 0 5px 0 #b91c1c; }
+.option-btn, .bubble, .target { touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+
+.bubbles-container {
+    position: relative; height: 340px; background: linear-gradient(to bottom, #a7f3d0, #f0fdf4);
+    border-radius: 20px; overflow: hidden; border: 4px solid var(--team, var(--primary));
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+}
+.team-panel.solo .bubbles-container { height: 450px; }
+.bubble {
+    position: absolute;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(209,250,229,0.95));
+    border: 2px solid rgba(255,255,255,0.6); border-radius: 50%;
+    display: flex; justify-content: center; align-items: center; font-weight: 800; color: var(--primary-dark);
+    cursor: pointer; box-shadow: 0 8px 15px rgba(0,0,0,0.1), inset -5px -5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.1s; text-align: center; padding: 4px; font-size: 0.85rem; line-height: 1.1;
+    overflow: hidden; word-break: break-word; z-index: 2;
+}
+.bubble:active { transform: scale(0.9); }
+
+.targets-container {
+    position: relative; height: 320px; background: linear-gradient(135deg, #052e22, #065f46);
+    border-radius: 20px; overflow: hidden; border: 4px solid var(--accent); box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+}
+.team-panel.solo .targets-container { height: 400px; }
+.target {
+    position: absolute; background: radial-gradient(circle, #fff, #fcd34d, #f59e0b);
+    border: 4px solid white; padding: 15px 25px; border-radius: 30px; font-weight: 800; color: white;
+    text-shadow: 1px 1px 2px black; cursor: crosshair; display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4); white-space: nowrap; text-align: center; z-index: 2;
+}
+
+.team-flash {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 7rem; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 5;
+}
+.team-flash.show { opacity: 1; }
+.team-flash.correct { color: var(--success); background: rgba(22,163,74,0.12); }
+.team-flash.wrong { color: var(--danger); background: rgba(239,68,68,0.12); }
+
+.team-done {
+    position: absolute; inset: 0; background: rgba(255,255,255,0.93);
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 6; text-align: center; gap: 10px; padding: 20px;
+}
+.team-panel.finished .team-done { display: flex; }
+
+.countdown-overlay {
+    position: fixed; inset: 0; background: rgba(5,46,34,0.82); display: none; align-items: center; justify-content: center;
+    z-index: 2000; color: var(--accent); font-size: 10rem; font-weight: 900; font-family: 'Poppins', sans-serif;
+}
+.countdown-overlay.show { display: flex; }
+
+/* ===== Results ===== */
+.results-list {
+    text-align: left; margin-top: 20px; max-height: 400px; overflow-y: auto;
+    border: 2px solid #e2e8f0; padding: 18px; border-radius: 15px; background: #f8fafc;
+}
+.mistake-item { background: white; padding: 14px; border-left: 5px solid var(--danger); margin-bottom: 12px; border-radius: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.05); }
+.mistake-q { font-weight: 600; margin-bottom: 8px; font-size: 1.05rem; color: var(--dark); }
+.mistake-a { color: var(--success); font-weight: 800; }
+
+.final-score { margin: 18px 0; font-size: 1.9rem; color: var(--primary); }
+.winner-banner { font-size: 2.2rem; font-weight: 900; margin: 10px 0 20px; color: #b45309; }
+.score-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: center; }
+.score-card { border: 4px solid var(--team); background: var(--team-soft); border-radius: 18px; padding: 18px; }
+.score-card.win { box-shadow: 0 0 0 6px var(--accent), 0 10px 25px rgba(0,0,0,0.15); }
+.score-card h4 { font-size: 1.4rem; color: var(--team-dark); }
+.score-card .big { font-size: 3rem; font-weight: 900; color: var(--team-dark); line-height: 1.2; }
+.score-card .meta { color: #475569; font-weight: 600; }
+.score-card .results-list { max-height: 260px; margin-top: 12px; padding: 12px; }
+.results-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 25px; }
+.results-actions button { margin: 0; padding: 15px 30px; font-size: 1.15rem; }
+
+.whatsapp-share { margin-top: 28px; padding: 25px; background: #f0fdf4; border: 2px dashed #25D366; border-radius: 18px; }
+.screen .whatsapp-share p { margin-bottom: 15px; color: var(--dark); font-weight: 700; font-size: 1.1rem; }
+.name-input {
+    width: 100%; max-width: 340px; padding: 14px 18px; border: 2px solid #cbd5e1; border-radius: 12px;
+    font-size: 1.1rem; font-family: 'Poppins', sans-serif; margin-bottom: 15px; text-align: center;
+}
+.name-input:focus { outline: none; border-color: #25D366; }
+.name-input.input-error { border-color: var(--danger); animation: shakeInput 0.4s; }
+@keyframes shakeInput { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.btn-whatsapp {
+    background: #25D366; color: white; border: none; padding: 14px 28px; border-radius: 12px; cursor: pointer;
+    font-size: 1.1rem; font-weight: 700; box-shadow: 0 4px 0 #128C3E; transition: all 0.1s;
+    display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-whatsapp:active { transform: translateY(4px); box-shadow: 0 0 0 #128C3E; }
+
+.main-footer {
+    background: #052e22; color: white; text-align: center; padding: 20px; font-size: 1.15rem;
+    font-weight: 600; letter-spacing: 1px; margin-top: auto; border-top: 4px solid var(--accent);
+}
+.main-footer .brand-mini { font-family: 'Cairo', sans-serif; color: var(--accent); font-weight: 900; }
+
+@media (max-width: 900px) {
+    .arena, .score-cards { grid-template-columns: 1fr; }
+    .team-panel { min-height: auto; }
+}
+@media (max-width: 768px) {
+    header { padding: 22px 18px; flex-direction: column; text-align: center; }
+    .header-content { flex-direction: column; gap: 14px; }
+    .logo-container { width: 140px; height: 170px; }
+    .brand { font-size: 2.4rem; }
+    .titles h2 { font-size: 1.1rem; }
+    .header-actions { flex-direction: row; }
+    .screen { padding: 24px 16px; }
+    .question-text, .team-panel.solo .question-text { font-size: 1.35rem; }
+    .option-btn, .team-panel.solo .option-btn { font-size: 1.1rem; }
+    .social-links a { width: 55px; height: 55px; font-size: 2.2rem; }
+    .team-panel.solo .bubbles-container { height: 380px; }
+    .bubble { font-size: 0.68rem; padding: 2px; }
+    .team-panel.solo .targets-container { height: 320px; }
+    .target { padding: 8px 12px; font-size: 0.72rem; white-space: normal; max-width: 42%; line-height: 1.15; }
+}
+@media (max-width: 480px) {
+    .team-panel.solo .bubbles-container { height: 320px; }
+    .bubble { font-size: 0.6rem; }
+    .team-panel.solo .targets-container { height: 280px; }
+    .target { font-size: 0.65rem; padding: 6px 10px; max-width: 46%; }
+}
+
+/* compact header while a competition is running */
+body.compact header { padding: 10px 20px; flex-direction: row; text-align: left; }
+body.compact .header-content { flex-direction: row; gap: 14px; }
+body.compact .logo-container { width: 54px; height: 66px; border-radius: 10px; border-width: 2px; }
+body.compact .brand { font-size: 1.5rem; }
+body.compact .titles h2 { font-size: 0.9rem; }
+body.compact .titles h3 { display: none; }
+body.compact .header-actions { flex-direction: row; }
+body.compact .home-link { display: none; }
+body.compact .social-links a { width: 44px; height: 44px; font-size: 1.6rem; }
+body.compact .main-footer { display: none; }
+body.compact .container { max-width: 1500px; margin: 12px auto; padding: 10px; }
+
+/* ===== Prim 1 additions (picture & phonics games) ===== */
+.section-hint { font-family: 'Cairo', sans-serif; font-weight: 700; color: var(--primary); font-size: 1rem; }
+.game-card .ar-sub { font-family: 'Cairo', sans-serif; font-size: 0.92rem; font-weight: 700; color: #475569; transition: color 0.3s; }
+.game-card:hover .ar-sub { color: #ecfdf5; }
+.game-card .emo { font-size: 3rem; line-height: 1; }
+
+.play { display: flex; flex-direction: column; align-items: center; gap: 14px; flex: 1; }
+.prompt { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+.prompt-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.p-text { font-size: 1.6rem; font-weight: 800; color: var(--dark); line-height: 1.35; }
+.p-text b { color: var(--primary); }
+.p-sub { font-size: 1rem; color: #64748b; font-weight: 600; }
+.p-sub .ar { font-family: 'Cairo', sans-serif; }
+.slot-let { display: inline-block; min-width: 1.1em; border-bottom: 4px solid var(--accent); color: var(--accent); margin-right: 2px; text-align: center; }
+.word-big { font-size: 2.6rem; font-weight: 800; color: var(--primary-dark); letter-spacing: 1px; }
+.huge-let { font-size: 6rem; font-weight: 800; line-height: 1; color: var(--primary); }
+.big-let { font-size: 2.2rem; color: var(--accent); text-shadow: 1px 2px 0 rgba(0,0,0,0.15); }
+
+.say-btn {
+    width: 58px; height: 58px; border-radius: 50%; border: none; cursor: pointer; flex-shrink: 0;
+    background: var(--accent); color: #3f2d00; font-size: 1.5rem; box-shadow: 0 4px 0 #b45309;
+    display: inline-flex; align-items: center; justify-content: center; touch-action: manipulation;
+}
+.say-btn:active { transform: translateY(4px); box-shadow: none; }
+.say-btn.huge { width: 110px; height: 110px; font-size: 3rem; box-shadow: 0 6px 0 #b45309; }
+.say-btn.pulse { animation: pulse 1.2s ease-in-out 2; }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+
+/* pictures */
+.pic { display: inline-flex; align-items: center; justify-content: center; }
+.pic img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; -webkit-user-drag: none; }
+.pic.big { width: 150px; height: 150px; }
+.team-panel:not(.solo) .pic.big { width: 112px; height: 112px; }
+.pic.mini { width: 54px; height: 54px; flex-shrink: 0; }
+.pic.opt-pic { width: 84px; height: 84px; }
+.team-panel:not(.solo) .pic.opt-pic { width: 66px; height: 66px; }
+.pic.count { flex-wrap: wrap; gap: 6px; width: auto; height: auto; max-width: 300px; }
+.pic.count img { width: 46px; height: 46px; }
+.pic.mini.count, .pic.opt-pic.count { max-width: 120px; }
+.pic.mini.count img { width: 20px; height: 20px; }
+.team-panel:not(.solo) .pic.count img { width: 36px; height: 36px; }
+
+/* in / on / under scenes */
+.pic.scene { position: relative; }
+.pic.scene img { position: absolute; }
+.b-table .s-base { left: 4%; top: 12%; width: 92%; height: 88%; }
+.s-on.b-table .s-obj { width: 42%; height: 42%; left: 29%; top: 7%; }
+.s-under.b-table .s-obj { width: 36%; height: 36%; left: 32%; bottom: 1%; }
+.b-box .s-back { left: 8%; top: 40%; width: 84%; height: 56%; }
+.b-box .s-front { left: 8%; top: 62%; width: 84%; height: 38%; }
+.s-in.b-box .s-obj { width: 46%; height: 46%; left: 27%; top: 30%; }
+.b-box .s-base { left: 8%; top: 52%; width: 84%; height: 46%; }
+.s-on.b-box .s-obj { width: 44%; height: 44%; left: 28%; top: 9%; }
+
+/* options */
+.opts { display: grid; gap: 12px; width: 100%; max-width: 640px; }
+.opts.words { grid-template-columns: 1fr; max-width: 420px; }
+.team-panel:not(.solo) .opts.words { grid-template-columns: 1fr; }
+.opts.pics { grid-template-columns: repeat(3, 1fr); max-width: 520px; }
+.opts.letters { grid-template-columns: repeat(3, 1fr); max-width: 420px; }
+.opts.yesno { grid-template-columns: 1fr 1fr; max-width: 420px; }
+.opt {
+    background: white; border: 3px solid #e2e8f0; color: var(--dark); border-radius: 18px; cursor: pointer;
+    font-family: inherit; font-weight: 800; font-size: 1.45rem; padding: 14px 10px; box-shadow: 0 5px 0 #cbd5e1;
+    transition: background 0.15s, border-color 0.15s; touch-action: manipulation; user-select: none; -webkit-user-select: none;
+    display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 64px;
+}
+.opt:hover { border-color: var(--team, var(--primary)); }
+.opt:active { transform: translateY(4px); box-shadow: 0 1px 0 #cbd5e1; }
+.opts.pics .opt { padding: 10px; aspect-ratio: 1 / 1; }
+.opts.letters .opt { font-size: 2.6rem; aspect-ratio: 1 / 1; border-radius: 50%; padding: 0; }
+.opts.yesno .opt { font-size: 1.6rem; min-height: 86px; }
+.opts.yesno .opt.yes i { color: var(--success); font-size: 2.2rem; }
+.opts.yesno .opt.no i { color: var(--danger); font-size: 2.2rem; }
+.opt.correct { background: var(--success); border-color: var(--success); color: white; box-shadow: 0 5px 0 #15803d; }
+.opt.wrong { background: var(--danger); border-color: var(--danger); color: white; box-shadow: 0 5px 0 #b91c1c; }
+.opt.correct i, .opt.wrong i { color: white !important; }
+.opt[disabled] { cursor: default; }
+
+/* spell it */
+.slots, .tiles { display: flex; gap: 8px; justify-content: center; flex-wrap: nowrap; }
+.slot, .tile {
+    width: 54px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; font-weight: 800; touch-action: manipulation; user-select: none; -webkit-user-select: none;
+}
+.slot { border: 3px dashed #94a3b8; background: #f8fafc; color: var(--primary-dark); cursor: pointer; }
+.slot.filled { border-style: solid; border-color: var(--primary); background: #ecfdf5; }
+.slot.good { background: var(--success); border-color: var(--success); color: white; }
+.slot.bad { background: var(--danger); border-color: var(--danger); color: white; }
+.tile { border: none; background: var(--accent); color: #3f2d00; box-shadow: 0 5px 0 #b45309; cursor: pointer; font-family: inherit; }
+.tile:active { transform: translateY(4px); box-shadow: none; }
+.tile.used { visibility: hidden; }
+.spell-answer { font-size: 1.3rem; font-weight: 800; color: var(--success); min-height: 1.6em; }
+
+/* match up */
+.match-board { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 26px; width: 100%; max-width: 560px; }
+.match-col { display: flex; flex-direction: column; gap: 12px; }
+.m-item {
+    background: white; border: 3px solid #e2e8f0; border-radius: 16px; min-height: 78px; padding: 6px 8px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 800; font-size: 1.35rem;
+    box-shadow: 0 4px 0 #cbd5e1; touch-action: manipulation; user-select: none; -webkit-user-select: none; font-family: inherit; color: var(--dark);
+}
+.m-item .pic { width: 64px; height: 64px; }
+.m-item .pic.count { max-width: 130px; }
+.m-item.let { font-size: 2.2rem; }
+.m-item.sel { border-color: var(--accent); background: #fef9c3; transform: scale(1.04); }
+.m-item.bad { border-color: var(--danger); background: #fee2e2; animation: shakeInput 0.4s; }
+.m-item.done { cursor: default; color: white; box-shadow: none; }
+.m-item.done.c0 { background: #22c55e; border-color: #16a34a; }
+.m-item.done.c1 { background: #3b82f6; border-color: #2563eb; }
+.m-item.done.c2 { background: #a855f7; border-color: #9333ea; }
+.m-item.done.c3 { background: #f97316; border-color: #ea580c; }
+
+/* bubbles with pictures / letters */
+.play .bubbles-container { width: 100%; }
+.bubble .pic { width: 70%; height: 70%; }
+.bubble.let { font-size: 2.4rem !important; color: var(--primary-dark); }
+
+/* stars on result */
+.stars { font-size: 3rem; letter-spacing: 6px; margin: 6px 0 4px; }
+.stars .off { filter: grayscale(1); opacity: 0.3; }
+.mistake-item.rev { display: flex; align-items: center; gap: 12px; }
+.mistake-item.rev .pic.scene { width: 54px; height: 54px; }
+
+@media (max-width: 768px) {
+    .p-text { font-size: 1.3rem; }
+    .word-big { font-size: 2.1rem; }
+    .huge-let { font-size: 4.8rem; }
+    .opt { font-size: 1.25rem; min-height: 58px; }
+    .opts.letters .opt { font-size: 2.2rem; }
+    .pic.big { width: 130px; height: 130px; }
+    .pic.opt-pic { width: 70px; height: 70px; }
+    .slot, .tile { width: 42px; height: 50px; font-size: 1.6rem; }
+    .slots, .tiles { gap: 6px; }
+    .m-item { min-height: 66px; font-size: 1.15rem; }
+    .m-item .pic { width: 52px; height: 52px; }
+    .match-board { gap: 10px 16px; }
+}
+@media (max-width: 400px) {
+    .slot, .tile { width: 36px; height: 46px; font-size: 1.4rem; }
+    .slots, .tiles { gap: 5px; }
+    .pic.count img { width: 36px; height: 36px; }
+}
+
+/* fixes: keep 3 picture options inside narrow phones; counting grids show 5 per row */
+.opts.pics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.opts.letters { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.opts.pics .opt .pic.opt-pic { width: 100%; height: auto; aspect-ratio: 1 / 1; max-width: 84px; }
+.opt .pic.count { max-width: 100%; gap: 2px; }
+.opt .pic.count img { width: 22px; height: 22px; }
+.pic.count, .pic.big.count, .team-panel:not(.solo) .pic.big.count { width: auto; height: auto; max-width: 262px; }
+.pic.count img { flex-shrink: 0; }
+.team-panel:not(.solo) .pic.big.count { max-width: 210px; }
+.pic.mini.count { max-width: 120px; }
+@media (max-width: 400px) { .pic.big.count { max-width: 222px; } }
+.pic.count img, .team-panel.solo .pic.count img { width: 52px; height: 52px; }
+.pic.count, .pic.big.count { max-width: 290px; gap: 6px; }
+.team-panel:not(.solo) .pic.big.count { max-width: 226px; }
+.team-panel:not(.solo) .pic.count img { width: 40px; height: 40px; }
+.opt .pic.count img { width: 22px !important; height: 22px !important; }
+.pic.mini.count img { width: 18px !important; height: 18px !important; }
+#games-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+@media (max-width: 768px) {
+    .pic.count img, .team-panel.solo .pic.count img { width: 44px; height: 44px; }
+    .pic.count, .pic.big.count { max-width: 246px; }
+    #games-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    #games-grid .game-card { padding: 18px 10px; gap: 8px; }
+    #games-grid .game-card h3 { font-size: 1.05rem; }
+    #games-grid .game-card .ar-sub { font-size: 0.8rem; }
+    #games-grid .game-card .emo { font-size: 2.4rem; }
+}
+@media (max-width: 400px) {
+    .pic.count img, .team-panel.solo .pic.count img { width: 40px; height: 40px; }
+    .pic.count, .pic.big.count { max-width: 226px; }
+}
+</style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="data:image/jpeg;base64,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" alt="Mr Ahmed Usama">
+            </div>
+            <div class="titles">
+                <div class="brand" dir="rtl">المستـــR</div>
+                <h2>Mr Ahmed Usama</h2>
+                <h3>Prim 1 - Unit 6: Animals Around Me | Phonics: Bb · Ll · Uu · Jj</h3>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="social-links">
+                <a href="https://wa.me/201278040762" target="_blank" title="Contact via WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <a class="home-link" href="../index.html"><i class="fas fa-th-large"></i> All Units</a>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div id="section-select" class="screen active">
+            <h2>Welcome! Choose what to practice:</h2>
+            <p>Prim 1 - Unit 6: Animals Around Me</p>
+            <div class="menu-grid">
+                <div class="game-card" onclick="chooseSection('vocab')">
+                    <span class="emo">🖼️</span>
+                    <h3>Words &amp; Pictures<br><span style="font-size:0.85rem;font-weight:400;">Unit 6 Words</span></h3>
+                    <span class="ar-sub" dir="rtl">الكلمات والصور</span>
+                </div>
+                <div class="game-card" onclick="chooseSection('phonics')">
+                    <span class="emo">🔤</span>
+                    <h3>Letters &amp; Phonics<br><span style="font-size:0.85rem;font-weight:400;">Letters Bb · Ll · Uu · Jj</span></h3>
+                    <span class="ar-sub" dir="rtl">الحروف وأصواتها</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="main-menu" class="screen">
+            <button class="btn-section" onclick="switchScreen('section-select')"><i class="fas fa-arrow-left"></i> Back to Sections</button>
+            <h2 id="menu-title">Choose a game:</h2>
+            <p id="menu-desc"></p>
+
+            <div class="mode-switch">
+                <button class="mode-btn active" id="mode-solo" onclick="setMode('solo')"><i class="fas fa-user"></i> Play Now</button>
+                <button class="mode-btn" id="mode-comp" onclick="setMode('comp')"><i class="fas fa-users"></i> Team Competition</button>
+            </div>
+            <p class="mode-hint" id="mode-hint"></p>
+
+            <div class="comp-settings" id="comp-settings" style="display:none">
+                <div>
+                    <label><i class="fas fa-users" style="color:#2563eb"></i> Team 1 name</label>
+                    <input type="text" id="team1-name" value="Team A" maxlength="20">
+                </div>
+                <div>
+                    <label><i class="fas fa-users" style="color:#ea580c"></i> Team 2 name</label>
+                    <input type="text" id="team2-name" value="Team B" maxlength="20">
+                </div>
+                <div>
+                    <label><i class="fas fa-random"></i> Questions</label>
+                    <select id="q-mode">
+                        <option value="different" selected>Different questions for each team</option>
+                        <option value="same">Same questions, different order</option>
+                    </select>
+                </div>
+                <div>
+                    <label><i class="fas fa-stopwatch"></i> Time per question</label>
+                    <select id="q-time">
+                        <option value="15">15 seconds</option>
+                        <option value="20" selected>20 seconds</option>
+                        <option value="30">30 seconds</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="menu-grid" id="games-grid"></div>
+        </div>
+
+        <div id="game-screen" class="screen">
+            <div class="comp-topbar">
+                <button class="btn-back" id="btn-stop" onclick="returnToMenu()"><i class="fas fa-arrow-left"></i> Back</button>
+                <h3 id="comp-title"></h3>
+                <h3 id="comp-time-wrap"><i class="fas fa-stopwatch"></i> <span id="comp-time-label">20</span>s / question</h3>
+            </div>
+            <div class="arena" id="arena"></div>
+        </div>
+
+        <div id="solo-results" class="screen">
+            <h2>Well done! 🎉</h2>
+            <div class="stars" id="stars"></div>
+            <h3 class="final-score">Final Score: <span id="final-score"></span> / <span id="final-total"></span></h3>
+            <div id="mistakes-container" class="results-list"></div>
+
+            <div class="whatsapp-share">
+                <p>📩 Send your result to Mr Ahmed Usama</p>
+                <input type="text" id="student-name-input" class="name-input" placeholder="Type your name here">
+                <br>
+                <button class="btn-whatsapp" onclick="sendSoloResult()"><i class="fab fa-whatsapp"></i> Send Result via WhatsApp</button>
+            </div>
+
+            <div class="results-actions">
+                <button class="btn-section" onclick="startGame(currentGameId)"><i class="fas fa-redo"></i> Play Again</button>
+                <button class="btn-back" style="background: var(--dark); box-shadow: 0 5px 0 #000;" onclick="returnToMenu()"><i class="fas fa-home"></i> Main Menu</button>
+            </div>
+        </div>
+
+        <div id="results-screen" class="screen">
+            <h2>Competition Over!</h2>
+            <div class="winner-banner" id="winner-banner"></div>
+            <div class="score-cards" id="score-cards"></div>
+
+            <div class="whatsapp-share">
+                <p>📩 Send the competition result to Mr Ahmed Usama</p>
+                <input type="text" id="class-name-input" class="name-input" placeholder="Class name (optional)">
+                <br>
+                <button class="btn-whatsapp" onclick="sendCompResult()"><i class="fab fa-whatsapp"></i> Send Result via WhatsApp</button>
+            </div>
+
+            <div class="results-actions">
+                <button class="btn-section" onclick="startGame(currentGameId)"><i class="fas fa-redo"></i> Rematch</button>
+                <button class="btn-back" style="background: var(--dark); box-shadow: 0 5px 0 #000;" onclick="returnToMenu()"><i class="fas fa-home"></i> Main Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        Mr Ahmed Usama — <span class="brand-mini" dir="rtl">المستـــR</span>
+    </footer>
+
+    <div class="countdown-overlay" id="countdown"></div>
+
+    <script>
+        const D = {"grade": "Prim 1", "num": 6, "name": "Animals Around Me", "letters": ["b", "l", "u", "j"], "prevLetters": ["t", "i", "s", "a", "n", "p", "h", "d", "r", "e", "c", "k", "m", "g", "o", "f"], "words": [{"w": "lion", "p": "lion"}, {"w": "tiger", "p": "tiger"}, {"w": "monkey", "p": "monkey"}, {"w": "elephant", "p": "elephant"}, {"w": "giraffe", "p": "giraffe"}, {"w": "snake", "p": "snake"}, {"w": "cat", "p": "cat"}, {"w": "dog", "p": "dog"}, {"w": "turtle", "p": "turtle"}, {"w": "bird", "p": "bird"}, {"w": "boy", "p": "boy"}, {"w": "ball", "p": "ball"}, {"w": "banana", "p": "banana"}, {"w": "bike", "p": "bike"}, {"w": "lamp", "p": "lamp"}, {"w": "lemon", "p": "lemon"}, {"w": "leaf", "p": "leaf"}, {"w": "lunch", "p": "lunch"}, {"w": "up", "p": "up"}, {"w": "unlock", "p": "unlock"}, {"w": "umbrella", "p": "umbrella"}, {"w": "jar", "p": "jar"}, {"w": "jellyfish", "p": "jellyfish"}, {"w": "jacket", "p": "jacket"}, {"w": "jeans", "p": "jeans"}], "sent": [{"t": "A tiger has ____ legs.", "pic": "tiger", "ans": "4", "wrong": ["2", "6"]}, {"t": "The monkey is in the ____.", "pic": "monkey", "ans": "tree", "wrong": ["bag", "cup"]}, {"t": "I can see ____ lions.", "pic": {"count": ["lion", 2]}, "ans": "2", "wrong": ["4", "5"]}, {"t": "Where is the dog? The dog is ____ the table.", "pic": {"scene": {"obj": "dog", "base": "table", "prep": "on"}}, "ans": "on", "wrong": ["in", "under"]}], "yesno": [{"t": "The cat is under the table.", "pic": {"scene": {"obj": "cat", "base": "table", "prep": "under"}}, "yes": true}, {"t": "The dog is under the table.", "pic": {"scene": {"obj": "dog", "base": "table", "prep": "on"}}, "yes": false}, {"t": "The ball is in the box.", "pic": {"scene": {"obj": "ball", "base": "box", "prep": "in"}}, "yes": true}, {"t": "The ball is in the box.", "pic": {"scene": {"obj": "ball", "base": "box", "prep": "on"}}, "yes": false}, {"t": "I can see 2 lions.", "pic": {"count": ["lion", 2]}, "yes": true}, {"t": "A tiger has 4 legs.", "pic": "tiger", "yes": true}, {"t": "The snake is a pet.", "pic": "snake", "yes": false}, {"t": "The cat is a pet.", "pic": "cat", "yes": true}], "picq": [{"t": "Which one is a pet?", "ans": "cat", "wrong": ["lion", "elephant"]}, {"t": "Which one is a pet?", "ans": "dog", "wrong": ["giraffe", "snake"]}, {"t": "Which one is a pet?", "ans": "turtle", "wrong": ["tiger", "monkey"]}, {"t": "Which one lives in the jungle?", "ans": "lion", "wrong": ["cat", "dog"]}, {"t": "Which one lives in the jungle?", "ans": "giraffe", "wrong": ["turtle", "bird"]}], "scenes": [{"scene": {"obj": "cat", "base": "table", "prep": "under"}}, {"scene": {"obj": "dog", "base": "table", "prep": "on"}}, {"scene": {"obj": "ball", "base": "box", "prep": "in"}}, {"scene": {"obj": "ball", "base": "table", "prep": "under"}}, {"scene": {"obj": "bird", "base": "box", "prep": "in"}}, {"scene": {"obj": "turtle", "base": "table", "prep": "under"}}, {"scene": {"obj": "cat", "base": "box", "prep": "in"}}, {"scene": {"obj": "ball", "base": "box", "prep": "on"}}, {"scene": {"obj": "cat", "base": "table", "prep": "on"}}, {"scene": {"obj": "turtle", "base": "box", "prep": "on"}}], "count": {"min": 1, "max": 10, "items": [["lion", "lions"], ["monkey", "monkeys"], ["elephant", "elephants"], ["giraffe", "giraffes"], ["banana", "bananas"], ["ball", "balls"], ["cat", "cats"], ["bird", "birds"], ["leaf", "leaves"], ["lemon", "lemons"]]}, "avoid": []};
+        const PIC_SRC = {"ball": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><circle cx=\"18\" cy=\"18\" r=\"18\" fill=\"#F5F8FA\"/><path fill=\"#CCD6DD\" d=\"M18 11a1 1 0 0 1-1-1V3a1 1 0 0 1 2 0v7a1 1 0 0 1-1 1zm-6.583 4.5a.99.99 0 0 1-.302-.047l-8.041-2.542a1 1 0 1 1 .603-1.907l8.042 2.542a1 1 0 0 1-.302 1.954zm13.625-.291a1.001 1.001 0 0 1-.278-1.961l6.75-1.958a1 1 0 0 1 .556 1.921l-6.75 1.958a.989.989 0 0 1-.278.04zm2.001 14.958a1 1 0 0 1-.803-.403l-5.459-7.333a1 1 0 1 1 1.604-1.194l5.459 7.333a1 1 0 0 1-.801 1.597zm-18.294-.083a1 1 0 0 1-.82-1.571l5.125-7.375a1 1 0 1 1 1.642 1.141l-5.125 7.375a.996.996 0 0 1-.822.43zM3.5 27.062c-.44 0-.844-.293-.965-.738L.347 18.262a1 1 0 1 1 1.931-.523l2.188 8.062a.998.998 0 0 1-.966 1.261zM22 34h-9a1 1 0 1 1 0-2h9a1 1 0 1 1 0 2zm10.126-6.875a.999.999 0 0 1-.971-1.239l2.125-8.625a1 1 0 1 1 1.941.479l-2.125 8.625c-.113.455-.521.76-.97.76zM30.312 7.688a.998.998 0 0 1-.5-.134L22.25 3.179a1 1 0 0 1-.364-1.367.998.998 0 0 1 1.366-.365l7.562 4.375a1 1 0 0 1-.502 1.866zm-24.811 0a1 1 0 0 1-.584-1.813l6.188-4.438a1.001 1.001 0 0 1 1.167 1.625L6.083 7.5a1 1 0 0 1-.582.188z\"/><path fill=\"#31373D\" d=\"m25.493 13.516-7.208-5.083a1.002 1.002 0 0 0-1.161.006l-7.167 5.167a1 1 0 0 0-.375 1.091l2.5 8.583a1 1 0 0 0 .96.72H22a1 1 0 0 0 .948-.681l2.917-8.667a1 1 0 0 0-.372-1.136zM1.292 19.542a1 1 0 0 0 .872-.51l3.375-6a1 1 0 0 0 .108-.291L6.98 6.2A.999.999 0 0 0 6 5h-.428C2.145 8.277 0 12.884 0 18c0 .266.028.525.04.788l.602.514c.182.156.413.24.65.24zm9.325-16.547a.748.748 0 0 0 .553.412l6.375 1.042a.823.823 0 0 0 .243 0l6.084-1a.748.748 0 0 0 .613-.889l-.292-1.443A17.912 17.912 0 0 0 18 0c-2.425 0-4.734.486-6.845 1.356l-.521.95a.752.752 0 0 0-.017.689zm20.517 2.724-1.504-.095a.758.758 0 0 0-.609.249.741.741 0 0 0-.175.63l1.167 6.198a.666.666 0 0 0 .093.224c1.492 2.504 3.152 5.301 3.381 5.782.024.084.062.079.114.151.14.195.372.142.612.142h.007c.198 0 .323.094 1.768-.753.001-.083.012-.164.012-.247 0-4.753-1.856-9.064-4.866-12.281zM14.541 33.376a.755.755 0 0 0-.191-.544l-4.5-5a.746.746 0 0 0-.211-.163c-5.885-3.069-5.994-3.105-6.066-3.13a.8.8 0 0 0-.242-.039c-.537 0-.695.065-1.185 2.024a18.044 18.044 0 0 0 10.644 8.703l1.5-1.333a.753.753 0 0 0 .251-.518zm17.833-8.567a.747.747 0 0 0-.592.005l-6.083 2.667a.738.738 0 0 0-.274.205l-4.25 5.083a.752.752 0 0 0 .1 1.062c.683.559 1.261 1.03 1.767 1.44a18.017 18.017 0 0 0 10.454-8.146l-.712-1.889a.749.749 0 0 0-.41-.427z\"/></svg>", "banana": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#FFE8B6\" d=\"M28 2c2.684-1.342 5 4 3 13-1.106 4.977-5 9-9 12s-11-1-7-5 8-7 10-13c1.304-3.912 1-6 3-7z\"/><path fill=\"#FFD983\" d=\"M31 8c0 3-1 9-4 13s-7 5-4 1 5-7 6-11 2-7 2-3z\"/><path fill=\"#FFCC4D\" d=\"M22 20c-.296.592 1.167-3.833-3-6-1.984-1.032-10 1-4 1 3 0 4 2 2 4a2.918 2.918 0 0 0-.622.912c-.417.346-.873.709-1.378 1.088-2.263 1.697-5.84 4.227-10 7-3 2-4 3-4 4 0 3 9 3 14 1s10-7 10-7l4-4c-3-4-7-2-7-2z\"/><path fill=\"#FFE8B6\" d=\"M22 20s1.792-4.729-3-7c-4.042-1.916-8-1-11 1s-2 4-3 5 1 2 3 0 8.316-4.895 11-4c3 1 2 2.999 3 5z\"/><path fill=\"#A6D388\" d=\"M26 35h-4c-2 0-3 1-4 1s-2-2 0-2 4 0 5-1 5 2 3 2z\"/><circle cx=\"18\" cy=\"35\" r=\"1\" fill=\"#3E721D\"/><path fill=\"#FFCC4D\" d=\"M32.208 28S28 35 26 35h-4c-2 0 0-1 1-2s5 0 5-6c0-3 4.208 1 4.208 1z\"/><path fill=\"#FFE8B6\" d=\"M26 19c3 0 8 3 7 9s-5 7-7 7h-2c-2 0-1-1 0-2s4 0 4-6c0-3-4-7-6-7 0 0 2-1 4-1z\"/><path fill=\"#FFD983\" d=\"M17 21c3 0 5 1 3 3-1.581 1.581-6 5-10 6s-8 1-5-1 9.764-8 12-8z\"/><path fill=\"#C1694F\" d=\"M2 31c1 0 1 0 1 .667C3 32.333 3 33 2 33s-1-1.333-1-1.333S1 31 2 31z\"/></svg>", "bike": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#EA596E\" d=\"M7 24c1.957 0 3.633 1.135 4.455 2.772l3.477-1.739C13.488 22.058 10.446 20 6.916 20a8.862 8.862 0 0 0-3.649.787l1.668 3.67A4.971 4.971 0 0 1 7 24zm22 0c1.467 0 2.772.643 3.688 1.648l2.897-2.635A8.884 8.884 0 0 0 28.916 20c-3.576 0-6.652 2.111-8.073 5.15l3.648 1.722C25.293 25.18 27.003 24 29 24z\"/><path fill=\"#292F33\" d=\"M7 22a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm22-12a7 7 0 1 0 .001 14.001A7 7 0 0 0 29 22zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10z\"/><path fill=\"#DD2E44\" d=\"M29.984 28.922a.98.98 0 0 0-.04-.198 1.02 1.02 0 0 0-.071-.186c-.013-.024-.015-.052-.029-.075l-7-11a1 1 0 0 0-1.381-.307.982.982 0 0 0-.445.843H12a1 1 0 1 0 0 2h10c.027 0 .05-.014.077-.016L27.178 28H18a1 1 0 1 0 0 2h11.001a1.008 1.008 0 0 0 .44-.112c.031-.017.066-.024.097-.044.03-.02.048-.051.075-.072a.948.948 0 0 0 .251-.297c.03-.056.055-.11.075-.172a.98.98 0 0 0 .04-.201c.004-.036.021-.066.021-.102 0-.027-.014-.051-.016-.078z\"/><path fill=\"#DD2E44\" d=\"m21.581 16-2.899 8.117-5.929-6.775a1 1 0 1 0-1.505 1.317l6.664 7.615-.854 2.39a1 1 0 0 0 1.884.672L23.705 16h-2.124z\"/><path fill=\"#DD2E44\" d=\"M7 30a1 1 0 0 1-.893-1.447l3.062-6.106C9.186 22.419 11 19.651 11 17c0-3.242-2.293-4.043-2.316-4.051a1 1 0 1 1 .633-1.897C9.467 11.102 13 12.333 13 17c0 3.068-1.836 6.042-2.131 6.497l-2.974 5.949A.997.997 0 0 1 7 30z\"/><path fill=\"#292F33\" d=\"M14.612 13.663a.927.927 0 0 1-.165-.014l-6-1a1 1 0 0 1 .329-1.973l6 1a1 1 0 0 1-.164 1.987zM26.383 17a.665.665 0 0 1-.089-.006l-5.672-.708a.708.708 0 0 1 .087-1.413c.041 0 4.067-.018 5.989-1.299a.713.713 0 0 1 .824.026.712.712 0 0 1 .241.788l-.709 2.127a.705.705 0 0 1-.671.485z\"/><path fill=\"#66757F\" d=\"M20 29a2 2 0 1 1-4 0 2 2 0 0 1 4 0z\"/></svg>", "bird": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#FFAC33\" d=\"M8.916 12.88c-.111 1.652 1.768 3.126-.712 2.959-2.48-.167-7.836-2.533-7.768-3.53s3.708-2.757 6.188-2.59c2.48.166 2.404 1.508 2.292 3.161zm20.122 16.049a.966.966 0 0 0-.564.095c-2.325.232-3.225-1.885-3.225-1.885-.439-.336-.981-2.009-1.589-1.215l.187 1.402c.187 1.402 2.57 3.224 2.57 3.224l-1.215 1.589a1 1 0 1 0 1.589 1.215l.673-.88-.039.249a1 1 0 1 0 1.976.314l.47-2.963a1.003 1.003 0 0 0-.833-1.145zm-6.278.623a.984.984 0 0 0-.572.018c-2.335-.082-2.944-2.3-2.944-2.3-.39-.392-.703-2.123-1.412-1.417l-.003 1.414c-.003 1.414 2.115 3.539 2.115 3.539l-1.417 1.412a.999.999 0 1 0 1.411 1.417l.785-.782-.073.242a1 1 0 0 0 1.916.576l.862-2.873a.996.996 0 0 0-.668-1.246z\"/><path fill=\"#DD2E44\" d=\"M35.009 6.729c-.383-.17-.758-.057-1.05.244-.054.056-4.225 6.306-14.532 4.944-.34-.045 3.139 11.968 3.199 11.962.124-.014 3.07-.368 6.14-2.553 2.818-2.005 6.284-5.991 6.797-13.598.028-.418-.171-.828-.554-.999z\"/><path fill=\"#DD2E44\" d=\"M34.477 21.108c-.204-.336-.59-.56-.979-.471-1.293.295-3.197.543-4.53.453-6.357-.428-9.361-4.129-9.392-4.16-.275-.282.466 11.552.816 11.576 9.194.62 13.862-6.027 14.057-6.31.222-.326.233-.751.028-1.088z\"/><path fill=\"#DD2E44\" d=\"M24.586 19.016c-.371 5.51 1.316 9.861-4.194 9.489-5.51-.371-10.145-4.92-9.774-10.431s14.34-4.568 13.968.942z\"/><path fill=\"#DD2E44\" d=\"M23.257 12.412c-.353 5.235-3.922 9.257-9.156 8.904-5.235-.353-9.193-4.882-8.84-10.117.353-5.235 4.832-8.444 10.067-8.091 4.001.269 8.24 4.683 7.929 9.304z\"/><circle cx=\"10.67\" cy=\"8.989\" r=\"2\" fill=\"#292F33\"/><path fill=\"#A0041E\" d=\"M18.179 16.645s7.63 5.648 12.387-4.459c.396-.842 1.685.793.099 4.162s-8.175 6.44-12.04 1.536c-.815-1.035-.446-1.239-.446-1.239z\"/><path fill=\"#DD2E44\" d=\"M15.327 3.107s6.246.254 7.798-.477.136 2.932-3.262 3.789-4.536-3.312-4.536-3.312z\"/><path fill=\"#DD2E44\" d=\"M17.428 5.788s4.501.136 6.054-.594.136 2.932-3.262 3.789c-3.399.857-2.792-3.195-2.792-3.195z\"/></svg>", "boxback": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 24\"><path d=\"M3 6h30v18H3z\" fill=\"#9A3412\"/><path d=\"M3 6L0 1h8l3 5zM33 6l3-5h-8l-3 5z\" fill=\"#F97316\"/></svg>", "boxclosed": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 22\"><rect x=\"2\" y=\"0\" width=\"32\" height=\"5\" rx=\"1\" fill=\"#EA580C\"/><rect x=\"3\" y=\"5\" width=\"30\" height=\"17\" rx=\"1\" fill=\"#FB923C\"/><rect x=\"15\" y=\"0\" width=\"6\" height=\"22\" fill=\"#FDBA74\"/></svg>", "boxfront": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 18\"><rect x=\"2\" y=\"0\" width=\"32\" height=\"18\" rx=\"1\" fill=\"#FB923C\"/><rect x=\"2\" y=\"0\" width=\"32\" height=\"2.5\" fill=\"#EA580C\"/><rect x=\"15\" y=\"2.5\" width=\"6\" height=\"15.5\" fill=\"#FDBA74\"/></svg>", "boy": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#FFDC5D\" d=\"M6 20c0 2.209-1.119 4-2.5 4S1 22.209 1 20s1.119-4 2.5-4S6 17.791 6 20zm29 0c0 2.209-1.119 4-2.5 4S30 22.209 30 20s1.119-4 2.5-4 2.5 1.791 2.5 4z\"/><path fill=\"#FFDC5D\" d=\"M4 20.562c0-8.526 6.268-15.438 14-15.438s14 6.912 14 15.438S25.732 35 18 35 4 29.088 4 20.562z\"/><path fill=\"#662113\" d=\"M12 22a1 1 0 0 1-1-1v-2a1 1 0 0 1 2 0v2a1 1 0 0 1-1 1zm12 0a1 1 0 0 1-1-1v-2a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1z\"/><path fill=\"#C1694F\" d=\"M18 30c-4.188 0-6.357-1.06-6.447-1.105a1 1 0 0 1 .89-1.791c.051.024 1.925.896 5.557.896 3.665 0 5.54-.888 5.559-.897a1.003 1.003 0 0 1 1.336.457.997.997 0 0 1-.447 1.335C24.356 28.94 22.188 30 18 30zm1-5h-2a1 1 0 1 1 0-2h2a1 1 0 1 1 0 2z\"/><path fill=\"#FFAC33\" d=\"M18 .354C8.77.354 3 6.816 3 12.2c0 5.385 1.154 7.539 2.308 5.385l2.308-4.308s3.791-.124 6.099-2.278c0 0-1.071 4 6.594.124 0 0-.166 3.876 5.191-.124 0 0 4.039 1.201 5.191 6.586.32 1.494 2.309 0 2.309-5.385C33 6.816 28.385.354 18 .354z\"/></svg>", "cat": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#FFCC4D\" d=\"M32.348 13.999s3.445-8.812 1.651-11.998c-.604-1.073-8 1.998-10.723 5.442 0 0-2.586-.86-5.276-.86s-5.276.86-5.276.86C10.001 3.999 2.605.928 2.001 2.001.207 5.187 3.652 13.999 3.652 13.999c-.897 1.722-1.233 4.345-1.555 7.16-.354 3.086.35 5.546.658 6.089.35.617 2.123 2.605 4.484 4.306 3.587 2.583 8.967 3.445 10.761 3.445s7.174-.861 10.761-3.445c2.361-1.701 4.134-3.689 4.484-4.306.308-.543 1.012-3.003.659-6.089-.324-2.814-.659-5.438-1.556-7.16z\"/><path fill=\"#F18F26\" d=\"M2.359 2.971c.2-.599 5.348 2.173 6.518 5.404 0 0-3.808 2.624-4.528 4.624 0 0-2.99-7.028-1.99-10.028z\"/><path fill=\"#FFCC4D\" d=\"M5.98 7.261c0-1.414 5.457 2.733 4.457 3.733s-1.255.72-2.255 1.72S5.98 8.261 5.98 7.261z\"/><path fill=\"#F18F26\" d=\"M33.641 2.971c-.2-.599-5.348 2.173-6.518 5.404 0 0 3.808 2.624 4.528 4.624 0 0 2.99-7.028 1.99-10.028z\"/><path fill=\"#FFCC4D\" d=\"M30.02 7.261c0-1.414-5.457 2.733-4.457 3.733s1.255.72 2.255 1.72 2.202-4.453 2.202-5.453z\"/><path fill=\"#292F33\" d=\"M14.001 20.001a2 2 0 1 1-3.998 0A2 2 0 0 1 14 20zm11.998 0a2 2 0 1 1-3.998 0 2 2 0 0 1 3.998 0z\"/><path fill=\"#FEE7B8\" d=\"M2.201 30.458a.5.5 0 0 1-.31-.892c.162-.127 4.02-3.12 10.648-2.605a.5.5 0 0 1 .46.536c-.021.275-.257.501-.537.46-6.233-.474-9.915 2.366-9.951 2.395a.516.516 0 0 1-.31.106zm8.868-4.663a.512.512 0 0 1-.149-.022c-4.79-1.497-8.737-.347-8.777-.336a.499.499 0 1 1-.288-.957c.173-.052 4.286-1.247 9.362.338a.5.5 0 0 1-.148.977zm22.73 4.663a.5.5 0 0 0 .31-.892c-.162-.127-4.02-3.12-10.648-2.605a.5.5 0 0 0-.46.536c.022.275.257.501.537.46 6.233-.474 9.915 2.366 9.951 2.395.093.07.202.106.31.106zm-8.868-4.663c.049 0 .1-.007.149-.022 4.79-1.497 8.737-.347 8.777-.336a.499.499 0 1 0 .288-.957c-.173-.052-4.286-1.247-9.362.338a.5.5 0 0 0 .148.977z\"/><path fill=\"#67757F\" d=\"M24.736 30.898a.5.5 0 0 0-.643-.294c-.552.206-1.076.311-1.559.311-1.152 0-1.561-.306-2.033-.659-.451-.338-.956-.715-1.99-.803v-2.339a.5.5 0 0 0-1 0v2.373c-.81.115-1.346.439-1.816.743-.568.367-1.059.685-2.083.685-.482 0-1.006-.104-1.558-.311a.501.501 0 0 0-.35.938c.664.247 1.306.373 1.907.373 1.319 0 2.014-.449 2.627-.845.524-.339.98-.631 1.848-.635.992.008 1.358.278 1.815.621.538.403 1.147.859 2.633.859.601 0 1.244-.126 1.908-.373a.5.5 0 0 0 .294-.644z\"/><path fill=\"#E75A70\" d=\"M19.4 24.807h-2.8c-.64 0-1.163.523-1.163 1.163 0 .639.523 1.163 1.163 1.163h.237v.345c0 .639.523 1.163 1.163 1.163s1.163-.523 1.163-1.163v-.345h.237c.639 0 1.163-.523 1.163-1.163s-.524-1.163-1.163-1.163z\"/><path fill=\"#F18F26\" d=\"M18.022 17.154a.5.5 0 0 1-.5-.5V8.37a.5.5 0 0 1 1 0v8.284c0 .277-.223.5-.5.5zM21 15.572a.5.5 0 0 1-.5-.5c0-2.882 1.232-5.21 1.285-5.308a.5.5 0 0 1 .881.473c-.012.021-1.166 2.213-1.166 4.835a.5.5 0 0 1-.5.5zm-6 0a.5.5 0 0 1-.5-.5c0-2.623-1.155-4.814-1.167-4.835a.501.501 0 0 1 .881-.473c.053.098 1.285 2.426 1.285 5.308a.499.499 0 0 1-.499.5z\"/></svg>", "dog": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#DD2E44\" d=\"M15 27v6s0 3 3 3 3-3 3-3v-6h-6z\"/><path fill=\"#BE1931\" d=\"m15 33 .001.037c1.041-.035 2.016-.274 2.632-1.286a.426.426 0 0 1 .735 0c.616 1.011 1.591 1.251 2.632 1.286V27h-6v6z\"/><path fill=\"#D99E82\" d=\"M31.954 21.619c0 6.276-5 6.276-5 6.276h-18s-5 0-5-6.276c0-6.724 5-18.619 14-18.619s14 12.895 14 18.619z\"/><path fill=\"#F4C7B5\" d=\"M18 20c-7 0-10 3.527-10 6.395a5.5 5.5 0 0 0 5.5 5.5c1.605 0 3.042-.664 4.049-2.767a.495.495 0 0 1 .901 0c1.007 2.103 2.445 2.767 4.049 2.767a5.5 5.5 0 0 0 5.5-5.5C28 23.527 25 20 18 20z\"/><path fill=\"#292F33\" d=\"M15 22.895c-1 1 2 4 3 4s4-3 3-4-5-1-6 0zM13 19c-1.1 0-2-.9-2-2v-2c0-1.1.9-2 2-2s2 .9 2 2v2c0 1.1-.9 2-2 2zm10 0c-1.1 0-2-.9-2-2v-2c0-1.1.9-2 2-2s2 .9 2 2v2c0 1.1-.9 2-2 2z\"/><path fill=\"#662113\" d=\"M15 3.608C13.941 2.199 11.681.881 2.828 4.2-1.316 5.754.708 17.804 3.935 18.585c1.106 0 4.426 0 4.426-8.852 0-.22-.002-.423-.005-.625C10.35 6.298 12.5 4.857 15 3.608zm18.172.592C24.319.881 22.059 2.199 21 3.608c2.5 1.25 4.65 2.691 6.644 5.501-.003.201-.005.404-.005.625 0 8.852 3.319 8.852 4.426 8.852 3.227-.782 5.251-12.832 1.107-14.386z\"/><circle cx=\"23.5\" cy=\"25.5\" r=\".5\" fill=\"#D99E82\"/><circle cx=\"11.5\" cy=\"25.5\" r=\".5\" fill=\"#D99E82\"/><circle cx=\"25.5\" cy=\"27.5\" r=\".5\" fill=\"#D99E82\"/><circle cx=\"10.5\" cy=\"27.5\" r=\".5\" fill=\"#D99E82\"/><circle cx=\"23\" cy=\"28\" r=\"1\" fill=\"#D99E82\"/><circle cx=\"13\" cy=\"28\" r=\"1\" fill=\"#D99E82\"/><path fill=\"#380F09\" d=\"M9.883 7.232c-.259-.673-.634-1.397-1.176-1.939a.999.999 0 1 0-1.414 1.414c.57.57 1.066 1.934 1.068 2.346.145-.404.839-1.15 1.522-1.821zm16.217 0c.259-.672.634-1.397 1.176-1.939a.999.999 0 1 1 1.414 1.414c-.57.57-1.066 1.934-1.068 2.346-.145-.404-.839-1.15-1.522-1.821z\"/></svg>", "elephant": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#99AAB5\" d=\"M34.453 15.573c-.864-7.3-5.729-10.447-13.93-10.447-.391 0-.763.017-1.139.031-.013-.01-.022-.021-.035-.031C14.655 1.605 4.091 2.779 1.745 6.3c-3.255 4.883-1.174 22.3 0 24.646 1.173 2.35 4.694 3.521 5.868 2.35 1.174-1.176 0-1.176-1.173-3.521-.85-1.701-.466-5.859.255-8.471.028.168.068.322.1.486.39 2.871 1.993 7.412 1.993 9.744 0 3.564 2.102 4.107 4.694 4.107 2.593 0 4.695-.543 4.695-4.107 0-.24-.008-.463-.012-.695.757.064 1.535.107 2.359.107.497 0 .977-.016 1.448-.039-.004.209-.013.41-.013.627 0 3.564 2.103 4.107 4.694 4.107 2.593 0 4.695-.543 4.695-4.107 0-1.801 1.192-4.625 2.039-6.982.159-.354.291-.732.42-1.117.118 1.307.193 2.706.193 4.206a1 1 0 1 0 2 0c0-5.153-.771-9.248-1.547-12.068z\"/><path fill=\"#66757F\" d=\"M19.35 5.126S23 10.641 20 15.641c-3 5-7.838 5-11 5-2 0-1 2 0 2 1.414 0 8.395 1.211 12-6 3-6-1.65-11.515-1.65-11.515z\"/><circle cx=\"6.5\" cy=\"14.141\" r=\"1.5\" fill=\"#292F33\"/></svg>", "giraffe": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#F4900C\" d=\"M22.217 35.615h-.002a1.477 1.477 0 0 1-1.198-1.712l.59-3.344s.68-3.165-1.076-5.449c1.259-1.171 5.024.085 5.024.085l-1.626 9.221a1.478 1.478 0 0 1-1.712 1.199zm-12.692-.021h-.002a1.477 1.477 0 0 1-1.198-1.712l1.312-7.025s.503-2.419.503-4.439c1.142-.439 2.723 2.757 2.723 2.757l-1.626 9.221a1.48 1.48 0 0 1-1.712 1.198zm21.277-9.823a.985.985 0 0 1-.985-.969c-.012-.723-.304-4.326-4.925-4.326a.984.984 0 1 1 0-1.97c5.363 0 6.858 3.938 6.896 6.264a.985.985 0 0 1-.969 1.002l-.017-.001z\"/><g fill=\"#754C29\"><path d=\"m15.226 17.252-3.46-11.98 1.687-1.02c.369.61.628 1.722 1.054 3.633.569 2.558 1.349 6.06 2.657 7.876a.986.986 0 0 1-.224 1.376c-.175.126-1.714.115-1.714.115zM7.615 2.71V.739a.74.74 0 0 1 1.478 0V2.71H7.615zm2.332 0V.739a.74.74 0 0 1 1.478 0V2.71H9.947z\"/><ellipse cx=\"30.802\" cy=\"26.263\" rx=\"1.971\" ry=\"2.464\"/></g><path fill=\"#FFCC4D\" d=\"M28.935 34.094s-.647-2.515-.998-4.154c-.332-1.549-1.025-3.981-1.171-8.225-.01-.145-.039-.512-.138-.779-.122-.33-.567-.933-.766-1.203-.777-1.052-2.012-1.691-3.526-1.847-1.283-.132-2.573-.185-3.854-.339-.59-.071-1.1-.156-1.422-.272-1.636-.589-1.962-2.502-2.414-3.965-.8-2.59-1.508-5.225-1.961-7.9l-.036.009.036-.009-.027-.165V4.84c1.567-.714 2.79-2.888 1.971-3.706-1.416-.708-2.827.11-3.513.992-.02-.001-.039-.006-.059-.006H8.459c-.655 0-1.304.16-1.872.51-.584.359-.986.907-1.633 1.19-.786.344-1.721.093-2.417.64-1.189.933-.625 2.525.854 2.578.201.577.745.993 1.39.993h2.106c.055.011.108.021.173.029.604.071 1.088.525 1.477 1.215 1.047 1.856 1.244 4.244 1.415 6.324a45.96 45.96 0 0 1 .158 4.36c-.293 1.566-.12 3.377-.12 3.377.044.419.186.777.394 1.095l-.01.011c1.99 2.81 2.449 5.97 2.449 5.97l.784 4.193a1.478 1.478 0 0 0 2.912-.513l-1.262-7.159c1.977.534 4.609.932 6.449.852 0 .006-.003.014-.002.02 2.371-.146 3.26 1.73 3.454 2.576.194.846.868 4.228.868 4.228a1.478 1.478 0 1 0 2.909-.515z\"/><path fill=\"#F4900C\" d=\"M11.975 22.1c-.985.985-1.16 2.408-.391 3.178.77.77 2.193.595 3.178-.391s1.16-2.408.391-3.178c-.77-.77-2.193-.595-3.178.391zm1.088-6.185a2.956 2.956 0 0 0 5.418 1.633c-.59-.071-1.1-.156-1.422-.272-1.564-.563-1.872-2.237-2.253-3.441-.057-.179-.108-.349-.162-.523a2.947 2.947 0 0 0-1.581 2.603zm-.986-4.434a2.464 2.464 0 0 0-2.464-2.464c-.388 0-.75.098-1.077.257.635 1.126 1.015 2.885 1.242 4.653a2.456 2.456 0 0 0 2.299-2.446zm-1.093-4.079c0 1.118.906 2.023 2.023 2.023.182 0 .355-.032.523-.077a52.35 52.35 0 0 1-.847-3.937 2.02 2.02 0 0 0-1.699 1.991zm8.977 12.456a2.956 2.956 0 0 0 5.912 0c0-.043-.011-.082-.013-.124-.777-1.052-2.012-1.691-3.526-1.847a58.282 58.282 0 0 0-1.499-.128 2.954 2.954 0 0 0-.874 2.099zM11.598 2.613c.505-.483 1.317-1.089 1.778-.856.461.233.258 1.273-1.166 2.151.113-.439.551-1.215-.612-1.295z\"/><circle cx=\"8.772\" cy=\"4.09\" r=\".985\" fill=\"#292F33\"/><path fill=\"#754C29\" d=\"M21.047 33.545s-1.142 1.351-.985 1.781 2.741.491 3.249.022-1.951-1.842-2.264-1.803zm-12.623 0s-1.142 1.351-.985 1.781c.156.43 2.741.491 3.249.022s-1.951-1.842-2.264-1.803zm4.547 2.22c.136.391 2.766.329 3.205-.461.439-.79-2.678-1.317-2.678-1.317s-.703 1.273-.527 1.778zm12.404 0c.136.391 2.766.329 3.205-.461.439-.79-2.678-1.317-2.678-1.317s-.703 1.273-.527 1.778z\"/></svg>", "jacket": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#55ACEE\" d=\"M30 9c-1-2-5-4-7-4 0 0 1.194-2.174-1-3-.987-.372-2-.5-4-.5-1.615 0-3.013.128-4 .5-2.194.826-1 3-1 3-2 0-6 2-7 4S1 30.969 1 34.5c0 1 4.632 1.43 5 .5.791-2 3-16 3-16v15c0 2 5 1 9 1s9 1 9-1V19s2.525 15.12 3 16c.499.923 5 .5 5-.5C35 30.969 31 11 30 9z\"/><path fill=\"#269\" d=\"M14 3c0-.552 0-1 4-1s4 .448 4 1-1.791 2-4 2-4-1.448-4-2z\"/><path fill=\"#3B88C3\" d=\"M18 34.5a.5.5 0 0 1-.5-.5V6a.5.5 0 0 1 1 0v28a.5.5 0 0 1-.5.5zm-4.375-.972c-1.794 0-3.564-.177-3.675-.188a.499.499 0 0 1-.447-.548.497.497 0 0 1 .548-.446c.041.003 4.044.401 5.985.007a.5.5 0 0 1 .2.981c-.72.145-1.669.194-2.611.194zm-.97-3.084c-1.378 0-2.627-.079-2.881-.096a.5.5 0 0 1-.465-.532.491.491 0 0 1 .533-.466c1.323.089 5.002.223 6.109-.219a.5.5 0 1 1 .371.927c-.763.306-2.28.386-3.667.386zm1.217-3.179c-1.65 0-3.551-.143-4.105-.188a.5.5 0 0 1 .081-.996c2.574.208 5.549.275 6.072.024a.5.5 0 1 1 .432.902c-.409.196-1.39.258-2.48.258zm-.039-3.09c-1.77 0-3.75-.208-4.08-.244a.5.5 0 0 1-.443-.552.492.492 0 0 1 .551-.442c1.344.147 5.059.438 6.091.032a.5.5 0 1 1 .367.929c-.527.208-1.472.277-2.486.277zm.047-3.524c-1.753 0-3.767-.112-4.102-.132a.5.5 0 0 1-.47-.528c.016-.275.249-.505.528-.47 1.382.08 5.187.237 6.189.012a.5.5 0 1 1 .22.975c-.475.106-1.379.143-2.365.143zm-4.073-3.276c-.27 0-.492-.371-.5-.642-.007-.276.211-.584.487-.591l6.328-.205c.246.011.506.191.513.467.007.276-.211.652-.487.659l-6.328.312h-.013zM16.552 7h-.024c-.973 0-2.588-.904-2.769-1.004a.49.49 0 0 1-.197-.671.5.5 0 0 1 .679-.194c.606.333 1.775.872 2.334.898a.487.487 0 0 1 .476.508.488.488 0 0 1-.499.463zm10.02 5.784a.5.5 0 0 1-.401-.8l2.293-3.068a.5.5 0 0 1 .801.6l-2.293 3.068a.498.498 0 0 1-.4.2z\"/><path fill=\"#3B88C3\" d=\"M18.044 34.5a.5.5 0 0 1-.5-.5V6a.5.5 0 0 1 1 0v28a.5.5 0 0 1-.5.5zm9.473-18.76a.5.5 0 0 1-.159-.974l3-1a.501.501 0 0 1 .317.948l-3 1a.489.489 0 0 1-.158.026zm.612 3.481a.502.502 0 0 1-.159-.975l3-1a.5.5 0 0 1 .317.948l-3 1a.46.46 0 0 1-.158.027zm.576 3.485a.502.502 0 0 1-.159-.975l3-1a.502.502 0 0 1 .633.316.502.502 0 0 1-.316.633l-3 1a.455.455 0 0 1-.158.026zm.642 3.488a.501.501 0 0 1-.143-.977l3.014-.955a.501.501 0 0 1 .302.954l-3.014.955a.494.494 0 0 1-.159.023zm.594 3.405a.502.502 0 0 1-.445-.379.502.502 0 0 1 .367-.605l3.071-.754a.501.501 0 0 1 .238.972l-3.071.754a.483.483 0 0 1-.16.012zm.577 3.439a.501.501 0 0 1-.064-.985l3.082-.706a.501.501 0 0 1 .223.975l-3.082.706a.474.474 0 0 1-.159.01zm-8.099.49c-.942 0-1.891-.049-2.61-.195a.502.502 0 0 1 .199-.981c1.943.399 5.946-.003 5.985-.007a.5.5 0 1 1 .102.994c-.113.012-1.882.189-3.676.189zm.971-3.084c-1.388 0-2.904-.08-3.667-.385a.498.498 0 0 1-.278-.649.498.498 0 0 1 .649-.278c1.108.441 4.786.309 6.109.219a.517.517 0 0 1 .532.466.499.499 0 0 1-.466.532c-.253.016-1.502.095-2.879.095zm-1.218-3.179c-1.091 0-2.071-.062-2.479-.258a.5.5 0 0 1 .432-.902c.524.251 3.497.185 6.072-.024a.5.5 0 0 1 .08.996c-.553.045-2.455.188-4.105.188zm.038-3.09c-1.014 0-1.958-.068-2.485-.276a.498.498 0 0 1-.281-.648.497.497 0 0 1 .648-.281c1.031.404 4.746.115 6.09-.032a.5.5 0 0 1 .11.994c-.332.035-2.312.243-4.082.243zm-.064-3.524c1.753 0 3.767-.112 4.102-.132a.5.5 0 0 0 .47-.528c-.016-.275-.249-.505-.528-.47-1.382.08-5.187.237-6.189.012a.499.499 0 1 0-.22.975c.476.106 1.38.143 2.365.143zm4.09-3.276h-.013l-6.328-.322c-.276-.007-.494-.315-.487-.591a.562.562 0 0 1 .513-.526l6.328.147c.276.007.494.383.487.659-.007.272-.229.633-.5.633zm-6.193-3.625a.501.501 0 0 1-.051-.998l4.818-.499a.505.505 0 0 1 .549.446.501.501 0 0 1-.445.549l-4.818.499-.053.003zm.084-3.547a.5.5 0 0 1-.188-.963c1.6-.648 6.095-.93 6.307-.942.312-.025.511.199.524.474a.499.499 0 0 1-.474.525c-1.393.072-4.783.383-5.982.869a.495.495 0 0 1-.187.037zM9.496 12.784a.5.5 0 0 0 .401-.8L7.604 8.916a.5.5 0 0 0-.8.6l2.293 3.068c.097.131.248.2.399.2zm-.944 2.956a.5.5 0 0 0 .159-.974l-3-1a.501.501 0 0 0-.317.948l3 1a.48.48 0 0 0 .158.026zm-.612 3.481a.502.502 0 0 0 .159-.975l-3-1a.5.5 0 0 0-.317.948l3 1a.457.457 0 0 0 .158.027zm-.577 3.485a.502.502 0 0 0 .159-.975l-3-1a.502.502 0 0 0-.633.316.502.502 0 0 0 .316.633l3 1a.463.463 0 0 0 .158.026zm-.641 3.488a.501.501 0 0 0 .143-.977l-3.014-.955a.501.501 0 0 0-.302.954l3.014.955a.486.486 0 0 0 .159.023zm-.595 3.405a.502.502 0 0 0 .445-.379.502.502 0 0 0-.367-.605l-3.071-.754a.501.501 0 0 0-.238.972l3.071.754a.487.487 0 0 0 .16.012zm-.577 3.439a.501.501 0 0 0 .064-.985l-3.082-.706a.501.501 0 0 0-.223.975l3.082.706a.476.476 0 0 0 .159.01zM16.025 13.75a.501.501 0 0 0 .051-.998l-4.818-.499a.505.505 0 0 0-.549.446.501.501 0 0 0 .445.549l4.818.499.053.003zm-.083-3.547a.5.5 0 0 0 .188-.963c-1.6-.648-6.095-.93-6.307-.942-.313-.026-.511.199-.525.473a.5.5 0 0 0 .474.526c1.394.072 4.783.383 5.982.869a.5.5 0 0 0 .188.037zM19.492 7a.487.487 0 1 1-.024-.976c.561-.026 1.729-.56 2.334-.892a.501.501 0 0 1 .68.199.483.483 0 0 1-.197.664C22.104 6.095 20.488 7 19.516 7h-.024z\"/></svg>", "jar": "<svg xmlns=\"http://www.w3.org/2000/svg\" xml:space=\"preserve\" viewBox=\"0 0 36 36\"><path fill=\"#C4C9C8\" d=\"M8 8c0 .64.254 1.254.707 1.707a.256.256 0 0 1-.1.424l-.556.185A3 3 0 0 0 6 13.162v18.451c0 .002.002.004.004.004 0 .007-.004.014-.004.021 0 1.796 5.373 3.252 12 3.252s12-1.456 12-3.252c0-.007-.004-.014-.004-.021a.004.004 0 0 0 .004-.004V13.162a3 3 0 0 0-2.051-2.846l-.795-.265a.1.1 0 0 1-.04-.165l.178-.178A2.415 2.415 0 0 0 28 8H8z\"/><path fill=\"#F19020\" d=\"M29 6.8c0 1.657-4.925 3.2-11 3.2S7 8.457 7 6.8 11.925 4 18 4s11 1.143 11 2.8z\"/><path fill=\"#F19020\" d=\"M7 4h22v2.8H7z\"/><ellipse cx=\"18\" cy=\"4\" fill=\"#F9CA55\" rx=\"11\" ry=\"3\"/><ellipse cx=\"18\" cy=\"30.5\" fill=\"#AEB3B2\" rx=\"11\" ry=\"3\"/><path fill=\"#F19020\" d=\"M10.465 4c1.099-.582 4.053-1 7.535-1s6.436.418 7.535 1c.296-.157.465-.324.465-.5 0-.828-3.582-1.5-8-1.5s-8 .672-8 1.5c0 .176.169.343.465.5z\"/><path fill=\"#AEB3B2\" d=\"M18 12c-1.145 0-5.129-.07-8.335-.974a.5.5 0 1 1 .271-.963c3.083.87 6.952.937 8.064.937s4.981-.067 8.063-.937a.501.501 0 0 1 .271.963C23.129 11.93 19.145 12 18 12z\"/><path fill=\"#FFF\" d=\"M10 31a1 1 0 0 1-1-1V14a1 1 0 1 1 2 0v16a1 1 0 0 1-1 1z\"/></svg>", "jeans": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#3B88C3\" d=\"M20.182 0H10v4.568L3.818 33.682 11.545 36l6.41-23.182z\"/><path fill=\"#3B88C3\" d=\"M15.818 0H26v4.568l6.182 29.114L24.454 36l-6.409-23.182z\"/><path fill=\"#269\" d=\"M10 2h16v2H10zm9 10h-2l-4-2h10z\"/><path fill=\"#269\" d=\"M12 0h2v3h-2zm10 0h2v3h-2zm-6 4h2v7h-2z\"/></svg>", "jellyfish": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#44abf3\" d=\"M13.5 35c-.26 0-.53-.07-.77-.21-.71-.43-.94-1.35-.51-2.06l1.59-2.65c.45-.75.3-1.71-.34-2.29a4.804 4.804 0 0 1-.84-6.19l2.2-3.44c.45-.7 1.37-.9 2.07-.45.7.45.9 1.37.45 2.07l-2.2 3.44c-.48.75-.35 1.73.32 2.33 1.72 1.54 2.1 4.09.92 6.06l-1.59 2.65a1.5 1.5 0 0 1-1.29.73Zm-6-2c-.26 0-.53-.07-.77-.21-.71-.43-.94-1.35-.51-2.06l1.59-2.65c.45-.75.3-1.71-.34-2.29a4.804 4.804 0 0 1-.84-6.19l2.2-3.44c.45-.7 1.37-.9 2.07-.45.7.45.9 1.38.45 2.07l-2.2 3.44c-.48.75-.35 1.73.32 2.33 1.72 1.54 2.1 4.09.92 6.06L8.8 32.26a1.5 1.5 0 0 1-1.29.73Zm14.44 2a1.5 1.5 0 0 1-1.29-.73l-1.59-2.65c-1.19-1.98-.8-4.53.92-6.06.67-.6.8-1.58.32-2.33l-2.2-3.44a1.499 1.499 0 0 1 2.52-1.62l2.2 3.44c1.28 2 .93 4.6-.84 6.19-.65.58-.79 1.54-.34 2.29l1.59 2.65c.43.71.2 1.63-.51 2.06-.24.15-.51.21-.77.21Zm6-2a1.5 1.5 0 0 1-1.29-.73l-1.59-2.65c-1.19-1.98-.8-4.53.92-6.06.67-.6.8-1.58.32-2.33l-2.2-3.44a1.499 1.499 0 0 1 2.52-1.62l2.2 3.44c1.28 2 .93 4.6-.84 6.19-.65.58-.79 1.54-.34 2.29l1.59 2.65c.43.71.2 1.63-.51 2.06-.24.15-.51.21-.77.21Z\"/><path fill=\"#44abf3\" d=\"M18 22.27c-1.17 0-2.3-.29-3.36-.85-.71-.38-1.28-.82-1.68-1.31-.61-.75-1.5-1.17-2.42-1.17-.11 0-.21 0-.32.02-.33.04-.72.06-1.15.06-3.21 0-5.26-1.36-6.1-4.04C1.6 10.6 4.73 7.51 7.59 5.7c1.13-.72 5.7-2.68 10.42-2.68S27.3 4.99 28.43 5.7c2.87 1.82 6 4.9 4.62 9.28-.84 2.68-2.89 4.04-6.1 4.04-.43 0-.82-.03-1.15-.06-.11-.01-.21-.02-.32-.02-.92 0-1.81.43-2.42 1.17-.41.5-.97.94-1.68 1.32-1.06.57-2.2.85-3.36.85Z\"/><path fill=\"#2b87c7\" d=\"M18 4c4.44 0 8.86 1.88 9.89 2.53 2.57 1.63 5.39 4.36 4.21 8.14-.26.83-1.05 3.34-5.15 3.34-.34 0-.7-.02-1.05-.06-.14-.02-.28-.02-.43-.02-1.23 0-2.39.56-3.19 1.54-.32.39-.79.75-1.38 1.07-.92.49-1.89.74-2.9.74s-1.98-.25-2.9-.74c-.59-.32-1.06-.67-1.38-1.07-.8-.98-1.97-1.54-3.19-1.54-.14 0-.28 0-.43.02-.35.04-.7.06-1.05.06-4.1 0-4.89-2.51-5.15-3.34-1.18-3.78 1.63-6.51 4.21-8.14C9.13 5.88 13.55 4 18 4m0-2C13 2 8.24 4.08 7.04 4.84 4.44 6.48.36 10.02 2 15.26 3.25 19.25 6.67 20 9.06 20c.47 0 .89-.03 1.26-.07.07 0 .14-.01.22-.01.61 0 1.21.27 1.65.81.54.66 1.25 1.17 1.99 1.56 1.22.65 2.53.97 3.83.97s2.62-.32 3.83-.97c.73-.39 1.44-.9 1.99-1.56.44-.54 1.04-.81 1.65-.81.07 0 .14 0 .22.01.36.04.79.07 1.26.07 2.39 0 5.81-.75 7.06-4.74 1.64-5.25-2.44-8.78-5.04-10.43-1.19-.76-5.96-2.84-10.96-2.84Z\"/><path fill=\"#fff\" d=\"M8.12 12.67c-.57 1.67-.98 2.83-1.99 2.49s-1.36-1.97-.79-3.64 1.84-2.75 2.84-2.41.5 1.89-.06 3.57Z\"/><path fill=\"#2b87c7\" d=\"M23.12 6.98c-.61-.48-1.76-1.72-5.12-1.72s-4.51 1.25-5.12 1.72c-.78.61-.86 1.53-.19 2.06.67.53 1.85.46 2.62-.15.11-.08.24-.21.39-.35-.11.37-.18.7-.18.9 0 .86 1.11 1.56 2.48 1.56s2.48-.7 2.48-1.56c0-.21-.06-.53-.18-.9.15.15.28.27.39.35.78.61 1.95.68 2.62.15.67-.53.59-1.45-.19-2.06\"/><ellipse cx=\"10\" cy=\"7.5\" fill=\"#fff\" rx=\"1.5\" ry=\"1\" transform=\"rotate(-42.63 9.993 7.502)\"/><path fill=\"#fff\" d=\"M30.24 15.68c-.77 1.03-1.9 1.49-2.52 1.03s-.5-1.68.28-2.71 1.9-1.49 2.52-1.03.5 1.67-.27 2.71Z\"/></svg>", "lamp": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#FFD983\" d=\"M29 11.06c0 6.439-5 7.439-5 13.44 0 3.098-3.123 3.359-5.5 3.359-2.053 0-6.586-.779-6.586-3.361C11.914 18.5 7 17.5 7 11.06 7 5.029 12.285.14 18.083.14 23.883.14 29 5.029 29 11.06z\"/><path fill=\"#CCD6DD\" d=\"M22.167 32.5c0 .828-2.234 2.5-4.167 2.5-1.933 0-4.167-1.672-4.167-2.5 0-.828 2.233-.5 4.167-.5 1.933 0 4.167-.328 4.167.5z\"/><path fill=\"#FFCC4D\" d=\"M22.707 10.293a.999.999 0 0 0-1.414 0L18 13.586l-3.293-3.293a.999.999 0 1 0-1.414 1.414L17 15.414V26a1 1 0 1 0 2 0V15.414l3.707-3.707a.999.999 0 0 0 0-1.414z\"/><path fill=\"#99AAB5\" d=\"M24 31a2 2 0 0 1-2 2h-8a2 2 0 0 1-2-2v-6h12v6z\"/><path fill=\"#CCD6DD\" d=\"M11.999 32a1 1 0 0 1-.163-1.986l12-2a.994.994 0 0 1 1.15.822.999.999 0 0 1-.822 1.15l-12 2a.927.927 0 0 1-.165.014zm0-4a1 1 0 0 1-.163-1.986l12-2a.995.995 0 0 1 1.15.822.999.999 0 0 1-.822 1.15l-12 2a.927.927 0 0 1-.165.014z\"/></svg>", "leaf": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#A6D388\" d=\"M6.401 28.55c5.006 5.006 16.502 11.969 29.533-.07-7.366-1.417-8.662-10.789-13.669-15.794-5.006-5.007-11.991-6.139-16.998-1.133-5.006 5.006-3.873 11.99 1.134 16.997z\"/><path fill=\"#77B255\" d=\"M24.684 29.81c6.128 1.634 10.658-.738 11.076-1.156 0 0-3.786 1.751-10.359-1.476.952-1.212 3.854-2.909 3.854-2.909-.553-.346-4.078-.225-6.485 1.429a37.028 37.028 0 0 1-3.673-2.675l.84-.871c3.25-3.384 6.944-2.584 6.944-2.584-.638-.613-5.599-3.441-9.583.7l-.613.638a54.727 54.727 0 0 1-1.294-1.25l-1.85-1.85 1.064-1.065c3.321-3.32 8.226-3.451 8.226-3.451-.626-.627-6.863-2.649-10.924 1.412l-.736.735-8.292-8.294c-.626-.627-1.692-.575-2.317.05-.626.626-.677 1.691-.051 2.317l8.293 8.293-.059.059C4.684 21.924 6.37 28.496 6.997 29.123c0 0 .468-5.242 3.789-8.562l.387-.388 3.501 3.502c.057.057.113.106.17.163-2.425 4.797 1.229 10.34 1.958 10.784 0 0-1.465-4.723.48-8.635 1.526 1.195 3.02 2.095 4.457 2.755.083 2.993 2.707 5.7 3.344 5.931 0 0-.911-3.003-.534-4.487l.135-.376z\"/><path fill=\"#5DADEC\" d=\"M22.083 10a1.001 1.001 0 0 1-.375-1.927c.166-.068 4.016-1.698 4.416-6.163a1 1 0 1 1 1.992.178c-.512 5.711-5.451 7.755-5.661 7.839a.978.978 0 0 1-.372.073zm5 4a1 1 0 0 1-.334-1.942c.188-.068 4.525-1.711 5.38-8.188a.99.99 0 0 1 1.122-.86.998.998 0 0 1 .86 1.122c-1.021 7.75-6.468 9.733-6.699 9.813-.109.037-.22.055-.329.055zm3.001 6a1.001 1.001 0 0 1-.483-1.876c.027-.015 2.751-1.536 3.601-3.518a1 1 0 0 1 1.837.788c-1.123 2.62-4.339 4.408-4.475 4.483a1.003 1.003 0 0 1-.48.123z\"/></svg>", "lemon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#5C913B\" d=\"M11.405 3.339c6.48-1.275 8.453 1.265 11.655.084 3.202-1.181.093 2.82-.745 3.508-.84.688-8.141 4.809-11.307 3.298-3.166-1.511-3.182-6.186.397-6.89z\"/><path fill=\"#77B255\" d=\"M15.001 16a.998.998 0 0 1-.801-.4c-.687-.916-1.308-1.955-1.965-3.056C9.967 8.749 7.396 4.446.783 2.976a1 1 0 1 1 .434-1.952C8.671 2.68 11.599 7.581 13.952 11.519c.63 1.054 1.224 2.049 1.848 2.881a1 1 0 0 1-.799 1.6z\"/><path fill=\"#FFCC4D\" d=\"M34.3 31.534c.002-.017-.003-.028-.003-.043 2.774-5.335 2.647-15.113-3.346-21.107-5.801-5.8-13.68-5.821-18.767-4.067-1.579.614-2.917.066-3.815.965-.881.881-.351 2.719-.714 3.819-3.169 5.202-3.405 13.025 2.688 19.117 4.962 4.962 10.438 6.842 19.98 4.853.002-.002.005-.001.008-.002 1.148-.218 2.95.523 3.566-.094 1.085-1.085.309-2.358.403-3.441z\"/><path fill=\"#77B255\" d=\"M8.208 6.583s-4.27-.59-6.857 4.599c-2.587 5.188.582 9.125.29 12.653-.293 3.53 1.566 1.265 2.621-.445s4.23-4.895 4.938-9.269c.707-4.376-.07-6.458-.992-7.538z\"/></svg>", "lion": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#662113\" d=\"M32.325 10.958s2.315.024 3.511 1.177c-.336-4.971-2.104-8.249-5.944-10.13-3.141-1.119-6.066 1.453-6.066 1.453s.862-1.99 2.19-2.746C23.789.236 21.146 0 18 0c-3.136 0-5.785.227-8.006.701 1.341.745 2.215 2.758 2.215 2.758S9.194.803 6 2.053C2.221 3.949.481 7.223.158 12.174c1.183-1.19 3.55-1.215 3.55-1.215S-.105 13.267.282 16.614c.387 2.947 1.394 5.967 2.879 8.722C3.039 22.15 5.917 20 5.917 20s-2.492 5.96-.581 8.738c1.935 2.542 4.313 4.641 6.976 5.916-.955-1.645-.136-3.044-.103-2.945.042.125.459 3.112 2.137 3.743 1.178.356 2.4.548 3.654.548 1.292 0 2.55-.207 3.761-.583 1.614-.691 2.024-3.585 2.064-3.708.032-.098.843 1.287-.09 2.921 2.706-1.309 5.118-3.463 7.064-6.073 1.699-2.846-.683-8.557-.683-8.557s2.85 2.13 2.757 5.288c1.556-2.906 2.585-6.104 2.911-9.2-.035-3.061-3.459-5.13-3.459-5.13z\"/><path fill=\"#FFCC4D\" d=\"M13.859 9.495c.596 2.392.16 4.422-2.231 5.017-2.392.596-6.363.087-6.958-2.304-.596-2.392.469-5.39 1.81-5.724 1.341-.334 6.784.62 7.379 3.011zm9.104 18.432a4.964 4.964 0 1 1-9.927-.001 4.964 4.964 0 0 1 9.927.001z\"/><path fill=\"#DD2E44\" d=\"M21.309 27.927a3.309 3.309 0 1 1-6.618 0 3.309 3.309 0 0 1 6.618 0z\"/><path fill=\"#E6AAAA\" d=\"M11.052 8.997a2.976 2.976 0 0 1-.946 4.1c-1.394.871-2.608.797-3.479-.596-.871-1.394-.186-4.131.324-4.45.51-.319 3.23-.448 4.101.946z\"/><path fill=\"#FFCC4D\" d=\"M22.141 9.495c-.596 2.392-.159 4.422 2.232 5.017 2.392.596 6.363.087 6.959-2.304.596-2.392-.47-5.39-1.811-5.724-1.342-.334-6.786.62-7.38 3.011z\"/><path fill=\"#E6AAAA\" d=\"M24.948 8.997a2.976 2.976 0 0 0 .945 4.1c1.394.871 2.608.797 3.479-.596.871-1.394.185-4.131-.324-4.45-.51-.319-3.229-.448-4.1.946z\"/><path fill=\"#FFCC4D\" d=\"M18 7.125h-.002C5.167 7.126 7.125 12.083 8.5 18.667 9.875 25.25 10.384 27 10.384 27h15.228s.51-1.75 1.885-8.333C28.872 12.083 30.829 7.126 18 7.125z\"/><path fill=\"#272B2B\" d=\"M12 16s0-1.5 1.5-1.5S15 16 15 16v1.5s0 1.5-1.5 1.5-1.5-1.5-1.5-1.5V16zm9 0s0-1.5 1.5-1.5S24 16 24 16v1.5s0 1.5-1.5 1.5-1.5-1.5-1.5-1.5V16z\"/><path fill=\"#FFE8B6\" d=\"M20.168 21.521c-1.598 0-1.385.848-2.168 2.113-.783-1.266-.571-2.113-2.168-2.113-6.865 0-6.837.375-6.865 2.828-.058 4.986 2.802 6.132 5.257 6.06 1.597-.048 2.994-.88 3.777-2.131.783 1.251 2.179 2.083 3.776 2.131 2.455.072 5.315-1.073 5.257-6.06-.029-2.453-.001-2.828-6.866-2.828z\"/><path fill=\"#272B2B\" d=\"M14.582 21.411c-1.14.233 2.279 4.431 3.418 4.431s4.559-4.198 3.419-4.431c-1.14-.232-5.698-.232-6.837 0z\"/><circle cx=\"11.5\" cy=\"24.5\" r=\".5\" fill=\"#D99E82\"/><circle cx=\"10.5\" cy=\"26.5\" r=\".5\" fill=\"#D99E82\"/><circle cx=\"12.5\" cy=\"27.5\" r=\".5\" fill=\"#D99E82\"/><circle cx=\"24.5\" cy=\"24.5\" r=\".5\" fill=\"#D99E82\"/><circle cx=\"25.5\" cy=\"26.5\" r=\".5\" fill=\"#D99E82\"/><circle cx=\"23.5\" cy=\"27.5\" r=\".5\" fill=\"#D99E82\"/></svg>", "lunch": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#292F33\" d=\"M31 0H5a4 4 0 0 0-4 4v28a4 4 0 0 0 4 4h26a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4z\"/><path fill=\"#292F33\" d=\"M14 11a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h1a4 4 0 0 1 4 4v2z\"/><path fill=\"#BE1931\" d=\"M22 27a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h15a2 2 0 0 1 2 2v8zm11-8a2 2 0 0 0-2-2h-5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2v-8zM16 4a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H18a2 2 0 0 1-2-2V4zm-2 9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v9z\"/><path fill=\"#DD2E44\" d=\"M14 13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v6zm19 0a2 2 0 0 1-2 2H18a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v6z\"/><path fill=\"#E1E8ED\" d=\"M22 27a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h15a2 2 0 0 1 2 2v5z\"/><path fill=\"#DD2E44\" d=\"M33 27a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2v5z\"/><path fill=\"#FFAC33\" d=\"M27.015 9.24c1.315 1.478 1.908 3.098 1.322 3.619l-1.059.941c-.585.522-2.126-.255-3.44-1.733l-3.571-4.013c-1.314-1.479-1.907-3.099-1.321-3.62l1.059-.941c.586-.521 2.124.255 3.438 1.733l3.572 4.014z\"/><path fill=\"#FFD983\" d=\"M22.28 11.076c-.598 1.539-1.477 2.633-1.961 2.444l-.877-.341c-.485-.188-.393-1.588.205-3.126l1.625-4.178c.599-1.538 1.477-2.632 1.962-2.444l.876.341c.485.188.394 1.588-.205 3.126l-1.625 4.178z\"/><path fill=\"#FFD983\" d=\"M23.113 11.536c-1.562.535-2.965.568-3.133.076l-.305-.891c-.169-.492.962-1.324 2.522-1.858l4.242-1.45c1.562-.534 2.964-.567 3.133-.075l.304.89c.169.493-.961 1.325-2.523 1.858l-4.24 1.45z\"/><path fill=\"#5C913B\" d=\"M6.442 7.873c.373-4.106 4.907-.961 7.135 1.049-1.34 1.485-7.586 3.93-7.135-1.049z\"/><path fill=\"#5C913B\" d=\"M6.584 7.784c3.739-1.737 3.293 3.763 2.672 6.698-1.956-.414-7.206-4.59-2.672-6.698z\"/><path fill=\"#77B255\" d=\"M5 8c-1.2-1.6 1-5 6-5 1 1-3 9-6 5z\"/><path fill=\"#B2C2CC\" d=\"M6 27a.999.999 0 0 1-.707-1.707l1-1a.999.999 0 1 1 1.414 1.414l-1 1A.997.997 0 0 1 6 27zm12.417.499a.997.997 0 0 1-.707-.293l-1-1a1 1 0 1 1 1.415-1.414l1 1a.999.999 0 0 1-.708 1.707zm-6.167-4.291c-.255 0-.511-.098-.707-.292l-.459-.458a1 1 0 1 1 1.413-1.416l.459.458a1 1 0 0 1-.706 1.708z\"/><path fill=\"#B26304\" d=\"M32.149 23.412a1.999 1.999 0 0 1-.257 2.816l-2.305 1.921a1.999 1.999 0 0 1-2.816-.257l-1.921-2.305a1.999 1.999 0 0 1 .257-2.816l2.305-1.921a1.999 1.999 0 0 1 2.816.257l1.921 2.305z\"/><path fill=\"#F4900C\" d=\"M32.149 21.412a1.999 1.999 0 0 1-.257 2.816l-2.305 1.921a1.999 1.999 0 0 1-2.816-.257l-1.921-2.305a1.999 1.999 0 0 1 .257-2.816l2.305-1.921a1.999 1.999 0 0 1 2.816.257l1.921 2.305z\"/><circle cx=\"12\" cy=\"26\" r=\"1\" fill=\"#CCD6DD\"/><circle cx=\"20\" cy=\"22\" r=\"1\" fill=\"#CCD6DD\"/></svg>", "monkey": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#BF6952\" d=\"M29 1c-4.139 0-6 3.509-6 6 0 2.57 2.43 5 5 5 1.92 0 3.468-1.28 3.766-3.113.232-1.426-.437-3.165-2.449-3.836a1 1 0 1 0-.633 1.897c1.174.391 1.166 1.262 1.107 1.618C29.68 9.257 29.071 10 28 10c-1.458 0-3-1.542-3-3 0-1.305.978-4 4-4 2.897 0 5 2.523 5 6v15c0 3.576-1.352 5.685-4.285 6.544.11-1.017.193-2.223.24-3.655.604-3.163.103-7.131-1.776-10.889-1.864-3.727-5.926-5.939-10.023-5.695C17.924 5.188 15.121 1 9.407 1 3.436 1 3.178 8 .178 12.399c-1.352 1.982 5.428 7.058 9.228 7.058l.043-.002c.352.029.801-.009 1.362-.13a9.322 9.322 0 0 0 1.719-.489c2.731-.835 4.376-.891 5.318-.443C17.137 21.761 14.027 24.621 12 28c-3 5 1 8 3 8 3 0 3-3 2-3-2 0-2.632-3.103-2-5 .658-1.974 2.609-3.521 3.871-6.053C18.608 23.627 18 25.543 18 27c0 4.568 1.17 6 6 6 .188 0 .36-.034.541-.052A3.091 3.091 0 0 1 24 33c-4.694 0-5.5.896-5.5 2 0 .809.5 1 1.5 1h7c.651 0 1.728-.003 2.398-3.321C33.782 31.756 36 28.848 36 24V9c0-4.561-3.01-8-7-8z\"/><path fill=\"#D79E84\" d=\"M11.178 7.799a3.8 3.8 0 1 0-7.513.801C2.632 8.978 1.669 9.745 1.01 11c-.255.486-.53.956-.832 1.399-.711 1.044.83 2.944 3.004 4.51 1.956 1.409 5.996.52 5.996-4.909 0-.29-.039-.561-.097-.821a3.785 3.785 0 0 0 2.097-3.38zM13.822 6.5c0 1.933-.255 3.5 1.678 3.5a3.5 3.5 0 1 0 0-7c-1.933 0-1.678 1.567-1.678 3.5z\"/><path fill=\"#292F33\" d=\"M7.435 8.371c0 .9-.485 1.629-1.085 1.629s-1.086-.729-1.086-1.629c0-.899.485-1.628 1.086-1.628.6 0 1.085.729 1.085 1.628z\"/><path fill=\"#642116\" d=\"M4 12c0 .552-2.17 2-3.085 2S0 13.552 0 13h.915C2.001 13 4 11.448 4 12z\"/></svg>", "snake": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#DD2E44\" d=\"M11.84 7.634c-.719 0-2.295 2.243-3.567 1.029-.44-.419 1.818-1.278 1.727-2.017-.075-.607-2.842-1.52-1.875-2.099.967-.578 2.418.841 3.513.866 2.382.055 4.212-.853 4.238-.866a1.082 1.082 0 0 1 1.464.496c.27.547.051 1.213-.488 1.486-.131.066-2.225 1.105-5.012 1.105z\"/><path fill=\"#77B255\" d=\"M27.818 36c-3.967 0-8.182-2.912-8.182-8.308 0-1.374-.89-1.661-1.637-1.661-.746 0-1.636.287-1.636 1.661 0 5.396-4.216 8.308-8.182 8.308S0 33.23 0 27.692C0 14.4 14.182 12.565 14.182 14.4c0 1.835-7.636-1.107-7.636 12.185 0 2.215.89 2.769 1.636 2.769.747 0 1.637-.287 1.637-1.661 0-5.395 4.215-8.308 8.182-8.308 3.966 0 8.182 2.912 8.182 8.308 0 1.374.89 1.661 1.637 1.661s1.636-.287 1.636-1.661V11.077c0-3.855-3.417-4.431-5.454-4.431 0 0-3.272 1.108-6.545 1.108s-4.364-2.596-4.364-4.431C13.091 1.488 17.455 0 24 0c6.546 0 12 4.451 12 11.077v16.615C36 33.088 31.784 36 27.818 36z\"/><circle cx=\"19\" cy=\"3\" r=\"1\" fill=\"#292F33\"/></svg>", "table": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><rect x=\"1\" y=\"13\" width=\"34\" height=\"4\" rx=\"1.5\" fill=\"#B7763E\"/><rect x=\"1\" y=\"16\" width=\"34\" height=\"1.6\" fill=\"#8A5528\"/><rect x=\"4\" y=\"17\" width=\"3\" height=\"17\" rx=\"1\" fill=\"#8A5528\"/><rect x=\"29\" y=\"17\" width=\"3\" height=\"17\" rx=\"1\" fill=\"#8A5528\"/></svg>", "tiger": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><circle cx=\"7\" cy=\"6\" r=\"6\" fill=\"#FFCC4D\"/><circle cx=\"18\" cy=\"30\" r=\"6\" fill=\"#FFCC4D\"/><circle cx=\"18\" cy=\"30\" r=\"4\" fill=\"#DD2E44\"/><circle cx=\"29\" cy=\"6\" r=\"6\" fill=\"#FFCC4D\"/><circle cx=\"7\" cy=\"6\" r=\"4\" fill=\"#E6AAAA\"/><circle cx=\"29\" cy=\"6\" r=\"4\" fill=\"#E6AAAA\"/><path fill=\"#FFCC4D\" d=\"M34 22c0 7-4.923 7-4.923 7H6.923S2 29 2 22C2 22 3.231 0 18 0c14.77 0 16 22 16 22z\"/><path fill=\"#272B2B\" d=\"M11 17s0-2 2-2 2 2 2 2v2s0 2-2 2-2-2-2-2v-2zm10 0s0-2 2-2 2 2 2 2v2s0 2-2 2-2-2-2-2v-2z\"/><path fill=\"#FFF\" d=\"M23.678 23c-2.402 0-4.501.953-5.678 2.378C16.823 23.953 14.723 23 12.321 23 2 23 2.043 23.421 2 26.182c-.087 5.61 6.63 6.9 10.321 6.818 2.401-.053 4.502-.989 5.679-2.397 1.177 1.408 3.276 2.345 5.678 2.397 3.691.082 10.409-1.208 10.321-6.818-.043-2.761 0-3.182-10.321-3.182z\"/><path fill=\"#272B2B\" d=\"M33.66 25.242c.204.279.333.588.339.939.03 1.905-.745 3.303-1.915 4.327L26.999 31l6.661-5.758zM15 25c-1 1 2 4 3 4s4-3 3-4-5-1-6 0zM10 3c2.667 2 8 4 8 4s5.333-2 8-4l-8 1-8-1zm8-1s1.652-.62 3.576-1.514C20.48.178 19.295 0 18 0s-2.481.178-3.576.486C16.348 1.38 18 2 18 2zm-7 7c3 2 7 4 7 4s4-2 7-4l-7 1-7-1zm20.645 2.285L27 15l6.006.75a36.407 36.407 0 0 0-1.361-4.465zm1.911 7.159L28 24h5.835A11.73 11.73 0 0 0 34 22s-.081-1.43-.444-3.556zm-31.112 0C2.082 20.57 2 22 2 22c0 .748.063 1.405.165 2H8l-5.556-5.556zm-.105 6.798c-.204.279-.333.588-.339.94-.03 1.905.745 3.303 1.916 4.327L9 31l-6.661-5.758zM9 15l-4.644-3.715a36.194 36.194 0 0 0-1.361 4.466L9 15z\"/></svg>", "turtle": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#77B255\" d=\"M9.842 19.922c0 9.842 6.575 9.673 5.158 10.078-7 2-8.803-7.618-9.464-7.618-2.378 0-5.536-.423-5.536-2.46C0 17.883 2.46 15 6.151 15c2.379 0 3.691 2.883 3.691 4.922zM36 28.638c0 1.104-3.518-.741-5 0-2 1-2-.896-2-2s1.343-1 3-1 4 1.895 4 3z\"/><path fill=\"#77B255\" d=\"M16.715 33.143c0 2.761-1.279 2.857-2.857 2.857S11 35.903 11 33.143c0-.489.085-1.029.234-1.587.69-2.59 2.754-5.556 4.052-5.556 1.578 0 1.429 4.382 1.429 7.143zm8.571 0c0 2.761 1.278 2.857 2.856 2.857C29.721 36 31 35.903 31 33.143a6.26 6.26 0 0 0-.234-1.587C30.075 28.966 28.012 26 26.714 26c-1.578 0-1.428 4.382-1.428 7.143z\"/><path fill=\"#3E721D\" d=\"M32 27c0 4-5.149 4-11.5 4S9 31 9 27c0-6.627 5.149-12 11.5-12S32 20.373 32 27z\"/><circle cx=\"5\" cy=\"18\" r=\"1\" fill=\"#292F33\"/><path fill=\"#5C913B\" d=\"M23.667 25.1c0 3.591-1.418 3.9-3.167 3.9s-3.167-.31-3.167-3.9S18.75 17 20.5 17s3.167 4.51 3.167 8.1zM30 24c.871 3.482-.784 4-2.533 4-1.749 0-2.533.69-2.533-2.9s-1.116-6.5.633-6.5C27.315 18.6 29 20 30 24zm-13.933 1.1c0 3.591-.785 2.9-2.534 2.9s-3.404-.518-2.533-4c1-4 3.251-5.4 5-5.4 1.75 0 .067 2.91.067 6.5z\"/></svg>", "umbrella": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#66757F\" d=\"M9 28.5a1.5 1.5 0 0 1 3 0v.5s0 3 3 3 3-3 3-3V3.5a1.5 1.5 0 1 1 3 0V29s0 6-6 6-6-6-6-6v-.5z\"/><path fill=\"#744EAA\" d=\"M19.5 4C28.612 4 36 9.82 36 17c0 0 0 2-1 2s-3-2-3-2H7s-2 2-3 2-1-2-1-2C3 9.82 10.387 4 19.5 4z\"/><path fill=\"#9266CC\" d=\"M19.5 4C26.403 4 32 9.82 32 17c0 0 0 2-2 2s-5-2-5-2H14s-3 2-5 2-2-2-2-2C7 9.82 12.596 4 19.5 4z\"/><path fill=\"#744EAA\" d=\"M19.5 4C23.09 4 25 9.82 25 17c0 0-3 2-5 2h-1c-2 0-5-2-5-2 0-7.18 1.91-13 5.5-13z\"/></svg>", "unlock": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#AAB8C2\" d=\"M18 0c-4.612 0-8.483 3.126-9.639 7.371l3.855 1.052A5.999 5.999 0 0 1 18 4a6 6 0 0 1 6 6v10h4V10c0-5.522-4.477-10-10-10Z\"/><path fill=\"#FFAC33\" d=\"M32 32a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V18a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v14Z\"/></svg>", "up": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#3B88C3\" d=\"M36 32a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v28z\"/><path fill=\"#FFF\" d=\"M22 29v-9h7L18 7 7 20h7v9z\"/></svg>"};
+        const PIC_URL = {};
+        Object.keys(PIC_SRC).forEach(k => { PIC_URL[k] = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(PIC_SRC[k]); });
+
+        /* ---------- sound ---------- */
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+        try { audioCtx = new AudioContext(); } catch (e) {}
+        function tone(type, f1, f2, dur, delay) {
+            const t0 = audioCtx.currentTime + (delay || 0);
+            const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = type;
+            osc.frequency.setValueAtTime(f1, t0);
+            osc.frequency.exponentialRampToValueAtTime(f2, t0 + dur);
+            gain.gain.setValueAtTime(0.1, t0);
+            gain.gain.exponentialRampToValueAtTime(0.01, t0 + dur);
+            osc.start(t0); osc.stop(t0 + dur);
+        }
+        function playSound(type) {
+            if (!audioCtx) return;
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                if (type === 'correct') tone('sine', 400, 800, 0.15);
+                else if (type === 'wrong') tone('sawtooth', 300, 100, 0.3);
+                else if (type === 'tick') tone('sine', 600, 600, 0.12);
+                else if (type === 'tap') tone('sine', 520, 620, 0.06);
+                else if (type === 'go') tone('square', 700, 1000, 0.3);
+                else if (type === 'win') [523, 659, 784, 1047].forEach((f, i) => tone('triangle', f, f, 0.25, i * 0.15));
+            } catch (e) {}
+        }
+
+        /* ---------- speech (reads words aloud) ---------- */
+        const canSpeak = 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+        let enVoice = null;
+        function pickVoice() {
+            if (!canSpeak) return;
+            const vs = speechSynthesis.getVoices();
+            enVoice = vs.find(v => /en[-_]US/i.test(v.lang) && /female|samantha|google us/i.test(v.name)) ||
+                      vs.find(v => /en[-_](US|GB)/i.test(v.lang)) || vs.find(v => /^en/i.test(v.lang)) || null;
+        }
+        if (canSpeak) { pickVoice(); try { speechSynthesis.onvoiceschanged = pickVoice; } catch (e) {} }
+        function speak(text) {
+            if (!canSpeak || !text) return;
+            try {
+                speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(String(text).replace(/_{2,}/g, ' ... '));
+                u.lang = 'en-US'; u.rate = 0.8; u.pitch = 1.05;
+                if (enVoice) u.voice = enVoice;
+                speechSynthesis.speak(u);
+            } catch (e) {}
+        }
+
+        /* ---------- settings ---------- */
+        const PREP_LABEL = D.grade;
+        const UNIT_NUM = D.num;
+        const UNIT_NAME = D.name;
+        const TEACHER_PHONE = '201278040762';
+        const SOLO_N = { def: 10, spell: 8, match: 3, lmatch: 3 };
+        const TEAM_N = { def: 8, spell: 6, match: 2, lmatch: 2 };
+        const TIME_MUL = { spell: 2, match: 3, lmatch: 2.5, pop: 1.5, lpop: 1.5 };
+
+        const GAMES = {
+            vocab: [
+                { id: 'look', icon: '🖼️', name: 'Look & Choose', ar: 'شوف الصورة واختار الكلمة' },
+                { id: 'listen', icon: '🔊', name: 'Listen & Pick', ar: 'اسمع واختار الصورة' },
+                { id: 'spell', icon: '🔠', name: 'Spell It', ar: 'رتّب الحروف المتلخبطة' },
+                { id: 'match', icon: '🔗', name: 'Match Up', ar: 'وصّل الصورة بالكلمة' },
+                { id: 'pop', icon: '🫧', name: 'Bubble Pop', ar: 'فرقع فقاعة الصورة الصح' },
+                { id: 'yesno', icon: '✅', name: 'Yes or No', ar: 'صح ولا غلط؟' },
+                { id: 'count', icon: '🔢', name: 'Count It', ar: 'عِدّ واختار الرقم', needs: 'count' }
+            ],
+            phonics: [
+                { id: 'first', icon: '🅰️', name: 'First Letter', ar: 'اختار أول حرف في الكلمة' },
+                { id: 'find', icon: '🔍', name: 'Find the Letter', ar: 'مين بيبدأ بالحرف ده؟' },
+                { id: 'case', icon: '🔡', name: 'Big & Small', ar: 'الحرف الكبير والصغير' },
+                { id: 'lpop', icon: '🎈', name: 'Letter Pop', ar: 'فرقع أول حرف في الصورة' },
+                { id: 'lmatch', icon: '🧩', name: 'Letter Match', ar: 'وصّل الحرف الكبير بالصغير' }
+            ]
+        };
+        const GAME_NAMES = {};
+        Object.values(GAMES).forEach(list => list.forEach(g => { GAME_NAMES[g.id] = g.name; }));
+        const SECTION_NAMES = { vocab: 'Words & Pictures', phonics: 'Letters & Phonics' };
+
+        let currentSection = 'vocab';
+        let currentMode = 'solo';
+        let runMode = 'solo';
+        let currentGameId = null;
+        let questionTime = 20;
+        let teams = [];
+        let running = false;
+        let countdownTimer = null;
+        let endTimeout = null;
+        let lastResultText = '';
+
+        const screens = document.querySelectorAll('.screen');
+        const arena = document.getElementById('arena');
+
+        /* ---------- helpers ---------- */
+        function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+        function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+            return a;
+        }
+        function rnd(a) { return a[Math.floor(Math.random() * a.length)]; }
+        function takeN(pool, n) {
+            let out = [];
+            while (out.length < n && pool.length) out = out.concat(shuffle(pool));
+            return out.slice(0, n);
+        }
+        function onTap(el, fn) {
+            if (window.PointerEvent) el.addEventListener('pointerdown', e => { e.preventDefault(); fn(); });
+            else {
+                el.addEventListener('touchstart', e => { e.preventDefault(); fn(); }, { passive: false });
+                el.addEventListener('mousedown', fn);
+            }
+        }
+        function img(key, cls) { return '<img class="' + (cls || '') + '" src="' + (PIC_URL[key] || '') + '" alt="" draggable="false">'; }
+        function pic(spec, cls) {
+            cls = cls || '';
+            if (!spec) return '';
+            if (typeof spec === 'string') return '<span class="pic ' + cls + '">' + img(spec) + '</span>';
+            if (spec.count) {
+                const k = spec.count[0], n = spec.count[1];
+                return '<span class="pic count ' + cls + '">' + Array(n).fill(img(k)).join('') + '</span>';
+            }
+            if (spec.scene) {
+                const s = spec.scene;
+                let inner;
+                if (s.base === 'box') inner = s.prep === 'in'
+                    ? img('boxback', 's-back') + img(s.obj, 's-obj') + img('boxfront', 's-front')
+                    : img('boxclosed', 's-base') + img(s.obj, 's-obj');
+                else inner = img(s.base, 's-base') + img(s.obj, 's-obj');
+                return '<span class="pic scene s-' + s.prep + ' b-' + s.base + ' ' + cls + '">' + inner + '</span>';
+            }
+            return '';
+        }
+        function blank(t) { return esc(t).replace(/_{2,}/, '<span class="slot-let">&nbsp;?&nbsp;</span>'); }
+        function fill(t, a) { return t.replace(/_{2,}/, a); }
+        function art(w) { return /^[aeiou]/.test(w) ? 'an' : 'a'; }
+
+        const WORDS = D.words;
+        const LETTERS = D.letters;
+        const PH_WORDS = WORDS.filter(w => !w.np && LETTERS.indexOf(w.w[0]) >= 0);
+        const LETTER_POOL = (function () {
+            const out = [];
+            LETTERS.concat(D.prevLetters, ['s', 'm', 'a', 'b', 'p', 'o', 'e']).forEach(l => { if (out.indexOf(l) < 0) out.push(l); });
+            return out;
+        })();
+        const AVOID = (D.avoid || []).map(p => p.join('|'));
+        function clash(a, b) { return AVOID.indexOf(a + '|' + b) >= 0 || AVOID.indexOf(b + '|' + a) >= 0; }
+        function otherWords(w, k) { return shuffle(WORDS.filter(x => x.w !== w.w && x.p !== w.p && !clash(x.w, w.w))).slice(0, k); }
+        function otherLetters(l, k, extraBan) {
+            const ban = [l].concat(extraBan || []);
+            if (l === 'i') ban.push('l');
+            if (l === 'l') ban.push('i');
+            return shuffle(LETTER_POOL.filter(x => ban.indexOf(x) < 0)).slice(0, k);
+        }
+        function wordOpts(list) { return list.map(w => ({ id: w.w, html: esc(w.w) })); }
+        function picOpts(list) { return list.map(w => ({ id: w.w, html: pic(w.p, 'opt-pic') })); }
+        function textOpts(list) { return list.map(t => ({ id: t, html: esc(t) })); }
+        function letterOpts(list) { return list.map(t => ({ id: t, html: esc(t) })); }
+        function byPic(key) { return WORDS.find(w => w.p === key) || { w: key, p: key }; }
+
+        /* ---------- question builders ---------- */
+        const BUILD = {
+            look(n) {
+                const pool = WORDS.map(w => ({ w })).concat((D.sent || []).map(s => ({ s })), (D.scenes || []).map(sc => ({ sc })));
+                return takeN(pool, n).map(it => {
+                    if (it.w) {
+                        const w = it.w;
+                        return { type: 'choice', layout: 'words', pic: w.p, text: 'What is this?',
+                                 options: shuffle(wordOpts([w].concat(otherWords(w, 2)))), answer: w.w, say: w.w,
+                                 review: { pic: w.p, text: 'What is this?', ans: w.w } };
+                    }
+                    if (it.s) {
+                        const s = it.s;
+                        return { type: 'choice', layout: 'words', pic: s.pic, text: blank(s.t), rawText: s.t,
+                                 options: shuffle(textOpts([s.ans].concat(s.wrong))), answer: s.ans, say: fill(s.t, s.ans),
+                                 review: { pic: s.pic, text: s.t, ans: s.ans } };
+                    }
+                    const sc = it.sc.scene;
+                    const say = 'The ' + sc.obj + ' is ' + sc.prep + ' the ' + sc.base + '.';
+                    return { type: 'choice', layout: 'words', pic: it.sc, text: 'Where is the ' + sc.obj + '?',
+                             options: shuffle(textOpts(['in', 'on', 'under'])), answer: sc.prep, say: say,
+                             review: { pic: it.sc, text: 'Where is the ' + sc.obj + '?', ans: say } };
+                });
+            },
+            listen(n) {
+                const pool = WORDS.map(w => ({ w })).concat((D.picq || []).map(q => ({ q })));
+                const comp = runMode === 'comp';
+                return takeN(pool, n).map(it => {
+                    if (it.w) {
+                        const w = it.w;
+                        return { type: 'choice', layout: 'pics', listen: true, say: w.w, autoSay: !comp,
+                                 text: comp ? '<span class="word-big">' + esc(w.w) + '</span>' : '',
+                                 sub: comp ? 'Read and choose the picture' : 'Listen and choose the picture <span class="ar" dir="rtl">— اسمع واختار</span>',
+                                 options: shuffle(picOpts([w].concat(otherWords(w, 2)))), answer: w.w,
+                                 review: { pic: w.p, text: 'Listen: ' + w.w, ans: w.w } };
+                    }
+                    const q = it.q, a = byPic(q.ans);
+                    return { type: 'choice', layout: 'pics', say: q.t, autoSay: !comp, sayBtn: true, text: blank(q.t),
+                             options: shuffle(picOpts([a].concat(q.wrong.map(byPic)))), answer: a.w,
+                             review: { pic: q.ans, text: q.t, ans: a.w } };
+                });
+            },
+            spell(n) {
+                const pool = WORDS.filter(w => /^[a-z]{2,7}$/.test(w.w));
+                return takeN(pool, n).map(w => ({ type: 'spell', word: w.w, pic: w.p, say: w.w,
+                    review: { pic: w.p, text: 'Spell the word', ans: w.w } }));
+            },
+            match(n) {
+                const rounds = [];
+                let pool = [];
+                for (let r = 0; r < n; r++) {
+                    if (pool.length < 4) pool = pool.concat(shuffle(WORDS));
+                    const pick = [];
+                    while (pick.length < 4 && pool.length) {
+                        const w = pool.shift();
+                        if (!pick.some(x => x.w === w.w || x.p === w.p)) pick.push(w); else pool.push(w);
+                        if (pick.length < 4 && pool.length < 4) pool = pool.concat(shuffle(WORDS));
+                    }
+                    rounds.push({ type: 'match', points: 4, say: '', pairs: pick.map(w => ({ id: w.w, left: pic(w.p), right: esc(w.w), say: w.w, review: { pic: w.p, text: '', ans: w.w } })) });
+                }
+                return rounds;
+            },
+            pop(n) {
+                const comp = runMode === 'comp';
+                return takeN(WORDS, n).map(w => ({ type: 'bubble', say: w.w, autoSay: !comp, sayBtn: true,
+                    text: '<span class="word-big">' + esc(w.w) + '</span>', sub: 'Pop the right picture!',
+                    options: picOpts([w].concat(otherWords(w, 2))), answer: w.w,
+                    review: { pic: w.p, text: 'Pop: ' + w.w, ans: w.w } }));
+            },
+            yesno(n) {
+                const pool = WORDS.map(w => ({ w })).concat((D.yesno || []).map(y => ({ y })));
+                const opts = [{ id: 'yes', html: '<i class="fas fa-check"></i> Yes', cls: 'yes' }, { id: 'no', html: '<i class="fas fa-times"></i> No', cls: 'no' }];
+                return takeN(pool, n).map(it => {
+                    if (it.w) {
+                        const w = it.w, isTrue = Math.random() > 0.5;
+                        const shown = isTrue ? w.w : otherWords(w, 1)[0].w;
+                        return { type: 'choice', layout: 'yesno', pic: w.p, text: '<span class="word-big">' + esc(shown) + '</span>', say: shown,
+                                 sayBtn: true, options: opts, answer: isTrue ? 'yes' : 'no', speakAfter: w.w,
+                                 review: { pic: w.p, text: shown + ' ?', ans: isTrue ? 'Yes ✔' : 'No ✘ — it is ' + w.w } };
+                    }
+                    const y = it.y;
+                    return { type: 'choice', layout: 'yesno', pic: y.pic, text: esc(y.t), say: y.t, sayBtn: true, options: opts,
+                             answer: y.yes ? 'yes' : 'no', review: { pic: y.pic, text: y.t, ans: y.yes ? 'Yes ✔' : 'No ✘' } };
+                });
+            },
+            count(n) {
+                const c = D.count;
+                if (!c) return [];
+                const out = [];
+                let last = -1;
+                for (let i = 0; i < n; i++) {
+                    let k;
+                    do { k = c.min + Math.floor(Math.random() * (c.max - c.min + 1)); } while (k === last && c.max > c.min);
+                    last = k;
+                    const item = rnd(c.items);
+                    const nums = [];
+                    for (let x = Math.max(1, c.min - 1); x <= Math.min(10, c.max + 1); x++) if (x !== k) nums.push(x);
+                    const near = shuffle(nums.filter(x => Math.abs(x - k) <= 2));
+                    const others = (near.length >= 2 ? near : shuffle(nums)).slice(0, 2);
+                    const spec = { count: [item[0], k] };
+                    out.push({ type: 'choice', layout: 'letters', pic: spec, text: 'How many ' + esc(item[1]) + '?',
+                               options: shuffle(textOpts([String(k)].concat(others.map(String)))), answer: String(k),
+                               say: k + ' ' + (k === 1 ? item[0] : item[1]), review: { pic: spec, text: 'How many ' + item[1] + '?', ans: String(k) } });
+                }
+                return out;
+            },
+            first(n) {
+                return takeN(PH_WORDS, n).map(w => {
+                    const l = w.w[0];
+                    return { type: 'choice', layout: 'letters', pic: w.p, sayBtn: true, say: w.w,
+                             text: '<span class="word-big"><span class="slot-let">?</span>' + esc(w.w.slice(1)) + '</span>',
+                             options: shuffle(letterOpts([l].concat(otherLetters(l, 2)))), answer: l,
+                             review: { pic: w.p, text: 'First letter of ' + w.w, ans: l + '  (' + w.w + ')' } };
+                });
+            },
+            find(n) {
+                const out = [];
+                const letters = takeN(LETTERS.filter(l => PH_WORDS.some(w => w.w[0] === l)), n);
+                letters.forEach(l => {
+                    const a = rnd(PH_WORDS.filter(w => w.w[0] === l));
+                    const others = shuffle(WORDS.filter(w => w.w[0] !== l && w.p !== a.p && !(l === 'c' && w.w[0] === 'k') && !(l === 'k' && w.w[0] === 'c'))).slice(0, 2);
+                    out.push({ type: 'choice', layout: 'pics', say: a.w, speakAfter: a.w,
+                               text: 'Which one starts with <span class="big-let">' + l.toUpperCase() + l + '</span>?',
+                               options: shuffle(picOpts([a].concat(others))), answer: a.w,
+                               review: { pic: a.p, text: 'Starts with ' + l.toUpperCase() + l, ans: a.w } });
+                });
+                return out;
+            },
+            'case'(n) {
+                const out = [];
+                for (let i = 0; i < n; i++) {
+                    const l = Math.random() < 0.7 ? rnd(LETTERS) : rnd(LETTER_POOL);
+                    const up = Math.random() > 0.5;
+                    const shown = up ? l.toUpperCase() : l;
+                    const conv = x => up ? x : x.toUpperCase();
+                    out.push({ type: 'choice', layout: 'letters', say: '',
+                               text: '<span class="huge-let">' + shown + '</span>',
+                               sub: up ? 'Find its small letter <span class="ar" dir="rtl">— الحرف الصغير</span>' : 'Find its big letter <span class="ar" dir="rtl">— الحرف الكبير</span>',
+                               options: shuffle(letterOpts([conv(l)].concat(otherLetters(l, 2).map(conv)))), answer: conv(l),
+                               review: { pic: null, text: shown, ans: l.toUpperCase() + l } });
+                }
+                return out;
+            },
+            lpop(n) {
+                const comp = runMode === 'comp';
+                return takeN(PH_WORDS, n).map(w => {
+                    const l = w.w[0];
+                    return { type: 'bubble', pic: w.p, say: w.w, autoSay: !comp, sayBtn: true, sub: 'Pop its first letter!',
+                             options: letterOpts([l].concat(otherLetters(l, 2))).map(o => ({ ...o, let: true })), answer: l,
+                             review: { pic: w.p, text: 'First letter of ' + w.w, ans: l } };
+                });
+            },
+            lmatch(n) {
+                const rounds = [];
+                let pool = [];
+                for (let r = 0; r < n; r++) {
+                    const pick = [];
+                    let guard = 0;
+                    while (pick.length < 4 && guard++ < 50) {
+                        if (!pool.length) pool = shuffle(LETTERS).concat(shuffle(LETTER_POOL.filter(l => LETTERS.indexOf(l) < 0)));
+                        const l = pool.shift();
+                        if (pick.indexOf(l) >= 0) continue;
+                        if ((l === 'i' && pick.indexOf('l') >= 0) || (l === 'l' && pick.indexOf('i') >= 0)) { pool.push(l); continue; }
+                        pick.push(l);
+                    }
+                    rounds.push({ type: 'match', points: pick.length, letters: true, pairs: pick.map(l => ({ id: l, left: l.toUpperCase(), right: l, say: '', review: { pic: null, text: '', ans: l.toUpperCase() + l } })) });
+                }
+                return rounds;
+            }
+        };
+
+        function countFor(id, mode) { const t = mode === 'solo' ? SOLO_N : TEAM_N; return t[id] || t.def; }
+
+        /* ---------- screens & menu ---------- */
+        function switchScreen(screenId) {
+            screens.forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            document.body.classList.toggle('compact', screenId === 'game-screen' && runMode === 'comp');
+            window.scrollTo(0, 0);
+        }
+        function chooseSection(section) {
+            currentSection = section;
+            document.getElementById('menu-title').innerText = SECTION_NAMES[section];
+            document.getElementById('menu-desc').innerText = 'Unit ' + UNIT_NUM + ': ' + UNIT_NAME + (section === 'phonics' ? ' — Letters ' + LETTERS.map(l => l.toUpperCase() + l).join(' · ') : '');
+            const grid = document.getElementById('games-grid');
+            grid.innerHTML = '';
+            GAMES[section].filter(g => !g.needs || D[g.needs]).forEach(g => {
+                const c = document.createElement('div');
+                c.className = 'game-card';
+                c.innerHTML = '<span class="emo">' + g.icon + '</span><h3>' + esc(g.name) + '</h3><span class="ar-sub" dir="rtl">' + g.ar + '</span>';
+                c.onclick = () => startGame(g.id);
+                grid.appendChild(c);
+            });
+            setMode(currentMode);
+            switchScreen('main-menu');
+        }
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('mode-solo').classList.toggle('active', mode === 'solo');
+            document.getElementById('mode-comp').classList.toggle('active', mode === 'comp');
+            document.getElementById('comp-settings').style.display = mode === 'comp' ? 'grid' : 'none';
+            document.getElementById('mode-hint').innerHTML = mode === 'solo'
+                ? '<i class="fas fa-info-circle"></i> Play on your own — no time limit. Tap 🔊 to hear the word. <span class="section-hint" dir="rtl">دوس 🔊 عشان تسمع الكلمة</span>'
+                : '<i class="fas fa-info-circle"></i> Two teams play at the same time, each on its own half of the screen. Highest score wins; if scores are equal, the faster team wins.';
+        }
+
+        /* ---------- game flow ---------- */
+        function buildSet(id, n) { return BUILD[id](n); }
+        function reshuffleQ(q) {
+            const c = { ...q };
+            if (c.options && c.layout !== 'yesno') c.options = shuffle(c.options);
+            return c;
+        }
+        function totalPoints(qs) { return qs.reduce((s, q) => s + (q.points || 1), 0); }
+
+        function createTeam(i, name, questions, solo) {
+            const panel = document.createElement('div');
+            panel.className = 'team-panel ' + (solo ? 'solo' : 't' + i);
+            panel.innerHTML = `
+                <div class="team-head"><span class="team-name"></span><span class="team-score">0</span></div>
+                <div class="team-meta">
+                    <span>Question <span class="q-num">0</span> / ${questions.length}</span>
+                    <span class="timer-num">${questionTime}</span>
+                </div>
+                <div class="timer-bar"><div class="timer-fill"></div></div>
+                <div class="play"></div>
+                <div class="team-flash"></div>
+                <div class="team-done">
+                    <i class="fas fa-flag-checkered" style="font-size:4rem;color:var(--team)"></i>
+                    <h3 style="font-size:1.6rem;color:var(--team-dark)">Finished!</h3>
+                    <div class="done-score" style="font-size:1.3rem;font-weight:800"></div>
+                    <div style="color:#64748b">Waiting for the other team...</div>
+                </div>`;
+            panel.querySelector('.team-name').textContent = name;
+            arena.appendChild(panel);
+            const q = s => panel.querySelector(s);
+            return {
+                idx: i, name, questions, solo, total: totalPoints(questions),
+                score: 0, qIndex: 0, mistakes: [], intervals: [], timeouts: [], timerInt: null,
+                qStart: 0, timeUsed: 0, locked: true, finished: false, st: null,
+                el: { panel, score: q('.team-score'), qNum: q('.q-num'), timerNum: q('.timer-num'), timerFill: q('.timer-fill'),
+                      play: q('.play'), flash: q('.team-flash'), doneScore: q('.done-score') }
+            };
+        }
+        function clearTeam(team) {
+            team.intervals.forEach(clearInterval); team.intervals = [];
+            team.timeouts.forEach(clearTimeout); team.timeouts = [];
+            if (team.timerInt) { clearInterval(team.timerInt); team.timerInt = null; }
+        }
+        function stopAll() {
+            running = false;
+            if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+            if (endTimeout) { clearTimeout(endTimeout); endTimeout = null; }
+            document.getElementById('countdown').classList.remove('show');
+            teams.forEach(clearTeam);
+            if (canSpeak) try { speechSynthesis.cancel(); } catch (e) {}
+        }
+        function returnToMenu() { stopAll(); switchScreen('main-menu'); }
+
+        function startGame(gameId) {
+            try { if (audioCtx) audioCtx.resume(); } catch (e) {}
+            stopAll();
+            currentGameId = gameId;
+            runMode = currentMode;
+            arena.innerHTML = '';
+            const sectionName = SECTION_NAMES[currentSection];
+
+            if (runMode === 'solo') {
+                questionTime = 0;
+                arena.className = 'arena solo';
+                teams = [createTeam(0, '🎯 Your Score', buildSet(gameId, countFor(gameId, 'solo')), true)];
+                document.getElementById('comp-title').innerText = GAME_NAMES[gameId] + ' — ' + sectionName;
+                document.getElementById('comp-time-wrap').style.display = 'none';
+                document.getElementById('btn-stop').innerHTML = '<i class="fas fa-arrow-left"></i> Back';
+                switchScreen('game-screen');
+                running = true;
+                loadQuestion(teams[0]);
+                return;
+            }
+
+            questionTime = parseInt(document.getElementById('q-time').value, 10) || 20;
+            const names = [val('team1-name') || 'Team A', val('team2-name') || 'Team B'];
+            const n = countFor(gameId, 'comp');
+            let sets;
+            if (document.getElementById('q-mode').value === 'same') {
+                const base = buildSet(gameId, n);
+                sets = [0, 1].map(() => shuffle(base).map(reshuffleQ));
+            } else {
+                const all = buildSet(gameId, n * 2);
+                sets = [all.slice(0, n), all.slice(n, n * 2)];
+            }
+            arena.className = 'arena';
+            teams = [0, 1].map(i => createTeam(i, names[i], sets[i], false));
+            document.getElementById('comp-title').innerText = '🏆 ' + GAME_NAMES[gameId] + ' — ' + sectionName;
+            document.getElementById('comp-time-wrap').style.display = '';
+            document.getElementById('comp-time-label').innerText = questionTime;
+            document.getElementById('btn-stop').innerHTML = '<i class="fas fa-stop"></i> Stop';
+            switchScreen('game-screen');
+            runCountdown(() => { running = true; teams.forEach(t => loadQuestion(t)); });
+        }
+
+        function runCountdown(done) {
+            const ov = document.getElementById('countdown');
+            let n = 3;
+            ov.innerText = n; ov.classList.add('show'); playSound('tick');
+            countdownTimer = setInterval(() => {
+                n--;
+                if (n > 0) { ov.innerText = n; playSound('tick'); }
+                else if (n === 0) { ov.innerText = 'GO!'; playSound('go'); }
+                else { clearInterval(countdownTimer); countdownTimer = null; ov.classList.remove('show'); done(); }
+            }, 800);
+        }
+
+        function promptHTML(q) {
+            let h = '<div class="prompt">';
+            if (q.listen && !q.text) h += '<button class="say-btn huge pulse"><i class="fas fa-volume-high"></i></button>';
+            const row = [];
+            if (q.pic) row.push(pic(q.pic, 'big'));
+            if (q.sayBtn && canSpeak) row.push('<button class="say-btn"><i class="fas fa-volume-high"></i></button>');
+            if (q.listen && q.text && canSpeak) row.push('<button class="say-btn"><i class="fas fa-volume-high"></i></button>');
+            if (row.length) h += '<div class="prompt-row">' + row.join('') + '</div>';
+            if (q.text) h += '<div class="p-text">' + q.text + '</div>';
+            if (q.sub) h += '<div class="p-sub">' + q.sub + '</div>';
+            if (q.listen && !q.text && !canSpeak) h += '<div class="p-text"><span class="word-big">' + esc(q.say) + '</span></div>';
+            return h + '</div>';
+        }
+        function wireSay(team, q) {
+            team.el.play.querySelectorAll('.say-btn').forEach(b => onTap(b, () => speak(q.say)));
+        }
+
+        function loadQuestion(team) {
+            if (!running) return;
+            clearTeam(team);
+            if (team.qIndex >= team.questions.length) { finishTeam(team); return; }
+            const q = team.questions[team.qIndex];
+            team.locked = false;
+            team.el.qNum.innerText = team.qIndex + 1;
+            const play = team.el.play;
+            play.innerHTML = '';
+            if (q.type === 'choice') renderChoice(team, q);
+            else if (q.type === 'spell') renderSpell(team, q);
+            else if (q.type === 'match') renderMatch(team, q);
+            else if (q.type === 'bubble') renderBubble(team, q);
+            wireSay(team, q);
+            if (q.autoSay && team.solo) team.timeouts.push(setTimeout(() => speak(q.say), 250));
+            startTimer(team, q);
+        }
+
+        function renderChoice(team, q) {
+            const play = team.el.play;
+            play.innerHTML = promptHTML(q) + '<div class="opts ' + q.layout + '"></div>';
+            const grid = play.querySelector('.opts');
+            q.options.forEach(o => {
+                const b = document.createElement('button');
+                b.className = 'opt' + (o.cls ? ' ' + o.cls : '');
+                b.dataset.id = o.id;
+                b.innerHTML = o.html;
+                onTap(b, () => {
+                    if (team.locked || !running) return;
+                    const ok = o.id === q.answer;
+                    grid.querySelectorAll('.opt').forEach(x => {
+                        x.disabled = true;
+                        if (x.dataset.id === q.answer) x.classList.add('correct');
+                        else if (x === b && !ok) x.classList.add('wrong');
+                    });
+                    finishQ(team, q, ok ? 1 : 0, ok ? [] : [q.review]);
+                });
+                grid.appendChild(b);
+            });
+        }
+
+        function renderSpell(team, q) {
+            const play = team.el.play;
+            const word = q.word;
+            let letters = word.split('');
+            let mixed = shuffle(letters);
+            for (let g = 0; g < 10 && word.length > 1 && mixed.join('') === word; g++) mixed = shuffle(letters);
+            play.innerHTML = promptHTML({ pic: q.pic, sayBtn: true, sub: 'Tap the letters in order <span class="ar" dir="rtl">— رتّب الحروف</span>' }) +
+                '<div class="slots"></div><div class="tiles"></div><div class="spell-answer"></div>';
+            const slotsEl = play.querySelector('.slots'), tilesEl = play.querySelector('.tiles');
+            const slots = word.split('').map(() => null);
+            const slotEls = slots.map((_, i) => {
+                const s = document.createElement('div');
+                s.className = 'slot';
+                onTap(s, () => {
+                    if (team.locked || !running || slots[i] === null) return;
+                    tileEls[slots[i]].classList.remove('used');
+                    slots[i] = null; s.textContent = ''; s.classList.remove('filled');
+                });
+                slotsEl.appendChild(s); return s;
+            });
+            const tileEls = mixed.map((ch, ti) => {
+                const t = document.createElement('button');
+                t.className = 'tile'; t.textContent = ch;
+                onTap(t, () => {
+                    if (team.locked || !running || t.classList.contains('used')) return;
+                    const i = slots.indexOf(null);
+                    if (i < 0) return;
+                    playSound('tap');
+                    slots[i] = ti; t.classList.add('used');
+                    slotEls[i].textContent = ch; slotEls[i].classList.add('filled');
+                    if (slots.indexOf(null) < 0) {
+                        const built = slots.map(x => mixed[x]).join('');
+                        const ok = built === word;
+                        slotEls.forEach(s => s.classList.add(ok ? 'good' : 'bad'));
+                        if (!ok) play.querySelector('.spell-answer').textContent = '✔ ' + word;
+                        finishQ(team, q, ok ? 1 : 0, ok ? [] : [q.review]);
+                    }
+                });
+                tilesEl.appendChild(t); return t;
+            });
+            team.st = { onTimeout: () => { play.querySelector('.spell-answer').textContent = '✔ ' + word; } };
+        }
+
+        function renderMatch(team, q) {
+            const play = team.el.play;
+            play.innerHTML = promptHTML({ sub: q.letters ? 'Match the big letter with its small letter <span class="ar" dir="rtl">— وصّل</span>' : 'Tap a picture, then tap its word <span class="ar" dir="rtl">— دوس على الصورة وبعدين الكلمة</span>' }) +
+                '<div class="match-board"><div class="match-col left"></div><div class="match-col right"></div></div>';
+            const L = play.querySelector('.left'), R = play.querySelector('.right');
+            const st = { sel: null, done: {}, missed: {}, count: 0 };
+            team.st = st;
+            function make(p, side) {
+                const b = document.createElement('div');
+                b.className = 'm-item' + (q.letters ? ' let' : '');
+                b.innerHTML = side === 'L' ? p.left : p.right;
+                b.dataset.id = p.id;
+                onTap(b, () => {
+                    if (team.locked || !running || st.done[p.id] === true && b.classList.contains('done')) return;
+                    if (b.classList.contains('done')) return;
+                    if (!st.sel || st.sel.side === side) {
+                        if (st.sel) st.sel.el.classList.remove('sel');
+                        st.sel = { side, id: p.id, el: b };
+                        b.classList.add('sel');
+                        playSound('tap');
+                        if (side === 'L' && team.solo && p.say) speak(p.say);
+                        return;
+                    }
+                    const other = st.sel;
+                    other.el.classList.remove('sel');
+                    st.sel = null;
+                    if (other.id === p.id) {
+                        const c = 'c' + (st.count % 4);
+                        [other.el, b].forEach(x => x.classList.add('done', c));
+                        st.done[p.id] = true; st.count++;
+                        playSound('correct');
+                        if (team.solo && p.say) speak(p.say);
+                        if (st.count === q.pairs.length) {
+                            const misses = q.pairs.filter(x => st.missed[x.id]);
+                            finishQ(team, q, q.pairs.length - misses.length, misses.map(x => x.review), false, true);
+                        }
+                    } else {
+                        playSound('wrong');
+                        const leftId = side === 'L' ? p.id : other.id;
+                        st.missed[leftId] = true;
+                        [other.el, b].forEach(x => { x.classList.add('bad'); setTimeout(() => x.classList.remove('bad'), 450); });
+                    }
+                });
+                return b;
+            }
+            shuffle(q.pairs).forEach(p => L.appendChild(make(p, 'L')));
+            shuffle(q.pairs).forEach(p => R.appendChild(make(p, 'R')));
+            st.onTimeout = () => {
+                const lost = q.pairs.filter(x => st.missed[x.id] || !st.done[x.id]);
+                return { gained: q.pairs.length - lost.length, mistakes: lost.map(x => x.review) };
+            };
+        }
+
+        function renderBubble(team, q) {
+            const play = team.el.play;
+            play.innerHTML = promptHTML(q) + '<div class="bubbles-container"></div>';
+            const area = play.querySelector('.bubbles-container');
+            const width = area.clientWidth, height = area.clientHeight;
+            const seg = width / q.options.length;
+            const base = Math.max(60, Math.min(seg - 14, width < 480 ? 96 : 124));
+            shuffle(q.options).forEach((o, i) => {
+                const bub = document.createElement('div');
+                bub.className = 'bubble' + (o.let ? ' let' : '');
+                bub.innerHTML = o.html;
+                const size = base - Math.random() * base * 0.08;
+                bub.style.width = size + 'px'; bub.style.height = size + 'px';
+                const minL = i * seg + 4;
+                let maxL = (i + 1) * seg - size - 4;
+                if (maxL < minL) maxL = minL;
+                bub.style.left = (minL + Math.random() * (maxL - minL)) + 'px';
+                let top = -size - Math.random() * 120;
+                bub.style.top = top + 'px';
+                onTap(bub, () => {
+                    if (team.locked || !running) return;
+                    const ok = o.id === q.answer;
+                    bub.style.background = ok ? 'var(--success)' : 'var(--danger)';
+                    finishQ(team, q, ok ? 1 : 0, ok ? [] : [q.review]);
+                });
+                area.appendChild(bub);
+                const speed = 0.35 + Math.random() * 0.35;
+                const iv = setInterval(() => {
+                    top += speed;
+                    bub.style.top = top + 'px';
+                    if (top > height) {
+                        if (o.id === q.answer) { clearInterval(iv); finishQ(team, q, 0, [q.review]); }
+                        else { top = -size - Math.random() * 80; }
+                    }
+                }, 20);
+                team.intervals.push(iv);
+            });
+        }
+
+        function startTimer(team, q) {
+            team.qStart = performance.now();
+            if (!questionTime) return;
+            const secs = Math.round(questionTime * (TIME_MUL[currentGameId] || 1));
+            const total = secs * 1000;
+            const fillEl = team.el.timerFill, num = team.el.timerNum;
+            fillEl.classList.remove('warn', 'danger');
+            fillEl.style.width = '100%';
+            num.innerText = secs;
+            team.timerInt = setInterval(() => {
+                const left = Math.max(0, total - (performance.now() - team.qStart));
+                const pct = left / total * 100;
+                fillEl.style.width = pct + '%';
+                fillEl.classList.toggle('warn', pct <= 50 && pct > 25);
+                fillEl.classList.toggle('danger', pct <= 25);
+                num.innerText = Math.ceil(left / 1000);
+                if (left <= 0) {
+                    if (q.type === 'match' && team.st && team.st.onTimeout) {
+                        const r = team.st.onTimeout();
+                        finishQ(team, q, r.gained, r.mistakes, true);
+                    } else {
+                        if (team.st && team.st.onTimeout) team.st.onTimeout();
+                        team.el.play.querySelectorAll('.opt').forEach(x => { x.disabled = true; if (x.dataset.id === q.answer) x.classList.add('correct'); });
+                        finishQ(team, q, 0, [q.review], true);
+                    }
+                }
+            }, 100);
+        }
+
+        function flashTeam(team, ok, timeout) {
+            const f = team.el.flash;
+            const icon = ok ? 'fa-check-circle' : (timeout ? 'fa-hourglass-end' : 'fa-times-circle');
+            f.className = 'team-flash show ' + (ok ? 'correct' : 'wrong');
+            f.innerHTML = '<i class="fas ' + icon + '"></i>';
+            setTimeout(() => f.classList.remove('show'), 650);
+        }
+
+        function finishQ(team, q, gained, mistakes, timeout, quiet) {
+            if (team.locked || !running) return;
+            team.locked = true;
+            const spent = performance.now() - team.qStart;
+            const limit = questionTime ? questionTime * (TIME_MUL[currentGameId] || 1) * 1000 : spent;
+            team.timeUsed += Math.min(limit, spent);
+            clearTeam(team);
+            team.st = null;
+            const full = gained >= (q.points || 1);
+            team.score += gained;
+            team.el.score.innerText = team.score;
+            (mistakes || []).forEach(m => team.mistakes.push(m));
+            if (!quiet) playSound(full ? 'correct' : 'wrong');
+            flashTeam(team, full, timeout);
+            if (team.solo) {
+                const s = q.speakAfter || (q.type !== 'match' && !q.autoSay ? q.say : (full ? '' : q.say));
+                if (s) setTimeout(() => speak(s), 150);
+            }
+            const wait = q.type === 'match' ? 900 : (team.solo ? 1500 : 1100);
+            team.timeouts.push(setTimeout(() => { team.qIndex++; loadQuestion(team); }, wait));
+        }
+
+        function finishTeam(team) {
+            if (team.finished) return;
+            team.finished = true; team.locked = true;
+            if (team.solo) { endTimeout = setTimeout(endSolo, 300); return; }
+            team.el.timerFill.style.width = '0%';
+            team.el.doneScore.innerText = 'Score: ' + team.score + ' / ' + team.total;
+            team.el.panel.classList.add('finished');
+            if (teams.every(t => t.finished)) endTimeout = setTimeout(endCompetition, 1200);
+        }
+
+        function mistakesHtml(list) {
+            if (!list.length) return '<div style="color:var(--success);font-weight:800;font-size:1.3rem;text-align:center">Excellent! No mistakes. 🌟</div>';
+            return list.map(m => `<div class="mistake-item rev">${m.pic ? pic(m.pic, 'mini') : ''}<div>${m.text ? '<div class="mistake-q">' + esc(m.text) + '</div>' : ''}<div class="mistake-a"><i class="fas fa-check"></i> ${esc(m.ans)}</div></div></div>`).join('');
+        }
+
+        function endSolo() {
+            stopAll();
+            const t = teams[0];
+            const pct = t.total ? t.score / t.total : 0;
+            const n = pct >= 0.9 ? 3 : pct >= 0.6 ? 2 : pct > 0 ? 1 : 0;
+            document.getElementById('stars').innerHTML = [0, 1, 2].map(i => '<span class="' + (i < n ? '' : 'off') + '">⭐</span>').join('');
+            document.getElementById('final-score').innerText = t.score;
+            document.getElementById('final-total').innerText = t.total;
+            document.getElementById('mistakes-container').innerHTML = mistakesHtml(t.mistakes);
+            const input = document.getElementById('student-name-input');
+            input.value = ''; input.classList.remove('input-error');
+            if (n >= 2) playSound('win');
+            switchScreen('solo-results');
+        }
+
+        function endCompetition() {
+            stopAll();
+            const [a, b] = teams;
+            let winner = null, byTime = false;
+            if (a.score !== b.score) winner = a.score > b.score ? a : b;
+            else if (Math.abs(a.timeUsed - b.timeUsed) >= 100) { winner = a.timeUsed < b.timeUsed ? a : b; byTime = true; }
+            const banner = document.getElementById('winner-banner');
+            if (winner) {
+                banner.innerHTML = '🏆 Winner: ' + esc(winner.name) +
+                    (byTime ? '<div style="font-size:1rem;color:#64748b;font-weight:600;margin-top:6px">Same score — won by faster time</div>' : '');
+                lastResultText = 'Winner: ' + winner.name + (byTime ? ' (faster time)' : '');
+                playSound('win');
+            } else { banner.innerHTML = "🤝 It's a Draw!"; lastResultText = "It's a draw"; }
+            const cards = document.getElementById('score-cards');
+            cards.innerHTML = '';
+            teams.forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'score-card t' + t.idx + (winner === t ? ' win' : '');
+                card.innerHTML = `
+                    <h4>${winner === t ? '🏆 ' : ''}${esc(t.name)}</h4>
+                    <div class="big">${t.score} / ${t.total}</div>
+                    <div class="meta"><i class="fas fa-stopwatch"></i> Time: ${(t.timeUsed / 1000).toFixed(1)}s</div>
+                    <div class="results-list">${mistakesHtml(t.mistakes)}</div>`;
+                cards.appendChild(card);
+            });
+            document.getElementById('class-name-input').value = '';
+            switchScreen('results-screen');
+        }
+
+        function resultHeader() {
+            return '📘 ' + PREP_LABEL + ' - Unit ' + UNIT_NUM + ': ' + UNIT_NAME + '\n' +
+                '📝 Section: ' + SECTION_NAMES[currentSection] + '\n' +
+                '🎮 Game: ' + (GAME_NAMES[currentGameId] || 'Game') + '\n';
+        }
+        function openWhatsApp(message) { window.open('https://wa.me/' + TEACHER_PHONE + '?text=' + encodeURIComponent(message), '_blank'); }
+        function sendSoloResult() {
+            const input = document.getElementById('student-name-input');
+            const name = input.value.trim();
+            if (!name) {
+                input.classList.add('input-error'); input.focus();
+                setTimeout(() => input.classList.remove('input-error'), 500);
+                return;
+            }
+            const t = teams[0];
+            openWhatsApp('📚 *Game Result*\n👤 Student: ' + name + '\n' + resultHeader() + '✅ Score: ' + t.score + ' / ' + t.total);
+        }
+        function sendCompResult() {
+            if (teams.length < 2) return;
+            const cls = val('class-name-input');
+            const [a, b] = teams;
+            openWhatsApp('🏆 *Competition Result*\n' + (cls ? '🏫 Class: ' + cls + '\n' : '') + resultHeader() + '\n' +
+                '🔵 ' + a.name + ': ' + a.score + ' / ' + a.total + ' (' + (a.timeUsed / 1000).toFixed(1) + 's)\n' +
+                '🟠 ' + b.name + ': ' + b.score + ' / ' + b.total + ' (' + (b.timeUsed / 1000).toFixed(1) + 's)\n\n' +
+                '🥇 ' + lastResultText);
+        }
+    </script>
+
+</body>
+</html>

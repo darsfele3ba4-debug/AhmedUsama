@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prim 1 Unit 1 * المستـــR - Mr Ahmed Usama</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --primary: #047857;
+    --secondary: #10b981;
+    --primary-dark: #064e3b;
+    --accent: #f5b301;
+    --success: #16a34a;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --dark: #0f2a22;
+    --light: #f0fdf4;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+.arabic-text { font-family: 'Cairo', sans-serif; }
+
+body {
+    background: radial-gradient(circle at top, #ecfdf5, #86efac);
+    color: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== Header ===== */
+header {
+    background: linear-gradient(135deg, #052e22, #064e3b 45%, #047857);
+    color: white;
+    padding: 26px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+    border-bottom: 5px solid var(--accent);
+}
+.header-content { display: flex; align-items: center; gap: 30px; }
+.logo-container {
+    width: 190px; height: 230px; border-radius: 22px; overflow: hidden;
+    background: #052e22; border: 4px solid var(--accent);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    transition: transform 0.3s ease; flex-shrink: 0;
+}
+.logo-container:hover { transform: scale(1.03) rotate(-2deg); }
+.logo-container img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.brand { display: inline-block;
+    font-family: 'Cairo', sans-serif; font-weight: 900; font-size: 3.2rem; line-height: 1.15;
+    color: var(--accent); text-shadow: 2px 3px 0 rgba(0,0,0,0.35); letter-spacing: 1px;
+}
+.titles h2 { font-size: 1.45rem; font-weight: 600; color: #d1fae5; letter-spacing: 0.5px; }
+.titles h3 {
+    font-size: 1.05rem; font-weight: 400; color: #ecfdf5; margin-top: 10px;
+    background: rgba(0,0,0,0.25); padding: 6px 15px; border-radius: 20px; display: inline-block;
+}
+.header-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.social-links a {
+    color: #25D366; font-size: 2.5rem; text-decoration: none; background: white; border-radius: 50%;
+    width: 65px; height: 65px; display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.social-links a:hover { transform: scale(1.15) translateY(-5px); box-shadow: 0 8px 15px rgba(37,211,102,0.4); }
+.home-link {
+    color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.35);
+    border-radius: 12px; padding: 8px 14px; display: flex; align-items: center; gap: 8px; white-space: nowrap;
+}
+.home-link:hover { background: rgba(255,255,255,0.22); }
+
+/* ===== Layout ===== */
+.container { max-width: 960px; margin: 36px auto; padding: 20px; flex-grow: 1; width: 100%; }
+.screen {
+    display: none; background: white; border-radius: 20px; padding: 40px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: center;
+    animation: fadeIn 0.4s ease-out; border: 1px solid #d1fae5;
+}
+.screen.active { display: block; }
+.screen h2 { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
+.screen p { font-size: 1.1rem; color: #64748b; margin-bottom: 25px; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; margin-top: 25px; }
+.game-card {
+    background: linear-gradient(135deg, #ffffff, #f0fdf4);
+    border: 2px solid #d1fae5; border-bottom: 6px solid var(--primary); border-radius: 20px;
+    padding: 28px 20px; cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex; flex-direction: column; align-items: center; gap: 15px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+}
+.game-card:hover {
+    transform: translateY(-10px);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-bottom-color: var(--primary-dark); color: white;
+    box-shadow: 0 15px 25px rgba(4,120,87,0.3);
+}
+.game-card h3 { font-size: 1.3rem; font-weight: 600; }
+.game-card i { font-size: 3.5rem; color: var(--primary); transition: color 0.3s; }
+.game-card:hover i { color: white; }
+
+.btn-back {
+    background: var(--danger); color: white; border: none; padding: 12px 25px; border-radius: 12px;
+    cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: 0 4px 0 #b91c1c;
+    transition: all 0.1s; display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-back:active { transform: translateY(4px); box-shadow: 0 0 0 #b91c1c; }
+.btn-section {
+    background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 12px;
+    cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: 0 4px 0 var(--primary-dark);
+    transition: all 0.1s; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px;
+}
+.btn-section:active { transform: translateY(4px); box-shadow: 0 0 0 var(--primary-dark); }
+
+/* ===== Mode switch ===== */
+.mode-switch { display: inline-flex; flex-wrap: wrap; justify-content: center; background: #e2e8f0; border-radius: 16px; padding: 6px; gap: 6px; margin-bottom: 14px; }
+.mode-btn {
+    border: none; background: transparent; padding: 12px 24px; border-radius: 12px;
+    font-weight: 700; font-size: 1.05rem; cursor: pointer; color: #334155;
+    display: inline-flex; gap: 9px; align-items: center; font-family: inherit; transition: all 0.2s;
+}
+.mode-btn.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(4,120,87,0.35); }
+.screen p.mode-hint { font-size: 0.98rem; color: #475569; margin-bottom: 10px; }
+
+.comp-settings {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px;
+    background: #f0fdf4; border: 2px dashed #86efac; border-radius: 16px; padding: 20px;
+    margin: 10px 0 10px; text-align: left;
+}
+.comp-settings label { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; color: #334155; }
+.comp-settings input, .comp-settings select {
+    width: 100%; padding: 10px 12px; border: 2px solid #cbd5e1; border-radius: 10px;
+    font-size: 1rem; font-family: inherit; background: white;
+}
+.comp-settings input:focus, .comp-settings select:focus { outline: none; border-color: var(--primary); }
+
+/* ===== Game screen ===== */
+#game-screen.screen { padding: 16px; }
+.comp-topbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.comp-topbar h3 { font-size: 1.15rem; color: #475569; }
+
+.arena { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.arena.solo { grid-template-columns: 1fr; max-width: 880px; margin: 0 auto; }
+
+.team-panel.solo { --team: var(--primary); --team-dark: var(--primary-dark); --team-soft: #f0fdf4; }
+.t0 { --team: #2563eb; --team-dark: #1e3a8a; --team-soft: #eff6ff; }
+.t1 { --team: #ea580c; --team-dark: #9a3412; --team-soft: #fff7ed; }
+
+.team-panel {
+    border: 4px solid var(--team); border-radius: 18px; padding: 14px; background: var(--team-soft);
+    display: flex; flex-direction: column; position: relative; overflow: hidden; min-height: 520px;
+}
+.team-panel.solo { min-height: 0; padding: 20px; }
+.team-head {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--team); color: white; border-radius: 12px; padding: 10px 14px; margin-bottom: 10px;
+}
+.team-name { font-size: 1.3rem; font-weight: 800; }
+.team-score { font-size: 1.5rem; font-weight: 800; background: rgba(255,255,255,0.22); padding: 2px 14px; border-radius: 10px; }
+.team-meta { display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--team-dark); margin-bottom: 6px; }
+.timer-num { font-size: 1.4rem; min-width: 48px; text-align: right; }
+.timer-bar { height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden; margin-bottom: 12px; }
+.timer-fill { height: 100%; width: 100%; background: var(--success); transition: width 0.1s linear, background 0.3s; }
+.timer-fill.warn { background: var(--warning); }
+.timer-fill.danger { background: var(--danger); }
+.team-panel.solo .timer-num, .team-panel.solo .timer-bar { display: none; }
+.team-panel.solo .team-meta { margin-bottom: 14px; }
+
+.question-text { font-size: 1.8rem; margin-bottom: 30px; font-weight: 800; color: var(--dark); line-height: 1.4; }
+.team-panel .question-text { font-size: 1.35rem; margin-bottom: 16px; min-height: 3.8em; display: flex; align-items: center; justify-content: center; }
+.team-panel.solo .question-text { font-size: 1.75rem; margin-bottom: 26px; }
+
+.options-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+.team-panel .options-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+.team-panel.solo .options-grid { grid-template-columns: 1fr; gap: 14px; }
+
+.option-btn {
+    background: white; border: 2px solid #e2e8f0; color: var(--dark); padding: 18px; border-radius: 15px;
+    font-size: 1.3rem; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 5px 0 #cbd5e1; position: relative;
+}
+.team-panel .option-btn { font-size: 1.15rem; padding: 14px 10px; }
+.team-panel.solo .option-btn { font-size: 1.3rem; padding: 18px; }
+.option-btn:active { transform: translateY(5px); box-shadow: 0 0 0 #cbd5e1; }
+.option-btn:hover { border-color: var(--team, var(--primary)); background: #f8fafc; }
+.option-btn.correct { background: var(--success); border-color: var(--success); color: white; box-shadow: 0 5px 0 #15803d; }
+.option-btn.wrong { background: var(--danger); border-color: var(--danger); color: white; box-shadow: 0 5px 0 #b91c1c; }
+.option-btn, .bubble, .target { touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+
+.bubbles-container {
+    position: relative; height: 340px; background: linear-gradient(to bottom, #a7f3d0, #f0fdf4);
+    border-radius: 20px; overflow: hidden; border: 4px solid var(--team, var(--primary));
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+}
+.team-panel.solo .bubbles-container { height: 450px; }
+.bubble {
+    position: absolute;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(209,250,229,0.95));
+    border: 2px solid rgba(255,255,255,0.6); border-radius: 50%;
+    display: flex; justify-content: center; align-items: center; font-weight: 800; color: var(--primary-dark);
+    cursor: pointer; box-shadow: 0 8px 15px rgba(0,0,0,0.1), inset -5px -5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.1s; text-align: center; padding: 4px; font-size: 0.85rem; line-height: 1.1;
+    overflow: hidden; word-break: break-word; z-index: 2;
+}
+.bubble:active { transform: scale(0.9); }
+
+.targets-container {
+    position: relative; height: 320px; background: linear-gradient(135deg, #052e22, #065f46);
+    border-radius: 20px; overflow: hidden; border: 4px solid var(--accent); box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+}
+.team-panel.solo .targets-container { height: 400px; }
+.target {
+    position: absolute; background: radial-gradient(circle, #fff, #fcd34d, #f59e0b);
+    border: 4px solid white; padding: 15px 25px; border-radius: 30px; font-weight: 800; color: white;
+    text-shadow: 1px 1px 2px black; cursor: crosshair; display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4); white-space: nowrap; text-align: center; z-index: 2;
+}
+
+.team-flash {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 7rem; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 5;
+}
+.team-flash.show { opacity: 1; }
+.team-flash.correct { color: var(--success); background: rgba(22,163,74,0.12); }
+.team-flash.wrong { color: var(--danger); background: rgba(239,68,68,0.12); }
+
+.team-done {
+    position: absolute; inset: 0; background: rgba(255,255,255,0.93);
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 6; text-align: center; gap: 10px; padding: 20px;
+}
+.team-panel.finished .team-done { display: flex; }
+
+.countdown-overlay {
+    position: fixed; inset: 0; background: rgba(5,46,34,0.82); display: none; align-items: center; justify-content: center;
+    z-index: 2000; color: var(--accent); font-size: 10rem; font-weight: 900; font-family: 'Poppins', sans-serif;
+}
+.countdown-overlay.show { display: flex; }
+
+/* ===== Results ===== */
+.results-list {
+    text-align: left; margin-top: 20px; max-height: 400px; overflow-y: auto;
+    border: 2px solid #e2e8f0; padding: 18px; border-radius: 15px; background: #f8fafc;
+}
+.mistake-item { background: white; padding: 14px; border-left: 5px solid var(--danger); margin-bottom: 12px; border-radius: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.05); }
+.mistake-q { font-weight: 600; margin-bottom: 8px; font-size: 1.05rem; color: var(--dark); }
+.mistake-a { color: var(--success); font-weight: 800; }
+
+.final-score { margin: 18px 0; font-size: 1.9rem; color: var(--primary); }
+.winner-banner { font-size: 2.2rem; font-weight: 900; margin: 10px 0 20px; color: #b45309; }
+.score-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: center; }
+.score-card { border: 4px solid var(--team); background: var(--team-soft); border-radius: 18px; padding: 18px; }
+.score-card.win { box-shadow: 0 0 0 6px var(--accent), 0 10px 25px rgba(0,0,0,0.15); }
+.score-card h4 { font-size: 1.4rem; color: var(--team-dark); }
+.score-card .big { font-size: 3rem; font-weight: 900; color: var(--team-dark); line-height: 1.2; }
+.score-card .meta { color: #475569; font-weight: 600; }
+.score-card .results-list { max-height: 260px; margin-top: 12px; padding: 12px; }
+.results-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 25px; }
+.results-actions button { margin: 0; padding: 15px 30px; font-size: 1.15rem; }
+
+.whatsapp-share { margin-top: 28px; padding: 25px; background: #f0fdf4; border: 2px dashed #25D366; border-radius: 18px; }
+.screen .whatsapp-share p { margin-bottom: 15px; color: var(--dark); font-weight: 700; font-size: 1.1rem; }
+.name-input {
+    width: 100%; max-width: 340px; padding: 14px 18px; border: 2px solid #cbd5e1; border-radius: 12px;
+    font-size: 1.1rem; font-family: 'Poppins', sans-serif; margin-bottom: 15px; text-align: center;
+}
+.name-input:focus { outline: none; border-color: #25D366; }
+.name-input.input-error { border-color: var(--danger); animation: shakeInput 0.4s; }
+@keyframes shakeInput { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.btn-whatsapp {
+    background: #25D366; color: white; border: none; padding: 14px 28px; border-radius: 12px; cursor: pointer;
+    font-size: 1.1rem; font-weight: 700; box-shadow: 0 4px 0 #128C3E; transition: all 0.1s;
+    display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-whatsapp:active { transform: translateY(4px); box-shadow: 0 0 0 #128C3E; }
+
+.main-footer {
+    background: #052e22; color: white; text-align: center; padding: 20px; font-size: 1.15rem;
+    font-weight: 600; letter-spacing: 1px; margin-top: auto; border-top: 4px solid var(--accent);
+}
+.main-footer .brand-mini { font-family: 'Cairo', sans-serif; color: var(--accent); font-weight: 900; }
+
+@media (max-width: 900px) {
+    .arena, .score-cards { grid-template-columns: 1fr; }
+    .team-panel { min-height: auto; }
+}
+@media (max-width: 768px) {
+    header { padding: 22px 18px; flex-direction: column; text-align: center; }
+    .header-content { flex-direction: column; gap: 14px; }
+    .logo-container { width: 140px; height: 170px; }
+    .brand { font-size: 2.4rem; }
+    .titles h2 { font-size: 1.1rem; }
+    .header-actions { flex-direction: row; }
+    .screen { padding: 24px 16px; }
+    .question-text, .team-panel.solo .question-text { font-size: 1.35rem; }
+    .option-btn, .team-panel.solo .option-btn { font-size: 1.1rem; }
+    .social-links a { width: 55px; height: 55px; font-size: 2.2rem; }
+    .team-panel.solo .bubbles-container { height: 380px; }
+    .bubble { font-size: 0.68rem; padding: 2px; }
+    .team-panel.solo .targets-container { height: 320px; }
+    .target { padding: 8px 12px; font-size: 0.72rem; white-space: normal; max-width: 42%; line-height: 1.15; }
+}
+@media (max-width: 480px) {
+    .team-panel.solo .bubbles-container { height: 320px; }
+    .bubble { font-size: 0.6rem; }
+    .team-panel.solo .targets-container { height: 280px; }
+    .target { font-size: 0.65rem; padding: 6px 10px; max-width: 46%; }
+}
+
+/* compact header while a competition is running */
+body.compact header { padding: 10px 20px; flex-direction: row; text-align: left; }
+body.compact .header-content { flex-direction: row; gap: 14px; }
+body.compact .logo-container { width: 54px; height: 66px; border-radius: 10px; border-width: 2px; }
+body.compact .brand { font-size: 1.5rem; }
+body.compact .titles h2 { font-size: 0.9rem; }
+body.compact .titles h3 { display: none; }
+body.compact .header-actions { flex-direction: row; }
+body.compact .home-link { display: none; }
+body.compact .social-links a { width: 44px; height: 44px; font-size: 1.6rem; }
+body.compact .main-footer { display: none; }
+body.compact .container { max-width: 1500px; margin: 12px auto; padding: 10px; }
+
+/* ===== Prim 1 additions (picture & phonics games) ===== */
+.section-hint { font-family: 'Cairo', sans-serif; font-weight: 700; color: var(--primary); font-size: 1rem; }
+.game-card .ar-sub { font-family: 'Cairo', sans-serif; font-size: 0.92rem; font-weight: 700; color: #475569; transition: color 0.3s; }
+.game-card:hover .ar-sub { color: #ecfdf5; }
+.game-card .emo { font-size: 3rem; line-height: 1; }
+
+.play { display: flex; flex-direction: column; align-items: center; gap: 14px; flex: 1; }
+.prompt { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+.prompt-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.p-text { font-size: 1.6rem; font-weight: 800; color: var(--dark); line-height: 1.35; }
+.p-text b { color: var(--primary); }
+.p-sub { font-size: 1rem; color: #64748b; font-weight: 600; }
+.p-sub .ar { font-family: 'Cairo', sans-serif; }
+.slot-let { display: inline-block; min-width: 1.1em; border-bottom: 4px solid var(--accent); color: var(--accent); margin-right: 2px; text-align: center; }
+.word-big { font-size: 2.6rem; font-weight: 800; color: var(--primary-dark); letter-spacing: 1px; }
+.huge-let { font-size: 6rem; font-weight: 800; line-height: 1; color: var(--primary); }
+.big-let { font-size: 2.2rem; color: var(--accent); text-shadow: 1px 2px 0 rgba(0,0,0,0.15); }
+
+.say-btn {
+    width: 58px; height: 58px; border-radius: 50%; border: none; cursor: pointer; flex-shrink: 0;
+    background: var(--accent); color: #3f2d00; font-size: 1.5rem; box-shadow: 0 4px 0 #b45309;
+    display: inline-flex; align-items: center; justify-content: center; touch-action: manipulation;
+}
+.say-btn:active { transform: translateY(4px); box-shadow: none; }
+.say-btn.huge { width: 110px; height: 110px; font-size: 3rem; box-shadow: 0 6px 0 #b45309; }
+.say-btn.pulse { animation: pulse 1.2s ease-in-out 2; }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+
+/* pictures */
+.pic { display: inline-flex; align-items: center; justify-content: center; }
+.pic img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; -webkit-user-drag: none; }
+.pic.big { width: 150px; height: 150px; }
+.team-panel:not(.solo) .pic.big { width: 112px; height: 112px; }
+.pic.mini { width: 54px; height: 54px; flex-shrink: 0; }
+.pic.opt-pic { width: 84px; height: 84px; }
+.team-panel:not(.solo) .pic.opt-pic { width: 66px; height: 66px; }
+.pic.count { flex-wrap: wrap; gap: 6px; width: auto; height: auto; max-width: 300px; }
+.pic.count img { width: 46px; height: 46px; }
+.pic.mini.count, .pic.opt-pic.count { max-width: 120px; }
+.pic.mini.count img { width: 20px; height: 20px; }
+.team-panel:not(.solo) .pic.count img { width: 36px; height: 36px; }
+
+/* in / on / under scenes */
+.pic.scene { position: relative; }
+.pic.scene img { position: absolute; }
+.b-table .s-base { left: 4%; top: 12%; width: 92%; height: 88%; }
+.s-on.b-table .s-obj { width: 42%; height: 42%; left: 29%; top: 7%; }
+.s-under.b-table .s-obj { width: 36%; height: 36%; left: 32%; bottom: 1%; }
+.b-box .s-back { left: 8%; top: 40%; width: 84%; height: 56%; }
+.b-box .s-front { left: 8%; top: 62%; width: 84%; height: 38%; }
+.s-in.b-box .s-obj { width: 46%; height: 46%; left: 27%; top: 30%; }
+.b-box .s-base { left: 8%; top: 52%; width: 84%; height: 46%; }
+.s-on.b-box .s-obj { width: 44%; height: 44%; left: 28%; top: 9%; }
+
+/* options */
+.opts { display: grid; gap: 12px; width: 100%; max-width: 640px; }
+.opts.words { grid-template-columns: 1fr; max-width: 420px; }
+.team-panel:not(.solo) .opts.words { grid-template-columns: 1fr; }
+.opts.pics { grid-template-columns: repeat(3, 1fr); max-width: 520px; }
+.opts.letters { grid-template-columns: repeat(3, 1fr); max-width: 420px; }
+.opts.yesno { grid-template-columns: 1fr 1fr; max-width: 420px; }
+.opt {
+    background: white; border: 3px solid #e2e8f0; color: var(--dark); border-radius: 18px; cursor: pointer;
+    font-family: inherit; font-weight: 800; font-size: 1.45rem; padding: 14px 10px; box-shadow: 0 5px 0 #cbd5e1;
+    transition: background 0.15s, border-color 0.15s; touch-action: manipulation; user-select: none; -webkit-user-select: none;
+    display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 64px;
+}
+.opt:hover { border-color: var(--team, var(--primary)); }
+.opt:active { transform: translateY(4px); box-shadow: 0 1px 0 #cbd5e1; }
+.opts.pics .opt { padding: 10px; aspect-ratio: 1 / 1; }
+.opts.letters .opt { font-size: 2.6rem; aspect-ratio: 1 / 1; border-radius: 50%; padding: 0; }
+.opts.yesno .opt { font-size: 1.6rem; min-height: 86px; }
+.opts.yesno .opt.yes i { color: var(--success); font-size: 2.2rem; }
+.opts.yesno .opt.no i { color: var(--danger); font-size: 2.2rem; }
+.opt.correct { background: var(--success); border-color: var(--success); color: white; box-shadow: 0 5px 0 #15803d; }
+.opt.wrong { background: var(--danger); border-color: var(--danger); color: white; box-shadow: 0 5px 0 #b91c1c; }
+.opt.correct i, .opt.wrong i { color: white !important; }
+.opt[disabled] { cursor: default; }
+
+/* spell it */
+.slots, .tiles { display: flex; gap: 8px; justify-content: center; flex-wrap: nowrap; }
+.slot, .tile {
+    width: 54px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; font-weight: 800; touch-action: manipulation; user-select: none; -webkit-user-select: none;
+}
+.slot { border: 3px dashed #94a3b8; background: #f8fafc; color: var(--primary-dark); cursor: pointer; }
+.slot.filled { border-style: solid; border-color: var(--primary); background: #ecfdf5; }
+.slot.good { background: var(--success); border-color: var(--success); color: white; }
+.slot.bad { background: var(--danger); border-color: var(--danger); color: white; }
+.tile { border: none; background: var(--accent); color: #3f2d00; box-shadow: 0 5px 0 #b45309; cursor: pointer; font-family: inherit; }
+.tile:active { transform: translateY(4px); box-shadow: none; }
+.tile.used { visibility: hidden; }
+.spell-answer { font-size: 1.3rem; font-weight: 800; color: var(--success); min-height: 1.6em; }
+
+/* match up */
+.match-board { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 26px; width: 100%; max-width: 560px; }
+.match-col { display: flex; flex-direction: column; gap: 12px; }
+.m-item {
+    background: white; border: 3px solid #e2e8f0; border-radius: 16px; min-height: 78px; padding: 6px 8px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 800; font-size: 1.35rem;
+    box-shadow: 0 4px 0 #cbd5e1; touch-action: manipulation; user-select: none; -webkit-user-select: none; font-family: inherit; color: var(--dark);
+}
+.m-item .pic { width: 64px; height: 64px; }
+.m-item .pic.count { max-width: 130px; }
+.m-item.let { font-size: 2.2rem; }
+.m-item.sel { border-color: var(--accent); background: #fef9c3; transform: scale(1.04); }
+.m-item.bad { border-color: var(--danger); background: #fee2e2; animation: shakeInput 0.4s; }
+.m-item.done { cursor: default; color: white; box-shadow: none; }
+.m-item.done.c0 { background: #22c55e; border-color: #16a34a; }
+.m-item.done.c1 { background: #3b82f6; border-color: #2563eb; }
+.m-item.done.c2 { background: #a855f7; border-color: #9333ea; }
+.m-item.done.c3 { background: #f97316; border-color: #ea580c; }
+
+/* bubbles with pictures / letters */
+.play .bubbles-container { width: 100%; }
+.bubble .pic { width: 70%; height: 70%; }
+.bubble.let { font-size: 2.4rem !important; color: var(--primary-dark); }
+
+/* stars on result */
+.stars { font-size: 3rem; letter-spacing: 6px; margin: 6px 0 4px; }
+.stars .off { filter: grayscale(1); opacity: 0.3; }
+.mistake-item.rev { display: flex; align-items: center; gap: 12px; }
+.mistake-item.rev .pic.scene { width: 54px; height: 54px; }
+
+@media (max-width: 768px) {
+    .p-text { font-size: 1.3rem; }
+    .word-big { font-size: 2.1rem; }
+    .huge-let { font-size: 4.8rem; }
+    .opt { font-size: 1.25rem; min-height: 58px; }
+    .opts.letters .opt { font-size: 2.2rem; }
+    .pic.big { width: 130px; height: 130px; }
+    .pic.opt-pic { width: 70px; height: 70px; }
+    .slot, .tile { width: 42px; height: 50px; font-size: 1.6rem; }
+    .slots, .tiles { gap: 6px; }
+    .m-item { min-height: 66px; font-size: 1.15rem; }
+    .m-item .pic { width: 52px; height: 52px; }
+    .match-board { gap: 10px 16px; }
+}
+@media (max-width: 400px) {
+    .slot, .tile { width: 36px; height: 46px; font-size: 1.4rem; }
+    .slots, .tiles { gap: 5px; }
+    .pic.count img { width: 36px; height: 36px; }
+}
+
+/* fixes: keep 3 picture options inside narrow phones; counting grids show 5 per row */
+.opts.pics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.opts.letters { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.opts.pics .opt .pic.opt-pic { width: 100%; height: auto; aspect-ratio: 1 / 1; max-width: 84px; }
+.opt .pic.count { max-width: 100%; gap: 2px; }
+.opt .pic.count img { width: 22px; height: 22px; }
+.pic.count, .pic.big.count, .team-panel:not(.solo) .pic.big.count { width: auto; height: auto; max-width: 262px; }
+.pic.count img { flex-shrink: 0; }
+.team-panel:not(.solo) .pic.big.count { max-width: 210px; }
+.pic.mini.count { max-width: 120px; }
+@media (max-width: 400px) { .pic.big.count { max-width: 222px; } }
+.pic.count img, .team-panel.solo .pic.count img { width: 52px; height: 52px; }
+.pic.count, .pic.big.count { max-width: 290px; gap: 6px; }
+.team-panel:not(.solo) .pic.big.count { max-width: 226px; }
+.team-panel:not(.solo) .pic.count img { width: 40px; height: 40px; }
+.opt .pic.count img { width: 22px !important; height: 22px !important; }
+.pic.mini.count img { width: 18px !important; height: 18px !important; }
+#games-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+@media (max-width: 768px) {
+    .pic.count img, .team-panel.solo .pic.count img { width: 44px; height: 44px; }
+    .pic.count, .pic.big.count { max-width: 246px; }
+    #games-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    #games-grid .game-card { padding: 18px 10px; gap: 8px; }
+    #games-grid .game-card h3 { font-size: 1.05rem; }
+    #games-grid .game-card .ar-sub { font-size: 0.8rem; }
+    #games-grid .game-card .emo { font-size: 2.4rem; }
+}
+@media (max-width: 400px) {
+    .pic.count img, .team-panel.solo .pic.count img { width: 40px; height: 40px; }
+    .pic.count, .pic.big.count { max-width: 226px; }
+}
+</style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="data:image/jpeg;base64,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" alt="Mr Ahmed Usama">
+            </div>
+            <div class="titles">
+                <div class="brand" dir="rtl">المستـــR</div>
+                <h2>Mr Ahmed Usama</h2>
+                <h3>Prim 1 - Unit 1: Welcome to My School | Phonics: Tt · Ii</h3>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="social-links">
+                <a href="https://wa.me/201278040762" target="_blank" title="Contact via WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <a class="home-link" href="../index.html"><i class="fas fa-th-large"></i> All Units</a>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div id="section-select" class="screen active">
+            <h2>Welcome! Choose what to practice:</h2>
+            <p>Prim 1 - Unit 1: Welcome to My School</p>
+            <div class="menu-grid">
+                <div class="game-card" onclick="chooseSection('vocab')">
+                    <span class="emo">🖼️</span>
+                    <h3>Words &amp; Pictures<br><span style="font-size:0.85rem;font-weight:400;">Unit 1 Words</span></h3>
+                    <span class="ar-sub" dir="rtl">الكلمات والصور</span>
+                </div>
+                <div class="game-card" onclick="chooseSection('phonics')">
+                    <span class="emo">🔤</span>
+                    <h3>Letters &amp; Phonics<br><span style="font-size:0.85rem;font-weight:400;">Letters Tt · Ii</span></h3>
+                    <span class="ar-sub" dir="rtl">الحروف وأصواتها</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="main-menu" class="screen">
+            <button class="btn-section" onclick="switchScreen('section-select')"><i class="fas fa-arrow-left"></i> Back to Sections</button>
+            <h2 id="menu-title">Choose a game:</h2>
+            <p id="menu-desc"></p>
+
+            <div class="mode-switch">
+                <button class="mode-btn active" id="mode-solo" onclick="setMode('solo')"><i class="fas fa-user"></i> Play Now</button>
+                <button class="mode-btn" id="mode-comp" onclick="setMode('comp')"><i class="fas fa-users"></i> Team Competition</button>
+            </div>
+            <p class="mode-hint" id="mode-hint"></p>
+
+            <div class="comp-settings" id="comp-settings" style="display:none">
+                <div>
+                    <label><i class="fas fa-users" style="color:#2563eb"></i> Team 1 name</label>
+                    <input type="text" id="team1-name" value="Team A" maxlength="20">
+                </div>
+                <div>
+                    <label><i class="fas fa-users" style="color:#ea580c"></i> Team 2 name</label>
+                    <input type="text" id="team2-name" value="Team B" maxlength="20">
+                </div>
+                <div>
+                    <label><i class="fas fa-random"></i> Questions</label>
+                    <select id="q-mode">
+                        <option value="different" selected>Different questions for each team</option>
+                        <option value="same">Same questions, different order</option>
+                    </select>
+                </div>
+                <div>
+                    <label><i class="fas fa-stopwatch"></i> Time per question</label>
+                    <select id="q-time">
+                        <option value="15">15 seconds</option>
+                        <option value="20" selected>20 seconds</option>
+                        <option value="30">30 seconds</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="menu-grid" id="games-grid"></div>
+        </div>
+
+        <div id="game-screen" class="screen">
+            <div class="comp-topbar">
+                <button class="btn-back" id="btn-stop" onclick="returnToMenu()"><i class="fas fa-arrow-left"></i> Back</button>
+                <h3 id="comp-title"></h3>
+                <h3 id="comp-time-wrap"><i class="fas fa-stopwatch"></i> <span id="comp-time-label">20</span>s / question</h3>
+            </div>
+            <div class="arena" id="arena"></div>
+        </div>
+
+        <div id="solo-results" class="screen">
+            <h2>Well done! 🎉</h2>
+            <div class="stars" id="stars"></div>
+            <h3 class="final-score">Final Score: <span id="final-score"></span> / <span id="final-total"></span></h3>
+            <div id="mistakes-container" class="results-list"></div>
+
+            <div class="whatsapp-share">
+                <p>📩 Send your result to Mr Ahmed Usama</p>
+                <input type="text" id="student-name-input" class="name-input" placeholder="Type your name here">
+                <br>
+                <button class="btn-whatsapp" onclick="sendSoloResult()"><i class="fab fa-whatsapp"></i> Send Result via WhatsApp</button>
+            </div>
+
+            <div class="results-actions">
+                <button class="btn-section" onclick="startGame(currentGameId)"><i class="fas fa-redo"></i> Play Again</button>
+                <button class="btn-back" style="background: var(--dark); box-shadow: 0 5px 0 #000;" onclick="returnToMenu()"><i class="fas fa-home"></i> Main Menu</button>
+            </div>
+        </div>
+
+        <div id="results-screen" class="screen">
+            <h2>Competition Over!</h2>
+            <div class="winner-banner" id="winner-banner"></div>
+            <div class="score-cards" id="score-cards"></div>
+
+            <div class="whatsapp-share">
+                <p>📩 Send the competition result to Mr Ahmed Usama</p>
+                <input type="text" id="class-name-input" class="name-input" placeholder="Class name (optional)">
+                <br>
+                <button class="btn-whatsapp" onclick="sendCompResult()"><i class="fab fa-whatsapp"></i> Send Result via WhatsApp</button>
+            </div>
+
+            <div class="results-actions">
+                <button class="btn-section" onclick="startGame(currentGameId)"><i class="fas fa-redo"></i> Rematch</button>
+                <button class="btn-back" style="background: var(--dark); box-shadow: 0 5px 0 #000;" onclick="returnToMenu()"><i class="fas fa-home"></i> Main Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        Mr Ahmed Usama — <span class="brand-mini" dir="rtl">المستـــR</span>
+    </footer>
+
+    <div class="countdown-overlay" id="countdown"></div>
+
+    <script>
+        const D = {"grade": "Prim 1", "num": 1, "name": "Welcome to My School", "letters": ["t", "i"], "prevLetters": [], "words": [{"w": "hello", "p": "hello"}, {"w": "shake hands", "p": "shake hands"}, {"w": "play", "p": "play"}, {"w": "friends", "p": "friends"}, {"w": "teacher", "p": "teacher"}, {"w": "book", "p": "book"}, {"w": "bag", "p": "bag"}, {"w": "pencil", "p": "pencil"}, {"w": "chair", "p": "chair"}, {"w": "desk", "p": "desk"}, {"w": "board", "p": "board"}, {"w": "table", "p": "table"}, {"w": "tomato", "p": "tomato"}, {"w": "tiger", "p": "tiger"}, {"w": "tree", "p": "tree"}, {"w": "ill", "p": "ill"}, {"w": "insect", "p": "insect"}, {"w": "ink", "p": "ink"}], "sent": [{"t": "Hello! What's your ____?", "pic": "hello", "ans": "name", "wrong": ["book", "bag"]}, {"t": "Nice to ____ you!", "pic": "shake hands", "ans": "meet", "wrong": ["play", "open"]}, {"t": "Open your ____.", "pic": "book", "ans": "books", "wrong": ["trees", "tigers"]}, {"t": "I write with a ____.", "pic": "pencil", "ans": "pencil", "wrong": ["chair", "tomato"]}, {"t": "I sit on a ____.", "pic": "chair", "ans": "chair", "wrong": ["pencil", "tree"]}, {"t": "My books are in my ____.", "pic": "bag", "ans": "bag", "wrong": ["tree", "tomato"]}], "yesno": [{"t": "This is a teacher.", "pic": "teacher", "yes": true}, {"t": "This is a tiger.", "pic": "tree", "yes": false}, {"t": "I can see a bag.", "pic": "bag", "yes": true}, {"t": "This is a tomato.", "pic": "tomato", "yes": true}, {"t": "This is a chair.", "pic": "desk", "yes": false}, {"t": "Shake hands!", "pic": "shake hands", "yes": true}], "picq": [{"t": "I write with a ____.", "ans": "pencil", "wrong": ["chair", "tree"]}, {"t": "I sit on a ____.", "ans": "chair", "wrong": ["tiger", "tomato"]}, {"t": "Open your ____.", "ans": "book", "wrong": ["tiger", "tree"]}, {"t": "Hello! I am your ____.", "ans": "teacher", "wrong": ["tiger", "tomato"]}], "scenes": [], "count": null, "avoid": []};
+        const PIC_SRC = {"bag": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#C1694F\" d=\"M11.946 27C-1.036 7.876 7.524 2.752 9.114 2c.149-.07.242-.105.245-.107A.998.998 0 0 0 9.888.768 1.01 1.01 0 0 0 8.903 0H4.847C1.054 0-4.282 11 5.859 28c.151.253 5.073 0 5.073 0 .559 0 1.324-.541 1.014-1zM31.229 0h-4a1 1 0 0 0-.45 1.893c.004.002.095.037.242.107 1.568.752 10.01 5.876-2.792 25-.307.459.448 1 1 1 0 0 4.854.253 5.002 0 10-17 4.739-28 .998-28z\"/><path fill=\"#662113\" d=\"m6.889 28.836.004.01c-.064-.293 5.363-1.387 5.053-1.846C-1.036 7.876 7.524 2.752 9.114 2H4.845C1.053 2-3.268 13 6.889 28.836zM31.231 2h-4.21c1.568.752 10.01 5.876-2.792 25-.307.459 4.984 1.839 4.986 1.836C39.231 13 34.971 2 31.231 2z\"/><path fill=\"#C1694F\" d=\"M9.916 8a1.007 1.007 0 0 1-1.015-1c0-3.316-2.028-5-4.056-5-.47 0-.08-.782.029-1.232.11-.45.516-.768.985-.768h5.071c3.791 0 4.938 6.136 5.057 6.835a.993.993 0 0 1-.226.811 1.026 1.026 0 0 1-.775.354h-5.07zm16.315 0a1 1 0 0 0 1-1c0-3.316 2-5 4-5 .463 0 .078-.782-.029-1.232A.998.998 0 0 0 30.231 0h-5c-3.738 0-4.869 6.136-4.986 6.835A.999.999 0 0 0 21.231 8h5z\"/><path fill=\"#BE1931\" d=\"M6 32s0 4 4 4h16s4 0 4-4V10s0-4-4-4H10c-4 0-4 4-4 4v22z\"/><path fill=\"#A0041E\" d=\"M24 28H12c-2.201 0-3-1.794-3-3V11a1 1 0 0 1 2 0v14c.012.45.195 1 1 1h12c.45-.012 1-.194 1-1V11a1 1 0 1 1 2 0v14c0 2.201-1.794 3-3 3z\"/><path fill=\"#FFF\" d=\"M16 25s0-1 1-1h2s1 0 1 1v5s0 1-1 1h-2s-1 0-1-1v-5z\"/></svg>", "board": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><rect x=\"2\" y=\"4\" width=\"32\" height=\"23\" rx=\"2\" fill=\"#8B5A2B\"/><rect x=\"4\" y=\"6\" width=\"28\" height=\"19\" rx=\"1\" fill=\"#2F6B3A\"/><path d=\"M8 11h9M8 15h14M8 19h6\" stroke=\"#fff\" stroke-width=\"1.4\" stroke-linecap=\"round\"/><text x=\"25\" y=\"14\" font-family=\"Arial\" font-weight=\"bold\" font-size=\"6\" fill=\"#fff\">A</text><rect x=\"12\" y=\"27\" width=\"2\" height=\"7\" fill=\"#6E4320\"/><rect x=\"22\" y=\"27\" width=\"2\" height=\"7\" fill=\"#6E4320\"/><rect x=\"14\" y=\"24\" width=\"6\" height=\"1.4\" rx=\".7\" fill=\"#F3F4F6\"/></svg>", "book": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#269\" d=\"M32 7H4a4 4 0 0 0-4 4v15a4 4 0 0 0 4 4h11.416c.52.596 1.477 1 2.584 1s2.065-.404 2.584-1H32a4 4 0 0 0 4-4V11a4 4 0 0 0-4-4z\"/><path fill=\"#292F33\" d=\"M20 27a2 2 0 0 1-4 0V9a2 2 0 0 1 4 0v18z\"/><path fill=\"#99AAB5\" d=\"M18 26a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v18z\"/><path fill=\"#E1E8ED\" d=\"M18 26c-.999-1.998-3.657-2-4-2-2 0-5 2-8 2-1 0-2-.896-2-2V8c0-1.104 1-2 2-2 3.255 0 6-2 8-2 3 0 4 1.896 4 3v19z\"/><path fill=\"#99AAB5\" d=\"M34 26a2 2 0 0 1-2 2H20a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v18z\"/><path fill=\"#CCD6DD\" d=\"M18 26c.999-1.998 3.657-2 4-2 2 0 5 2 8 2 1 0 2-.896 2-2V8c0-1.104-1-2-2-2-3.256 0-6-2-8-2-3 0-4 1.896-4 3v19z\"/></svg>", "chair": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#A4523A\" d=\"M12 20c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2s2-.9 2-2V22c0-1.1-.9-2-2-2zm18 0c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2s2-.9 2-2V22c0-1.1-.9-2-2-2z\"/><path fill=\"#C1694F\" d=\"M13 2h16v8H13z\"/><path fill=\"#C1694F\" d=\"M16 9h2v13h-2zm4 0h2v13h-2zm4 0h2v13h-2zM7 23c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2s2-.9 2-2v-9c0-1.1-.9-2-2-2z\"/><path fill=\"#C1694F\" d=\"M25 21c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2s2-.9 2-2V23c0-1.1-.9-2-2-2zM12 0c-1.1 0-2 .9-2 2v20h4V2c0-1.1-.9-2-2-2zm18 0c-1.1 0-2 .9-2 2v20h4V2c0-1.1-.9-2-2-2z\"/><path fill=\"#A4523A\" d=\"M14 2h1v8h-1zm14 8h-1V2h1z\"/><path fill=\"#D99E82\" d=\"M30.769 20H10.341c-.223 0-.442.061-.633.175l-5.954 3.041s22.726 2.418 24.726 2.418l3.029-2.265c.309-.232.491-.597.491-.985v-1.153A1.23 1.23 0 0 0 30.769 20z\"/><path fill=\"#A4523A\" d=\"M16 10h2v1h-2zM5 26h4v1H5zm18 0h4v1h-4zm-3-16h2v1h-2zm4 0h2v1h-2z\"/><path fill=\"#C1694F\" d=\"M27.44 26H4.56C3.698 26 3 25.328 3 24.5S3.698 23 4.56 23h22.88c.862 0 1.56.672 1.56 1.5s-.698 1.5-1.56 1.5z\"/></svg>", "desk": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><rect x=\"2\" y=\"10\" width=\"32\" height=\"4\" rx=\"1.5\" fill=\"#C98B4F\"/><rect x=\"20\" y=\"14\" width=\"12\" height=\"8\" fill=\"#9B6232\"/><rect x=\"21.5\" y=\"16\" width=\"9\" height=\"1.5\" rx=\".7\" fill=\"#6E4320\"/><rect x=\"5\" y=\"14\" width=\"2.6\" height=\"20\" rx=\"1\" fill=\"#6B7280\"/><rect x=\"28.5\" y=\"22\" width=\"2.6\" height=\"12\" rx=\"1\" fill=\"#6B7280\"/><rect x=\"5\" y=\"31\" width=\"26\" height=\"2\" rx=\"1\" fill=\"#4B5563\"/></svg>", "friends": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#FFDC5D\" d=\"M18.154 26.76c.271.091.487-.159.586-.302.279-.405.422-1.309.004-2.227-.423-.927-.702-2.072-1.69-3.821-.115-.204-.494-2.746-1.242-4.354-.202-.435-1.495-.684-2.009-.529-.513.154.005.98.037 1.134.344 1.651 1.305 4.077 1.45 4.404.8 1.806 1.965 2.389 2.071 3.706.055.69.205 1.286.6 1.228.092.352.093.728.193.761zm-14.823.204c-.257.126-.504-.094-.62-.222-.33-.365-.591-1.242-.296-2.208.297-.975.424-2.146 1.174-4.01.087-.217.129-2.787.66-4.479.143-.457 1.392-.875 1.922-.789.529.086.124.972.112 1.129-.124 1.682-.758 4.213-.859 4.556-.556 1.895-1.634 2.627-1.566 3.946.036.692-.034 1.302-.433 1.296-.048.363 0 .735-.094.781z\"/><path fill=\"#5C913B\" d=\"M6.488 29.5c-.5-2.734-.263-6.48-.263-6.48h7.644s.238 3.746-.262 6.48c-.063.344-.188 3.344.109 5.5.066.479-2.886.937-2.844-.125.078-1.969-.264-3.513-.328-4.5-.035-.547-.25-1.875-.344-3.208-.011-.018-.295-.018-.306 0-.094 1.333-.308 2.661-.344 3.208-.064.987-.406 2.531-.328 4.5.042 1.062-2.91.604-2.844.125.297-2.156.172-5.156.11-5.5z\"/><path fill=\"#292F33\" d=\"M5.503 36c-.499-.406.041-1.161 1.42-1.402 1.163-.203 2.2-.032 2.363.35.212.493.05 1.052.05 1.052H5.503zm9.117 0c.499-.406-.041-1.161-1.42-1.402-1.163-.203-2.2-.032-2.363.35-.212.493-.05 1.052-.05 1.052h3.833z\"/><path fill=\"#99AAB5\" d=\"M5.246 14.766C6.465 14 8.043 14 8.043 14h4s1.578 0 2.797.766c1.201.754 1.656 3 1.656 3l-2.373.688-.105 5.527h-7.95l-.105-5.527-2.373-.688s.455-2.246 1.656-3z\"/><path fill=\"#FFAC33\" d=\"M12.217.49C11.114.133 8.519.23 7.87 1.074c-1.687.032-3.666 1.557-3.926 3.569-.257 1.991.316 2.915.519 4.412.231 1.696 1.184 2.239 1.947 2.466 1.097 1.449 2.263 1.387 4.22 1.387 3.823 0 5.644-2.558 5.805-6.902.097-2.629-1.445-4.619-4.218-5.516z\"/><path fill=\"#FFDC5D\" d=\"M8.446 11.599v2.458c0 .905.688 2.72 1.638 2.72s1.638-1.815 1.638-2.72v-2.458H8.446z\"/><path fill=\"#F9CA55\" d=\"M8.446 13.716c.498.563.965.704 1.637.704.671 0 1.142-.142 1.64-.704v-.666H8.446v.666z\"/><path fill=\"#FFDC5D\" d=\"M14.403 6.191c-.37-.512-.843-.925-1.882-1.071.389.178.762.795.811 1.135.049.341.097.616-.211.276-1.235-1.365-2.579-.827-3.912-1.661-.93-.582-1.213-1.226-1.213-1.226s-.114.86-1.525 1.736c-.409.254-.897.819-1.168 1.655-.195.6-.134 1.136-.134 2.05 0 2.67 2.201 4.915 4.915 4.915s4.915-2.265 4.915-4.915c0-1.661-.174-2.31-.596-2.894z\"/><path fill=\"#C1694F\" d=\"M12 12H8s0 1 2 1 2-1 2-1z\"/><circle cx=\"7.5\" cy=\"8.5\" r=\".5\" fill=\"#662113\"/><circle cx=\"12.5\" cy=\"8.5\" r=\".5\" fill=\"#662113\"/><path fill=\"#C1694F\" d=\"M9 10h2s0 1-1 1-1-1-1-1z\"/><path fill=\"#FFDC5D\" d=\"M18.074 26.76c-.271.091-.487-.159-.586-.302-.279-.405-.422-1.309-.004-2.227.423-.927.702-2.072 1.69-3.821.115-.204.494-2.746 1.242-4.354.202-.435 1.495-.684 2.009-.529.513.154-.005.98-.037 1.134-.344 1.651-1.305 4.077-1.45 4.404-.8 1.806-1.965 2.389-2.071 3.706-.055.69-.205 1.286-.6 1.228-.093.352-.094.728-.193.761zm14.595.204c.257.126.504-.094.62-.222.33-.365.591-1.242.296-2.208-.297-.975-.424-2.146-1.174-4.01-.087-.217-.129-2.787-.66-4.479-.143-.457-1.392-.875-1.922-.789-.529.086-.124.972-.112 1.129.124 1.682.758 4.213.859 4.556.556 1.895 1.634 2.627 1.566 3.946-.036.692.034 1.302.433 1.296.048.363 0 .735.094.781z\"/><path fill=\"#4289C1\" d=\"M29.512 29.5c.5-2.734.263-6.48.263-6.48h-7.644s-.238 3.746.262 6.48c.063.344.188 3.344-.109 5.5-.066.479 2.886.937 2.844-.125-.078-1.969.264-3.513.328-4.5.035-.547.25-1.875.344-3.208.011-.018.295-.018.306 0 .094 1.333.308 2.661.344 3.208.064.987.406 2.531.328 4.5-.042 1.062 2.91.604 2.844.125-.297-2.156-.172-5.156-.11-5.5z\"/><path fill=\"#292F33\" d=\"M30.497 36c.499-.406-.041-1.161-1.42-1.402-1.163-.203-2.2-.032-2.363.35-.212.493-.05 1.052-.05 1.052h3.833zm-9.117 0c-.499-.406.041-1.161 1.42-1.402 1.163-.203 2.2-.032 2.363.35.212.494.05 1.053.05 1.053L21.38 36z\"/><path fill=\"#FA743E\" d=\"M30.754 14.766C29.535 14 27.957 14 27.957 14h-4s-1.578 0-2.797.766c-1.201.754-1.656 3-1.656 3l2.373.688.105 5.527h7.95l.105-5.527 2.373-.688s-.455-2.246-1.656-3z\"/><path fill=\"#FFAC33\" d=\"M28.015.49c-1.103-.357-3.699-.26-4.347.584-1.687.032-3.666 1.557-3.926 3.569-.257 1.991.316 2.915.519 4.412.231 1.696 1.184 2.239 1.947 2.466 1.097 1.449 2.263 1.387 4.22 1.387 3.823 0 5.644-2.558 5.805-6.902.097-2.629-1.445-4.619-4.218-5.516z\"/><path fill=\"#FFDC5D\" d=\"M24.239 11.599v2.458c0 .905.688 2.72 1.638 2.72s1.638-1.815 1.638-2.72v-2.458h-3.276z\"/><path fill=\"#F9CA55\" d=\"M24.24 13.716c.498.563.965.704 1.637.704.671 0 1.142-.142 1.64-.704v-.666H24.24v.666z\"/><path fill=\"#FFDC5D\" d=\"M30.201 6.191c-.37-.512-.844-.925-1.882-1.071.389.178.762.795.811 1.135.049.341.097.616-.211.276-1.235-1.365-2.579-.827-3.912-1.661-.931-.582-1.214-1.226-1.214-1.226s-.114.86-1.525 1.736c-.409.254-.897.819-1.168 1.655-.195.6-.134 1.136-.134 2.05 0 2.67 2.201 4.915 4.915 4.915s4.915-2.265 4.915-4.915c.001-1.661-.173-2.31-.595-2.894z\"/><path fill=\"#C1694F\" d=\"M28 12h-4s0 1 2 1 2-1 2-1z\"/><circle cx=\"23.5\" cy=\"8.5\" r=\".5\" fill=\"#662113\"/><circle cx=\"28.5\" cy=\"8.5\" r=\".5\" fill=\"#662113\"/><path fill=\"#C1694F\" d=\"M25 10h2s0 1-1 1-1-1-1-1z\"/></svg>", "hello": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#EF9645\" d=\"M4.861 9.147c.94-.657 2.357-.531 3.201.166l-.968-1.407c-.779-1.111-.5-2.313.612-3.093 1.112-.777 4.263 1.312 4.263 1.312-.786-1.122-.639-2.544.483-3.331a2.483 2.483 0 0 1 3.456.611l10.42 14.72L25 31l-11.083-4.042L4.25 12.625a2.495 2.495 0 0 1 .611-3.478z\"/><path fill=\"#FFDC5D\" d=\"M2.695 17.336s-1.132-1.65.519-2.781c1.649-1.131 2.78.518 2.78.518l5.251 7.658c.181-.302.379-.6.6-.894L4.557 11.21s-1.131-1.649.519-2.78c1.649-1.131 2.78.518 2.78.518l6.855 9.997c.255-.208.516-.417.785-.622L7.549 6.732s-1.131-1.649.519-2.78c1.649-1.131 2.78.518 2.78.518l7.947 11.589c.292-.179.581-.334.871-.498L12.238 4.729s-1.131-1.649.518-2.78c1.649-1.131 2.78.518 2.78.518l7.854 11.454 1.194 1.742c-4.948 3.394-5.419 9.779-2.592 13.902.565.825 1.39.26 1.39.26-3.393-4.949-2.357-10.51 2.592-13.903L24.515 8.62s-.545-1.924 1.378-2.47c1.924-.545 2.47 1.379 2.47 1.379l1.685 5.004c.668 1.984 1.379 3.961 2.32 5.831 2.657 5.28 1.07 11.842-3.94 15.279-5.465 3.747-12.936 2.354-16.684-3.11L2.695 17.336z\"/><g fill=\"#5DADEC\"><path d=\"M12 32.042C8 32.042 3.958 28 3.958 24c0-.553-.405-1-.958-1s-1.042.447-1.042 1C1.958 30 6 34.042 12 34.042c.553 0 1-.489 1-1.042s-.447-.958-1-.958z\"/><path d=\"M7 34c-3 0-5-2-5-5a1 1 0 1 0-2 0c0 4 3 7 7 7a1 1 0 1 0 0-2zM24 2a1 1 0 0 0 0 2c4 0 8 3.589 8 8a1 1 0 0 0 2 0c0-5.514-4-10-10-10z\"/><path d=\"M29 .042c-.552 0-1 .406-1 .958s.448 1.042 1 1.042c3 0 4.958 2.225 4.958 4.958 0 .552.489 1 1.042 1s.958-.448.958-1C35.958 3.163 33 .042 29 .042z\"/></g></svg>", "ill": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><circle cx=\"18\" cy=\"18\" r=\"18\" fill=\"#FFCC4D\"/><ellipse cx=\"12.5\" cy=\"16.5\" fill=\"#664500\" rx=\"2.5\" ry=\"3.5\"/><ellipse cx=\"23.5\" cy=\"16.5\" fill=\"#664500\" rx=\"2.5\" ry=\"3.5\"/><path fill=\"#664500\" d=\"M29 12c-5.554 0-7.802-4.367-7.895-4.553a1 1 0 0 1 1.787-.899C22.967 6.694 24.713 10 29 10a1 1 0 1 1 0 2zm-22-.006a1 1 0 0 1 0-2c5.083 0 5.996-3.12 6.033-3.253.145-.528.69-.848 1.219-.709.53.139.851.673.718 1.205-.049.194-1.266 4.757-7.97 4.757z\"/><path fill=\"#FFAC33\" d=\"m35.968 17.068-4.005.813-16.187 10.508 7.118.963 11.685-7.211c.703-.431.994-.835 1.198-1.747s.191-3.326.191-3.326z\"/><path fill=\"#664500\" d=\"M23.485 29.379C23.474 29.335 22.34 26.5 18 26.5s-5.474 2.835-5.485 2.879a.496.496 0 0 0 .232.544.51.51 0 0 0 .596-.06C13.352 29.855 14.356 29 18 29c3.59 0 4.617.83 4.656.863a.5.5 0 0 0 .829-.484z\"/><path fill=\"#CCD6DD\" d=\"M35.474 15.729a2.502 2.502 0 0 0-3.501-.5L14.767 28.137c.646-.242 1.51-.444 2.615-.522.256-.018 2.66-.627 2.66-.627l1.293 1.036s.911.367 1.197.539l12.444-9.335a2.5 2.5 0 0 0 .498-3.499z\"/><path fill=\"#DA2F47\" d=\"M28.686 20.87c-.448-.596-.787-1.145-1.383-.698l-9.922 7.443c.256-.018.5-.042.783-.044 1.36-.009 2.4.195 3.17.452l7.588-5.692c.596-.447.211-.864-.236-1.461z\"/><path fill=\"#67757F\" d=\"m18.599 25.228 1.234 1.598.741-.595-1.197-1.587zm2.223-1.661 1.235 1.598.741-.595-1.197-1.587zm2.184-1.619 1.234 1.598.741-.595-1.197-1.587zm2.181-1.66 1.235 1.597.741-.594-1.197-1.587zm2.238-1.641 1.235 1.598.74-.595-1.196-1.587zm2.14-1.618 1.235 1.598.74-.595-1.196-1.587z\"/><path fill=\"#452E04\" d=\"m22.531 28.563.805.522s-.197-.362-.526-.726l-.279.204z\"/></svg>", "ink": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><rect x=\"13\" y=\"4\" width=\"10\" height=\"5\" rx=\"1\" fill=\"#4B5563\"/><rect x=\"14.5\" y=\"8.5\" width=\"7\" height=\"4\" fill=\"#374151\"/><rect x=\"8\" y=\"12\" width=\"20\" height=\"21\" rx=\"4\" fill=\"#111827\"/><rect x=\"10.5\" y=\"18\" width=\"15\" height=\"8\" rx=\"1\" fill=\"#F9FAFB\"/><text x=\"18\" y=\"24.4\" text-anchor=\"middle\" font-family=\"Arial\" font-weight=\"bold\" font-size=\"6\" fill=\"#111827\">INK</text><path d=\"M27 30c2 0 3 1 3 2.2S29 34 27.5 34 25 33 25 32s1-2 2-2z\" fill=\"#1E3A8A\"/></svg>", "insect": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#31373D\" d=\"M35 21H1a1 1 0 1 1 0-2h34a1 1 0 1 1 0 2zm-22.177-2-.069-.002c-.092-.007-9.214-.714-10.734-8.235a1 1 0 1 1 1.96-.396c1.221 6.044 8.833 6.631 8.91 6.636A1 1 0 0 1 12.823 19zM3 31a1 1 0 0 1-.905-1.424c3.166-6.77 11.038-7.721 11.372-7.758a1 1 0 0 1 .223 1.988c-.071.008-7.099.876-9.783 6.617A1.002 1.002 0 0 1 3 31zm19.753-12a1 1 0 0 1-.065-1.998c.081-.005 8.116-.617 9.332-6.636a.995.995 0 0 1 1.179-.782 1 1 0 0 1 .782 1.178c-1.521 7.525-10.769 8.21-11.162 8.235l-.066.003zm10.248 12a1 1 0 0 1-.907-.576c-2.694-5.763-10.124-6.609-10.198-6.617a1 1 0 1 1 .209-1.989c.352.037 8.634.983 11.802 7.758A1.001 1.001 0 0 1 33.001 31z\"/><path fill=\"#31373D\" d=\"M24.989 7.766c-.069-2.626-1.277-4.216-3.095-5.04C21.961 2.5 22 2.257 22 2c0-1.105-.672-2-1.5-2S19 .895 19 2c0 .015.003.028.003.043C18.675 2.017 18.342 2 18 2s-.675.017-1.003.043c0-.015.003-.028.003-.043 0-1.105-.671-2-1.5-2S14 .895 14 2c0 .257.04.5.106.726-1.817.824-3.025 2.414-3.095 5.04C7.98 9.551 6 12.662 6 17c0 7.159 5.373 16.923 12 16.923 6.628 0 12-9.764 12-16.923 0-4.338-1.98-7.45-5.011-9.234z\"/><path fill=\"#DD2E44\" d=\"M16.001 34.959C9.564 34.364 4.5 28.064 4.5 20.378 4.5 12.693 9.564 9.597 16 9c.33-.03 1-.046 1 2.294v22.541c0 1.171-.669 1.156-.999 1.124zm3.998 0c6.436-.595 11.501-6.895 11.501-14.581C31.5 12.693 26.435 9.597 20 9c-.33-.03-1-.046-1 2.294v22.541c0 1.171.67 1.156.999 1.124z\"/><g fill=\"#31373D\"><circle cx=\"13\" cy=\"15\" r=\"2\"/><circle cx=\"10\" cy=\"22\" r=\"3\"/><circle cx=\"13\" cy=\"29\" r=\"2\"/><circle cx=\"24.5\" cy=\"14.5\" r=\"2.5\"/><circle cx=\"22.5\" cy=\"20.5\" r=\"1.5\"/><circle cx=\"28\" cy=\"23\" r=\"2\"/><circle cx=\"24\" cy=\"29\" r=\"3\"/></g></svg>", "pencil": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#D99E82\" d=\"M35.222 33.598c-.647-2.101-1.705-6.059-2.325-7.566-.501-1.216-.969-2.438-1.544-3.014-.575-.575-1.553-.53-2.143.058 0 0-2.469 1.675-3.354 2.783-1.108.882-2.785 3.357-2.785 3.357-.59.59-.635 1.567-.06 2.143.576.575 1.798 1.043 3.015 1.544 1.506.62 5.465 1.676 7.566 2.325.359.11 1.74-1.271 1.63-1.63z\"/><path fill=\"#EA596E\" d=\"M13.643 5.308a2.946 2.946 0 0 1 0 4.167l-4.167 4.168a2.948 2.948 0 0 1-4.167 0L1.141 9.475a2.948 2.948 0 0 1 0-4.167l4.167-4.167a2.946 2.946 0 0 1 4.167 0l4.168 4.167z\"/><path fill=\"#FFCC4D\" d=\"m31.353 23.018-4.17 4.17-4.163 4.165L7.392 15.726l8.335-8.334 15.626 15.626z\"/><path fill=\"#292F33\" d=\"M32.078 34.763s2.709 1.489 3.441.757c.732-.732-.765-3.435-.765-3.435s-2.566.048-2.676 2.678z\"/><path fill=\"#CCD6DD\" d=\"m2.183 10.517 8.335-8.335 5.208 5.209-8.334 8.335z\"/><path fill=\"#99AAB5\" d=\"m3.225 11.558 8.334-8.334 1.042 1.042L4.267 12.6zm2.083 2.086 8.335-8.335 1.042 1.042-8.335 8.334z\"/></svg>", "play": "<svg xmlns=\"http://www.w3.org/2000/svg\" xml:space=\"preserve\" viewBox=\"0 0 36 36\"><path fill=\"#AEB3B2\" d=\"M34.5 32.423a.5.5 0 0 1-.5-.5V29.5a.5.5 0 0 1 1 0v2.423a.5.5 0 0 1-.5.5zM26 35.236V32.5a.5.5 0 0 0-1 0v2.736a.5.5 0 0 0 1 0zm-6-1.892V28.5a.5.5 0 0 0-1 0v4.844a.5.5 0 0 0 1 0zM17.488.991a.497.497 0 0 0-.608-.36A2.498 2.498 0 0 0 15 3.052v4.382l-.914 3.427-7.906 2.635.801-2.862L7 6.052c0-.686.464-1.283 1.128-1.453.268-.068.429-.341.36-.608s-.337-.43-.608-.361A2.5 2.5 0 0 0 6 6.052v4.379L1.259 27.365a.5.5 0 0 0 .962.27l.468-1.671 8.088-2.696-.294 1.103a.5.5 0 0 0 .967.258l4.533-17L16 3.052c0-.686.464-1.283 1.128-1.453a.499.499 0 0 0 .36-.608zm-3.71 11.027-.692 2.594-7.961 2.654.73-2.606 7.923-2.642zm-1.692 6.343L4.07 21.033l.73-2.606 7.978-2.659-.692 2.593zm-9.071 6.441.73-2.606 8.033-2.678-.692 2.594-8.071 2.69z\"/><path fill=\"#DD551F\" d=\"M34.686 25.856a8.092 8.092 0 0 1-4.1-3.65L23.041 8.272a6.463 6.463 0 0 0-3.761-3.104l-3.63-1.145A.5.5 0 0 0 15 4.5v3c0 .218.142.411.35.477l1.508.476a5.472 5.472 0 0 1 3.183 2.626l7.299 13.479a10.518 10.518 0 0 0 5.333 4.75l1.643.657A.501.501 0 0 0 35 29.5v-3.18a.5.5 0 0 0-.314-.464z\"/><path fill=\"#FA8948\" d=\"M34.686 25.856a8.092 8.092 0 0 1-4.1-3.65L23.041 8.272a6.463 6.463 0 0 0-3.761-3.104l-3.63-1.145A.5.5 0 0 0 15 4.5v.248l3.573 1.127a6.466 6.466 0 0 1 3.761 3.104l7.545 13.933a8.083 8.083 0 0 0 4.1 3.65.5.5 0 0 1 .314.464v2.928l.022.009a.497.497 0 0 0 .465-.049.499.499 0 0 0 .22-.414v-3.18a.5.5 0 0 0-.314-.464z\"/><path fill=\"#FAA572\" d=\"M20.919 10.603a6.47 6.47 0 0 0-3.761-3.104l-1.508-.476a.51.51 0 0 0-.309.003l-9 3a.5.5 0 0 0 .009.951l1.508.476a5.472 5.472 0 0 1 3.183 2.626.5.5 0 0 0 .597.236l9-3a.497.497 0 0 0 .281-.712z\"/><path fill=\"#FAC19C\" d=\"M29.854 26.275a9.497 9.497 0 0 1-1.637-2.194l-7.299-13.479a.497.497 0 0 0-.598-.236l-9 3a.5.5 0 0 0-.282.713l7.299 13.479a10.461 10.461 0 0 0 1.809 2.425.504.504 0 0 0 .512.12l9-3a.5.5 0 0 0 .196-.828z\"/><path fill=\"#FAA572\" d=\"M34.658 29.974a.501.501 0 0 0 .028-.938l-1.643-.657a9.427 9.427 0 0 1-3.188-2.103.501.501 0 0 0-.512-.121l-9 3a.5.5 0 0 0-.195.827 10.451 10.451 0 0 0 3.524 2.325l1.643.657a.491.491 0 0 0 .343.01l9-3z\"/><path fill=\"#DD551F\" d=\"M25.686 28.856a8.092 8.092 0 0 1-4.1-3.65l-7.545-13.933a6.463 6.463 0 0 0-3.761-3.104L6.65 7.023A.5.5 0 0 0 6 7.5v3c0 .218.142.411.35.477l1.508.476a5.472 5.472 0 0 1 3.183 2.626l7.299 13.479a10.518 10.518 0 0 0 5.333 4.75l1.643.657A.501.501 0 0 0 26 32.5v-3.18a.5.5 0 0 0-.314-.464z\"/><path fill=\"#FA8948\" d=\"M25.686 28.856a8.092 8.092 0 0 1-4.1-3.65l-7.545-13.933a6.463 6.463 0 0 0-3.761-3.104L6.65 7.023A.5.5 0 0 0 6 7.5v.248l3.573 1.127a6.466 6.466 0 0 1 3.761 3.104l7.545 13.933a8.083 8.083 0 0 0 4.1 3.65.5.5 0 0 1 .314.464v2.928l.022.009a.497.497 0 0 0 .465-.049.499.499 0 0 0 .22-.414v-3.18a.5.5 0 0 0-.314-.464z\"/><path fill=\"#AEB3B2\" d=\"M10.5 8.742a.5.5 0 0 1-.5-.5v-2.19c0-.467-.212-.898-.58-1.185a1.487 1.487 0 0 0-1.292-.268.5.5 0 0 1-.248-.968 2.485 2.485 0 0 1 2.153.447c.614.477.967 1.196.967 1.974v2.189a.5.5 0 0 1-.5.501zm9-3a.5.5 0 0 1-.5-.5v-2.19c0-.467-.212-.898-.58-1.185a1.487 1.487 0 0 0-1.292-.269.5.5 0 0 1-.248-.968 2.484 2.484 0 0 1 2.153.447c.614.478.967 1.197.967 1.975v2.189a.5.5 0 0 1-.5.501z\"/></svg>", "shake hands": "<svg xmlns=\"http://www.w3.org/2000/svg\" xml:space=\"preserve\" viewBox=\"0 0 36 36\"><path fill=\"#EF9645\" d=\"M16.428 30.331a2.31 2.31 0 0 0 3.217-.568.798.798 0 0 0-.197-1.114l-1.85-1.949 4.222 2.955a1.497 1.497 0 0 0 2.089-.369 1.5 1.5 0 0 0-.369-2.089l-3.596-3.305 5.375 3.763a1.497 1.497 0 0 0 2.089-.369 1.5 1.5 0 0 0-.369-2.089l-4.766-4.073 5.864 4.105a1.497 1.497 0 0 0 2.089-.369 1.5 1.5 0 0 0-.369-2.089L4.733 11.194l-3.467 5.521c-.389.6-.283 1.413.276 1.891l7.786 6.671c.355.304.724.591 1.107.859l5.993 4.195z\"/><path fill=\"#FFDC5D\" d=\"M29.802 21.752 18.5 13.601l-.059-.08.053-.08.053-.053.854.469c.958.62 3.147 1.536 4.806 1.536 1.135 0 1.815-.425 2.018-1.257a1.409 1.409 0 0 0-1.152-1.622 6.788 6.788 0 0 1-2.801-1.091l-.555-.373c-.624-.421-1.331-.898-1.853-1.206-.65-.394-1.357-.585-2.163-.585-1.196 0-2.411.422-3.585.83l-1.266.436a5.18 5.18 0 0 1-1.696.271c-1.544 0-3.055-.586-4.516-1.152l-.147-.058a1.389 1.389 0 0 0-1.674.56L1.35 15.669a1.357 1.357 0 0 0 .257 1.761l7.785 6.672c.352.301.722.588 1.1.852l6.165 4.316a2 2 0 0 0 2.786-.491.803.803 0 0 0-.196-1.115l-1.833-1.283a.424.424 0 0 1-.082-.618.422.422 0 0 1 .567-.075l3.979 2.785a1.4 1.4 0 0 0 1.606-2.294l-3.724-2.606a.424.424 0 0 1-.082-.618.423.423 0 0 1 .567-.075l5.132 3.593a1.4 1.4 0 0 0 1.606-2.294l-4.868-3.407a.42.42 0 0 1-.081-.618.377.377 0 0 1 .506-.066l5.656 3.959a1.4 1.4 0 0 0 1.606-2.295z\"/><path fill=\"#EF9645\" d=\"M16.536 27.929c-.07.267-.207.498-.389.681l-1.004.996a1.494 1.494 0 0 1-1.437.396 1.5 1.5 0 0 1-.683-2.512l1.004-.996a1.494 1.494 0 0 1 1.437-.396 1.502 1.502 0 0 1 1.072 1.831zM5.992 23.008l1.503-1.497a1.5 1.5 0 0 0-.444-2.429 1.495 1.495 0 0 0-1.674.31l-1.503 1.497a1.5 1.5 0 0 0 .445 2.429 1.496 1.496 0 0 0 1.673-.31zm5.204.052a1.5 1.5 0 1 0-2.122-2.118L6.072 23.94a1.5 1.5 0 1 0 2.122 2.118l3.002-2.998zm2.25 3a1.5 1.5 0 0 0-.945-2.555 1.489 1.489 0 0 0-1.173.44L9.323 25.94a1.5 1.5 0 0 0 .945 2.556c.455.036.874-.141 1.173-.44l2.005-1.996zm16.555-4.137.627-.542-6.913-10.85-12.27 1.985a1.507 1.507 0 0 0-1.235 1.737c.658 2.695 6.003.693 8.355-.601l11.436 8.271z\"/><path fill=\"#FFCC4D\" d=\"M16.536 26.929c-.07.267-.207.498-.389.681l-1.004.996a1.494 1.494 0 0 1-1.437.396 1.5 1.5 0 0 1-.683-2.512l1.004-.996a1.494 1.494 0 0 1 1.437-.396 1.502 1.502 0 0 1 1.072 1.831zM5.992 22.008l1.503-1.497a1.5 1.5 0 0 0-.444-2.429 1.497 1.497 0 0 0-1.674.31l-1.503 1.497a1.5 1.5 0 0 0 .445 2.429 1.496 1.496 0 0 0 1.673-.31zm5.204.052a1.5 1.5 0 1 0-2.122-2.118L6.072 22.94a1.5 1.5 0 1 0 2.122 2.118l3.002-2.998zm2.25 3a1.5 1.5 0 0 0-.945-2.555 1.489 1.489 0 0 0-1.173.44L9.323 24.94a1.5 1.5 0 0 0 .945 2.556c.455.036.874-.141 1.173-.44l2.005-1.996zm21.557-7.456a1.45 1.45 0 0 0 .269-1.885l-.003-.005-3.467-6.521a1.488 1.488 0 0 0-1.794-.6c-1.992.771-4.174 1.657-6.292.937l-1.098-.377c-1.948-.675-4.066-1.466-6-.294-.695.409-1.738 1.133-2.411 1.58a6.873 6.873 0 0 1-2.762 1.076 1.502 1.502 0 0 0-1.235 1.737c.613 2.512 5.3.908 7.838-.369a.968.968 0 0 1 1.002.081l11.584 8.416 4.369-3.776z\"/></svg>", "table": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><rect x=\"1\" y=\"13\" width=\"34\" height=\"4\" rx=\"1.5\" fill=\"#B7763E\"/><rect x=\"1\" y=\"16\" width=\"34\" height=\"1.6\" fill=\"#8A5528\"/><rect x=\"4\" y=\"17\" width=\"3\" height=\"17\" rx=\"1\" fill=\"#8A5528\"/><rect x=\"29\" y=\"17\" width=\"3\" height=\"17\" rx=\"1\" fill=\"#8A5528\"/></svg>", "teacher": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#D99E82\" d=\"M30 26a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4h22a4 4 0 0 1 4 4v22z\"/><path fill=\"#5C913B\" d=\"M28 26a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h22a2 2 0 0 1 2 2v22z\"/><path fill=\"#FFF\" d=\"M7.515 8.898c-.08.096-.184.24-.184.408 0 .368.272.528.624.528h2.67c.304 0 .576-.16.576-.528s-.271-.528-.624-.528H9.114c.679-.855 1.919-1.958 1.919-3.07 0-1.015-.792-1.663-1.775-1.663s-1.879.807-1.879 1.815c0 .311.2.583.584.583.768 0 .328-1.295 1.247-1.295.328 0 .576.288.576.616 0 .288-.136.536-.28.744-.608.879-1.327 1.599-1.991 2.39zm-1.307 5.433H5.049v-1.16c0-.288-.184-.479-.48-.479-.295 0-.479.192-.479.479v1.16H2.931c-.296 0-.48.192-.48.479 0 .288.184.48.48.48H4.09v1.159c0 .288.184.479.479.479.296 0 .48-.191.48-.479V15.29h1.159c.296 0 .48-.192.48-.48 0-.287-.184-.479-.48-.479zm4.369 1.447H9.113c.68-.855 1.919-1.958 1.919-3.07 0-1.015-.792-1.663-1.775-1.663s-1.879.808-1.879 1.815c0 .311.2.583.583.583.768 0 .328-1.295 1.248-1.295.328 0 .576.288.576.616 0 .288-.136.536-.28.744-.608.879-1.327 1.599-1.991 2.391-.08.096-.184.24-.184.408 0 .368.272.528.624.528h2.67c.304 0 .576-.16.576-.528 0-.369-.271-.529-.623-.529zm.84 3.192H3.083a.5.5 0 0 1 0-1h8.333a.5.5 0 0 1 .001 1z\"/><path fill=\"#CCD6DD\" d=\"M36 36v-2a6 6 0 0 0-6-6H14a6 6 0 0 0-6 6v2h28z\"/><path fill=\"#99AAB5\" d=\"M22.073 30.805s3.297.891 4.545 1.307c.16.053-.951-2.108-.951-2.108h-7.453s-.679 1.542-1.071 2.197c1.96-.624 4.798-1.485 4.798-1.485\"/><path fill=\"#FFDC5D\" d=\"M17.64 28.101c.774.562 1.206 1.644 2.3 1.911.326.702.746 1.635 1.122 2.476.355.795 1.486.783 1.825-.02.355-.84.755-1.767 1.074-2.456 1.105-.446 1.611-1.339 2.399-1.911V24.29h-8.72v3.811z\"/><path fill=\"#F9CA55\" d=\"M17.632 25.973c1.216 1.374 2.724 1.746 4.364 1.746 1.639 0 3.146-.373 4.363-1.746v-3.491h-8.728v3.491z\"/><path fill=\"#FFAC33\" d=\"M25.731 3.323c-1.925-.623-6.455-.453-7.588 1.019-2.944.057-6.398 2.718-6.851 6.228-.448 3.475.551 5.088.906 7.701.403 2.96 2.067 3.907 3.397 4.303 1.914 2.529 3.949 2.421 7.366 2.421 6.672 0 9.85-4.464 10.131-12.047.17-4.585-2.521-8.059-7.361-9.625z\"/><path fill=\"#FFDC5D\" d=\"M29.547 13.273c-.646-.894-1.472-1.614-3.284-1.868.68.311 1.331 1.387 1.416 1.982.085.595.17 1.076-.368.481-2.155-2.382-4.502-1.444-6.827-2.899-1.624-1.016-2.119-2.141-2.119-2.141s-.198 1.5-2.661 3.029c-.714.443-1.566 1.43-2.038 2.888-.34 1.048-.234 1.982-.234 3.578 0 4.66 3.841 8.578 8.578 8.578s8.578-3.953 8.578-8.578c-.002-2.898-.305-4.031-1.041-5.05z\"/><path fill=\"#C1694F\" d=\"M22.961 20.707h-1.906a.477.477 0 1 1 0-.954h1.906a.477.477 0 1 1 0 .954z\"/><path fill=\"#662113\" d=\"M18.195 17.37a.953.953 0 0 1-.953-.953v-.953a.953.953 0 0 1 1.906 0v.953a.952.952 0 0 1-.953.953zm7.626 0a.953.953 0 0 1-.953-.953v-.953a.953.953 0 0 1 1.906 0v.953a.953.953 0 0 1-.953.953z\"/><path fill=\"#C1694F\" d=\"M22.134 24.686c-2.754 0-3.6-.705-3.741-.848a.655.655 0 0 1 .902-.95c.052.037.721.487 2.839.487 2.2 0 2.836-.485 2.842-.49a.638.638 0 0 1 .913.015.669.669 0 0 1-.014.938c-.142.143-.987.848-3.741.848\"/><path fill=\"#F5F8FA\" d=\"M17.229 26.629c.565.566 2.71 3.383 2.71 3.383s-1.188.695-2.608 2.004c-.516.476-1.35.055-1.287-.644.121-1.349.249-2.909.225-3.534-.011-.303.69-1.481.96-1.209m9.433 0c-.565.566-2.71 3.383-2.71 3.383s1.188.695 2.608 2.004c.516.476 1.35.055 1.287-.644-.121-1.349-.249-2.909-.225-3.534.012-.303-.689-1.481-.96-1.209\"/></svg>", "tiger": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><circle cx=\"7\" cy=\"6\" r=\"6\" fill=\"#FFCC4D\"/><circle cx=\"18\" cy=\"30\" r=\"6\" fill=\"#FFCC4D\"/><circle cx=\"18\" cy=\"30\" r=\"4\" fill=\"#DD2E44\"/><circle cx=\"29\" cy=\"6\" r=\"6\" fill=\"#FFCC4D\"/><circle cx=\"7\" cy=\"6\" r=\"4\" fill=\"#E6AAAA\"/><circle cx=\"29\" cy=\"6\" r=\"4\" fill=\"#E6AAAA\"/><path fill=\"#FFCC4D\" d=\"M34 22c0 7-4.923 7-4.923 7H6.923S2 29 2 22C2 22 3.231 0 18 0c14.77 0 16 22 16 22z\"/><path fill=\"#272B2B\" d=\"M11 17s0-2 2-2 2 2 2 2v2s0 2-2 2-2-2-2-2v-2zm10 0s0-2 2-2 2 2 2 2v2s0 2-2 2-2-2-2-2v-2z\"/><path fill=\"#FFF\" d=\"M23.678 23c-2.402 0-4.501.953-5.678 2.378C16.823 23.953 14.723 23 12.321 23 2 23 2.043 23.421 2 26.182c-.087 5.61 6.63 6.9 10.321 6.818 2.401-.053 4.502-.989 5.679-2.397 1.177 1.408 3.276 2.345 5.678 2.397 3.691.082 10.409-1.208 10.321-6.818-.043-2.761 0-3.182-10.321-3.182z\"/><path fill=\"#272B2B\" d=\"M33.66 25.242c.204.279.333.588.339.939.03 1.905-.745 3.303-1.915 4.327L26.999 31l6.661-5.758zM15 25c-1 1 2 4 3 4s4-3 3-4-5-1-6 0zM10 3c2.667 2 8 4 8 4s5.333-2 8-4l-8 1-8-1zm8-1s1.652-.62 3.576-1.514C20.48.178 19.295 0 18 0s-2.481.178-3.576.486C16.348 1.38 18 2 18 2zm-7 7c3 2 7 4 7 4s4-2 7-4l-7 1-7-1zm20.645 2.285L27 15l6.006.75a36.407 36.407 0 0 0-1.361-4.465zm1.911 7.159L28 24h5.835A11.73 11.73 0 0 0 34 22s-.081-1.43-.444-3.556zm-31.112 0C2.082 20.57 2 22 2 22c0 .748.063 1.405.165 2H8l-5.556-5.556zm-.105 6.798c-.204.279-.333.588-.339.94-.03 1.905.745 3.303 1.916 4.327L9 31l-6.661-5.758zM9 15l-4.644-3.715a36.194 36.194 0 0 0-1.361 4.466L9 15z\"/></svg>", "tomato": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#DD2E44\" d=\"M22.494 5.344c-.687 0-1.352.066-1.991.177-.819-.104-2.74-.231-3.591-.231-8.473 0-15.886 3.177-15.886 14.298 0 9.036 7.049 16.361 16.976 16.361s17.974-7.325 17.974-16.361C35.975 8.339 26.59 5.344 22.494 5.344z\"/><path fill=\"#77B255\" d=\"M8.439.091c1.637 1.636 2.77 2.266 3.274 4.91.298 1.564 2.266 1.51 2.266 1.51s-3.903 1.763-5.54 3.4c0 0 4.91-1.637 6.547-1.637 0 0 3.273 1.637 3.273 3.273 0 0 0-3.273-1.636-3.273 0 0 4.909 0 4.909 3.273 0 0 0-4.91-1.637-4.91 0 0 4.911-1.636 6.548 0 0 0-1.686-1.72-4.911-1.636 0 0 1.638-1.637 4.911-1.637 0 0-5.288-1.511-6.925 1.763 0 0-1.385-1.385 1.385-4.155 0 0-4.28.755-4.28 4.029 0 0-1.552-.04-2.644-1.259C11.838 1.35 8.439.091 8.439.091z\"/></svg>", "tree": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\"><path fill=\"#662113\" d=\"M22 33c0 2.209-1.791 3-4 3s-4-.791-4-3l1-9c0-2.209.791-2 3-2s3-.209 3 2l1 9z\"/><path fill=\"#5C913B\" d=\"M34 17c0 8.837-7.163 12-16 12-8.836 0-16-3.163-16-12C2 8.164 11 0 18 0s16 8.164 16 17z\"/><g fill=\"#3E721D\"><ellipse cx=\"6\" cy=\"21\" rx=\"2\" ry=\"1\"/><ellipse cx=\"30\" cy=\"21\" rx=\"2\" ry=\"1\"/><ellipse cx=\"10\" cy=\"25\" rx=\"2\" ry=\"1\"/><ellipse cx=\"14\" cy=\"22\" rx=\"2\" ry=\"1\"/><ellipse cx=\"10\" cy=\"16\" rx=\"2\" ry=\"1\"/><ellipse cx=\"7\" cy=\"12\" rx=\"2\" ry=\"1\"/><ellipse cx=\"29\" cy=\"12\" rx=\"2\" ry=\"1\"/><ellipse cx=\"14\" cy=\"10\" rx=\"2\" ry=\"1\"/><ellipse cx=\"22\" cy=\"10\" rx=\"2\" ry=\"1\"/><ellipse cx=\"26\" cy=\"16\" rx=\"2\" ry=\"1\"/><ellipse cx=\"18\" cy=\"17\" rx=\"2\" ry=\"1\"/><ellipse cx=\"22\" cy=\"22\" rx=\"2\" ry=\"1\"/><ellipse cx=\"18\" cy=\"26\" rx=\"2\" ry=\"1\"/><ellipse cx=\"26\" cy=\"25\" rx=\"2\" ry=\"1\"/></g></svg>"};
+        const PIC_URL = {};
+        Object.keys(PIC_SRC).forEach(k => { PIC_URL[k] = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(PIC_SRC[k]); });
+
+        /* ---------- sound ---------- */
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+        try { audioCtx = new AudioContext(); } catch (e) {}
+        function tone(type, f1, f2, dur, delay) {
+            const t0 = audioCtx.currentTime + (delay || 0);
+            const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = type;
+            osc.frequency.setValueAtTime(f1, t0);
+            osc.frequency.exponentialRampToValueAtTime(f2, t0 + dur);
+            gain.gain.setValueAtTime(0.1, t0);
+            gain.gain.exponentialRampToValueAtTime(0.01, t0 + dur);
+            osc.start(t0); osc.stop(t0 + dur);
+        }
+        function playSound(type) {
+            if (!audioCtx) return;
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                if (type === 'correct') tone('sine', 400, 800, 0.15);
+                else if (type === 'wrong') tone('sawtooth', 300, 100, 0.3);
+                else if (type === 'tick') tone('sine', 600, 600, 0.12);
+                else if (type === 'tap') tone('sine', 520, 620, 0.06);
+                else if (type === 'go') tone('square', 700, 1000, 0.3);
+                else if (type === 'win') [523, 659, 784, 1047].forEach((f, i) => tone('triangle', f, f, 0.25, i * 0.15));
+            } catch (e) {}
+        }
+
+        /* ---------- speech (reads words aloud) ---------- */
+        const canSpeak = 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+        let enVoice = null;
+        function pickVoice() {
+            if (!canSpeak) return;
+            const vs = speechSynthesis.getVoices();
+            enVoice = vs.find(v => /en[-_]US/i.test(v.lang) && /female|samantha|google us/i.test(v.name)) ||
+                      vs.find(v => /en[-_](US|GB)/i.test(v.lang)) || vs.find(v => /^en/i.test(v.lang)) || null;
+        }
+        if (canSpeak) { pickVoice(); try { speechSynthesis.onvoiceschanged = pickVoice; } catch (e) {} }
+        function speak(text) {
+            if (!canSpeak || !text) return;
+            try {
+                speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(String(text).replace(/_{2,}/g, ' ... '));
+                u.lang = 'en-US'; u.rate = 0.8; u.pitch = 1.05;
+                if (enVoice) u.voice = enVoice;
+                speechSynthesis.speak(u);
+            } catch (e) {}
+        }
+
+        /* ---------- settings ---------- */
+        const PREP_LABEL = D.grade;
+        const UNIT_NUM = D.num;
+        const UNIT_NAME = D.name;
+        const TEACHER_PHONE = '201278040762';
+        const SOLO_N = { def: 10, spell: 8, match: 3, lmatch: 3 };
+        const TEAM_N = { def: 8, spell: 6, match: 2, lmatch: 2 };
+        const TIME_MUL = { spell: 2, match: 3, lmatch: 2.5, pop: 1.5, lpop: 1.5 };
+
+        const GAMES = {
+            vocab: [
+                { id: 'look', icon: '🖼️', name: 'Look & Choose', ar: 'شوف الصورة واختار الكلمة' },
+                { id: 'listen', icon: '🔊', name: 'Listen & Pick', ar: 'اسمع واختار الصورة' },
+                { id: 'spell', icon: '🔠', name: 'Spell It', ar: 'رتّب الحروف المتلخبطة' },
+                { id: 'match', icon: '🔗', name: 'Match Up', ar: 'وصّل الصورة بالكلمة' },
+                { id: 'pop', icon: '🫧', name: 'Bubble Pop', ar: 'فرقع فقاعة الصورة الصح' },
+                { id: 'yesno', icon: '✅', name: 'Yes or No', ar: 'صح ولا غلط؟' },
+                { id: 'count', icon: '🔢', name: 'Count It', ar: 'عِدّ واختار الرقم', needs: 'count' }
+            ],
+            phonics: [
+                { id: 'first', icon: '🅰️', name: 'First Letter', ar: 'اختار أول حرف في الكلمة' },
+                { id: 'find', icon: '🔍', name: 'Find the Letter', ar: 'مين بيبدأ بالحرف ده؟' },
+                { id: 'case', icon: '🔡', name: 'Big & Small', ar: 'الحرف الكبير والصغير' },
+                { id: 'lpop', icon: '🎈', name: 'Letter Pop', ar: 'فرقع أول حرف في الصورة' },
+                { id: 'lmatch', icon: '🧩', name: 'Letter Match', ar: 'وصّل الحرف الكبير بالصغير' }
+            ]
+        };
+        const GAME_NAMES = {};
+        Object.values(GAMES).forEach(list => list.forEach(g => { GAME_NAMES[g.id] = g.name; }));
+        const SECTION_NAMES = { vocab: 'Words & Pictures', phonics: 'Letters & Phonics' };
+
+        let currentSection = 'vocab';
+        let currentMode = 'solo';
+        let runMode = 'solo';
+        let currentGameId = null;
+        let questionTime = 20;
+        let teams = [];
+        let running = false;
+        let countdownTimer = null;
+        let endTimeout = null;
+        let lastResultText = '';
+
+        const screens = document.querySelectorAll('.screen');
+        const arena = document.getElementById('arena');
+
+        /* ---------- helpers ---------- */
+        function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+        function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+            return a;
+        }
+        function rnd(a) { return a[Math.floor(Math.random() * a.length)]; }
+        function takeN(pool, n) {
+            let out = [];
+            while (out.length < n && pool.length) out = out.concat(shuffle(pool));
+            return out.slice(0, n);
+        }
+        function onTap(el, fn) {
+            if (window.PointerEvent) el.addEventListener('pointerdown', e => { e.preventDefault(); fn(); });
+            else {
+                el.addEventListener('touchstart', e => { e.preventDefault(); fn(); }, { passive: false });
+                el.addEventListener('mousedown', fn);
+            }
+        }
+        function img(key, cls) { return '<img class="' + (cls || '') + '" src="' + (PIC_URL[key] || '') + '" alt="" draggable="false">'; }
+        function pic(spec, cls) {
+            cls = cls || '';
+            if (!spec) return '';
+            if (typeof spec === 'string') return '<span class="pic ' + cls + '">' + img(spec) + '</span>';
+            if (spec.count) {
+                const k = spec.count[0], n = spec.count[1];
+                return '<span class="pic count ' + cls + '">' + Array(n).fill(img(k)).join('') + '</span>';
+            }
+            if (spec.scene) {
+                const s = spec.scene;
+                let inner;
+                if (s.base === 'box') inner = s.prep === 'in'
+                    ? img('boxback', 's-back') + img(s.obj, 's-obj') + img('boxfront', 's-front')
+                    : img('boxclosed', 's-base') + img(s.obj, 's-obj');
+                else inner = img(s.base, 's-base') + img(s.obj, 's-obj');
+                return '<span class="pic scene s-' + s.prep + ' b-' + s.base + ' ' + cls + '">' + inner + '</span>';
+            }
+            return '';
+        }
+        function blank(t) { return esc(t).replace(/_{2,}/, '<span class="slot-let">&nbsp;?&nbsp;</span>'); }
+        function fill(t, a) { return t.replace(/_{2,}/, a); }
+        function art(w) { return /^[aeiou]/.test(w) ? 'an' : 'a'; }
+
+        const WORDS = D.words;
+        const LETTERS = D.letters;
+        const PH_WORDS = WORDS.filter(w => !w.np && LETTERS.indexOf(w.w[0]) >= 0);
+        const LETTER_POOL = (function () {
+            const out = [];
+            LETTERS.concat(D.prevLetters, ['s', 'm', 'a', 'b', 'p', 'o', 'e']).forEach(l => { if (out.indexOf(l) < 0) out.push(l); });
+            return out;
+        })();
+        const AVOID = (D.avoid || []).map(p => p.join('|'));
+        function clash(a, b) { return AVOID.indexOf(a + '|' + b) >= 0 || AVOID.indexOf(b + '|' + a) >= 0; }
+        function otherWords(w, k) { return shuffle(WORDS.filter(x => x.w !== w.w && x.p !== w.p && !clash(x.w, w.w))).slice(0, k); }
+        function otherLetters(l, k, extraBan) {
+            const ban = [l].concat(extraBan || []);
+            if (l === 'i') ban.push('l');
+            if (l === 'l') ban.push('i');
+            return shuffle(LETTER_POOL.filter(x => ban.indexOf(x) < 0)).slice(0, k);
+        }
+        function wordOpts(list) { return list.map(w => ({ id: w.w, html: esc(w.w) })); }
+        function picOpts(list) { return list.map(w => ({ id: w.w, html: pic(w.p, 'opt-pic') })); }
+        function textOpts(list) { return list.map(t => ({ id: t, html: esc(t) })); }
+        function letterOpts(list) { return list.map(t => ({ id: t, html: esc(t) })); }
+        function byPic(key) { return WORDS.find(w => w.p === key) || { w: key, p: key }; }
+
+        /* ---------- question builders ---------- */
+        const BUILD = {
+            look(n) {
+                const pool = WORDS.map(w => ({ w })).concat((D.sent || []).map(s => ({ s })), (D.scenes || []).map(sc => ({ sc })));
+                return takeN(pool, n).map(it => {
+                    if (it.w) {
+                        const w = it.w;
+                        return { type: 'choice', layout: 'words', pic: w.p, text: 'What is this?',
+                                 options: shuffle(wordOpts([w].concat(otherWords(w, 2)))), answer: w.w, say: w.w,
+                                 review: { pic: w.p, text: 'What is this?', ans: w.w } };
+                    }
+                    if (it.s) {
+                        const s = it.s;
+                        return { type: 'choice', layout: 'words', pic: s.pic, text: blank(s.t), rawText: s.t,
+                                 options: shuffle(textOpts([s.ans].concat(s.wrong))), answer: s.ans, say: fill(s.t, s.ans),
+                                 review: { pic: s.pic, text: s.t, ans: s.ans } };
+                    }
+                    const sc = it.sc.scene;
+                    const say = 'The ' + sc.obj + ' is ' + sc.prep + ' the ' + sc.base + '.';
+                    return { type: 'choice', layout: 'words', pic: it.sc, text: 'Where is the ' + sc.obj + '?',
+                             options: shuffle(textOpts(['in', 'on', 'under'])), answer: sc.prep, say: say,
+                             review: { pic: it.sc, text: 'Where is the ' + sc.obj + '?', ans: say } };
+                });
+            },
+            listen(n) {
+                const pool = WORDS.map(w => ({ w })).concat((D.picq || []).map(q => ({ q })));
+                const comp = runMode === 'comp';
+                return takeN(pool, n).map(it => {
+                    if (it.w) {
+                        const w = it.w;
+                        return { type: 'choice', layout: 'pics', listen: true, say: w.w, autoSay: !comp,
+                                 text: comp ? '<span class="word-big">' + esc(w.w) + '</span>' : '',
+                                 sub: comp ? 'Read and choose the picture' : 'Listen and choose the picture <span class="ar" dir="rtl">— اسمع واختار</span>',
+                                 options: shuffle(picOpts([w].concat(otherWords(w, 2)))), answer: w.w,
+                                 review: { pic: w.p, text: 'Listen: ' + w.w, ans: w.w } };
+                    }
+                    const q = it.q, a = byPic(q.ans);
+                    return { type: 'choice', layout: 'pics', say: q.t, autoSay: !comp, sayBtn: true, text: blank(q.t),
+                             options: shuffle(picOpts([a].concat(q.wrong.map(byPic)))), answer: a.w,
+                             review: { pic: q.ans, text: q.t, ans: a.w } };
+                });
+            },
+            spell(n) {
+                const pool = WORDS.filter(w => /^[a-z]{2,7}$/.test(w.w));
+                return takeN(pool, n).map(w => ({ type: 'spell', word: w.w, pic: w.p, say: w.w,
+                    review: { pic: w.p, text: 'Spell the word', ans: w.w } }));
+            },
+            match(n) {
+                const rounds = [];
+                let pool = [];
+                for (let r = 0; r < n; r++) {
+                    if (pool.length < 4) pool = pool.concat(shuffle(WORDS));
+                    const pick = [];
+                    while (pick.length < 4 && pool.length) {
+                        const w = pool.shift();
+                        if (!pick.some(x => x.w === w.w || x.p === w.p)) pick.push(w); else pool.push(w);
+                        if (pick.length < 4 && pool.length < 4) pool = pool.concat(shuffle(WORDS));
+                    }
+                    rounds.push({ type: 'match', points: 4, say: '', pairs: pick.map(w => ({ id: w.w, left: pic(w.p), right: esc(w.w), say: w.w, review: { pic: w.p, text: '', ans: w.w } })) });
+                }
+                return rounds;
+            },
+            pop(n) {
+                const comp = runMode === 'comp';
+                return takeN(WORDS, n).map(w => ({ type: 'bubble', say: w.w, autoSay: !comp, sayBtn: true,
+                    text: '<span class="word-big">' + esc(w.w) + '</span>', sub: 'Pop the right picture!',
+                    options: picOpts([w].concat(otherWords(w, 2))), answer: w.w,
+                    review: { pic: w.p, text: 'Pop: ' + w.w, ans: w.w } }));
+            },
+            yesno(n) {
+                const pool = WORDS.map(w => ({ w })).concat((D.yesno || []).map(y => ({ y })));
+                const opts = [{ id: 'yes', html: '<i class="fas fa-check"></i> Yes', cls: 'yes' }, { id: 'no', html: '<i class="fas fa-times"></i> No', cls: 'no' }];
+                return takeN(pool, n).map(it => {
+                    if (it.w) {
+                        const w = it.w, isTrue = Math.random() > 0.5;
+                        const shown = isTrue ? w.w : otherWords(w, 1)[0].w;
+                        return { type: 'choice', layout: 'yesno', pic: w.p, text: '<span class="word-big">' + esc(shown) + '</span>', say: shown,
+                                 sayBtn: true, options: opts, answer: isTrue ? 'yes' : 'no', speakAfter: w.w,
+                                 review: { pic: w.p, text: shown + ' ?', ans: isTrue ? 'Yes ✔' : 'No ✘ — it is ' + w.w } };
+                    }
+                    const y = it.y;
+                    return { type: 'choice', layout: 'yesno', pic: y.pic, text: esc(y.t), say: y.t, sayBtn: true, options: opts,
+                             answer: y.yes ? 'yes' : 'no', review: { pic: y.pic, text: y.t, ans: y.yes ? 'Yes ✔' : 'No ✘' } };
+                });
+            },
+            count(n) {
+                const c = D.count;
+                if (!c) return [];
+                const out = [];
+                let last = -1;
+                for (let i = 0; i < n; i++) {
+                    let k;
+                    do { k = c.min + Math.floor(Math.random() * (c.max - c.min + 1)); } while (k === last && c.max > c.min);
+                    last = k;
+                    const item = rnd(c.items);
+                    const nums = [];
+                    for (let x = Math.max(1, c.min - 1); x <= Math.min(10, c.max + 1); x++) if (x !== k) nums.push(x);
+                    const near = shuffle(nums.filter(x => Math.abs(x - k) <= 2));
+                    const others = (near.length >= 2 ? near : shuffle(nums)).slice(0, 2);
+                    const spec = { count: [item[0], k] };
+                    out.push({ type: 'choice', layout: 'letters', pic: spec, text: 'How many ' + esc(item[1]) + '?',
+                               options: shuffle(textOpts([String(k)].concat(others.map(String)))), answer: String(k),
+                               say: k + ' ' + (k === 1 ? item[0] : item[1]), review: { pic: spec, text: 'How many ' + item[1] + '?', ans: String(k) } });
+                }
+                return out;
+            },
+            first(n) {
+                return takeN(PH_WORDS, n).map(w => {
+                    const l = w.w[0];
+                    return { type: 'choice', layout: 'letters', pic: w.p, sayBtn: true, say: w.w,
+                             text: '<span class="word-big"><span class="slot-let">?</span>' + esc(w.w.slice(1)) + '</span>',
+                             options: shuffle(letterOpts([l].concat(otherLetters(l, 2)))), answer: l,
+                             review: { pic: w.p, text: 'First letter of ' + w.w, ans: l + '  (' + w.w + ')' } };
+                });
+            },
+            find(n) {
+                const out = [];
+                const letters = takeN(LETTERS.filter(l => PH_WORDS.some(w => w.w[0] === l)), n);
+                letters.forEach(l => {
+                    const a = rnd(PH_WORDS.filter(w => w.w[0] === l));
+                    const others = shuffle(WORDS.filter(w => w.w[0] !== l && w.p !== a.p && !(l === 'c' && w.w[0] === 'k') && !(l === 'k' && w.w[0] === 'c'))).slice(0, 2);
+                    out.push({ type: 'choice', layout: 'pics', say: a.w, speakAfter: a.w,
+                               text: 'Which one starts with <span class="big-let">' + l.toUpperCase() + l + '</span>?',
+                               options: shuffle(picOpts([a].concat(others))), answer: a.w,
+                               review: { pic: a.p, text: 'Starts with ' + l.toUpperCase() + l, ans: a.w } });
+                });
+                return out;
+            },
+            'case'(n) {
+                const out = [];
+                for (let i = 0; i < n; i++) {
+                    const l = Math.random() < 0.7 ? rnd(LETTERS) : rnd(LETTER_POOL);
+                    const up = Math.random() > 0.5;
+                    const shown = up ? l.toUpperCase() : l;
+                    const conv = x => up ? x : x.toUpperCase();
+                    out.push({ type: 'choice', layout: 'letters', say: '',
+                               text: '<span class="huge-let">' + shown + '</span>',
+                               sub: up ? 'Find its small letter <span class="ar" dir="rtl">— الحرف الصغير</span>' : 'Find its big letter <span class="ar" dir="rtl">— الحرف الكبير</span>',
+                               options: shuffle(letterOpts([conv(l)].concat(otherLetters(l, 2).map(conv)))), answer: conv(l),
+                               review: { pic: null, text: shown, ans: l.toUpperCase() + l } });
+                }
+                return out;
+            },
+            lpop(n) {
+                const comp = runMode === 'comp';
+                return takeN(PH_WORDS, n).map(w => {
+                    const l = w.w[0];
+                    return { type: 'bubble', pic: w.p, say: w.w, autoSay: !comp, sayBtn: true, sub: 'Pop its first letter!',
+                             options: letterOpts([l].concat(otherLetters(l, 2))).map(o => ({ ...o, let: true })), answer: l,
+                             review: { pic: w.p, text: 'First letter of ' + w.w, ans: l } };
+                });
+            },
+            lmatch(n) {
+                const rounds = [];
+                let pool = [];
+                for (let r = 0; r < n; r++) {
+                    const pick = [];
+                    let guard = 0;
+                    while (pick.length < 4 && guard++ < 50) {
+                        if (!pool.length) pool = shuffle(LETTERS).concat(shuffle(LETTER_POOL.filter(l => LETTERS.indexOf(l) < 0)));
+                        const l = pool.shift();
+                        if (pick.indexOf(l) >= 0) continue;
+                        if ((l === 'i' && pick.indexOf('l') >= 0) || (l === 'l' && pick.indexOf('i') >= 0)) { pool.push(l); continue; }
+                        pick.push(l);
+                    }
+                    rounds.push({ type: 'match', points: pick.length, letters: true, pairs: pick.map(l => ({ id: l, left: l.toUpperCase(), right: l, say: '', review: { pic: null, text: '', ans: l.toUpperCase() + l } })) });
+                }
+                return rounds;
+            }
+        };
+
+        function countFor(id, mode) { const t = mode === 'solo' ? SOLO_N : TEAM_N; return t[id] || t.def; }
+
+        /* ---------- screens & menu ---------- */
+        function switchScreen(screenId) {
+            screens.forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            document.body.classList.toggle('compact', screenId === 'game-screen' && runMode === 'comp');
+            window.scrollTo(0, 0);
+        }
+        function chooseSection(section) {
+            currentSection = section;
+            document.getElementById('menu-title').innerText = SECTION_NAMES[section];
+            document.getElementById('menu-desc').innerText = 'Unit ' + UNIT_NUM + ': ' + UNIT_NAME + (section === 'phonics' ? ' — Letters ' + LETTERS.map(l => l.toUpperCase() + l).join(' · ') : '');
+            const grid = document.getElementById('games-grid');
+            grid.innerHTML = '';
+            GAMES[section].filter(g => !g.needs || D[g.needs]).forEach(g => {
+                const c = document.createElement('div');
+                c.className = 'game-card';
+                c.innerHTML = '<span class="emo">' + g.icon + '</span><h3>' + esc(g.name) + '</h3><span class="ar-sub" dir="rtl">' + g.ar + '</span>';
+                c.onclick = () => startGame(g.id);
+                grid.appendChild(c);
+            });
+            setMode(currentMode);
+            switchScreen('main-menu');
+        }
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('mode-solo').classList.toggle('active', mode === 'solo');
+            document.getElementById('mode-comp').classList.toggle('active', mode === 'comp');
+            document.getElementById('comp-settings').style.display = mode === 'comp' ? 'grid' : 'none';
+            document.getElementById('mode-hint').innerHTML = mode === 'solo'
+                ? '<i class="fas fa-info-circle"></i> Play on your own — no time limit. Tap 🔊 to hear the word. <span class="section-hint" dir="rtl">دوس 🔊 عشان تسمع الكلمة</span>'
+                : '<i class="fas fa-info-circle"></i> Two teams play at the same time, each on its own half of the screen. Highest score wins; if scores are equal, the faster team wins.';
+        }
+
+        /* ---------- game flow ---------- */
+        function buildSet(id, n) { return BUILD[id](n); }
+        function reshuffleQ(q) {
+            const c = { ...q };
+            if (c.options && c.layout !== 'yesno') c.options = shuffle(c.options);
+            return c;
+        }
+        function totalPoints(qs) { return qs.reduce((s, q) => s + (q.points || 1), 0); }
+
+        function createTeam(i, name, questions, solo) {
+            const panel = document.createElement('div');
+            panel.className = 'team-panel ' + (solo ? 'solo' : 't' + i);
+            panel.innerHTML = `
+                <div class="team-head"><span class="team-name"></span><span class="team-score">0</span></div>
+                <div class="team-meta">
+                    <span>Question <span class="q-num">0</span> / ${questions.length}</span>
+                    <span class="timer-num">${questionTime}</span>
+                </div>
+                <div class="timer-bar"><div class="timer-fill"></div></div>
+                <div class="play"></div>
+                <div class="team-flash"></div>
+                <div class="team-done">
+                    <i class="fas fa-flag-checkered" style="font-size:4rem;color:var(--team)"></i>
+                    <h3 style="font-size:1.6rem;color:var(--team-dark)">Finished!</h3>
+                    <div class="done-score" style="font-size:1.3rem;font-weight:800"></div>
+                    <div style="color:#64748b">Waiting for the other team...</div>
+                </div>`;
+            panel.querySelector('.team-name').textContent = name;
+            arena.appendChild(panel);
+            const q = s => panel.querySelector(s);
+            return {
+                idx: i, name, questions, solo, total: totalPoints(questions),
+                score: 0, qIndex: 0, mistakes: [], intervals: [], timeouts: [], timerInt: null,
+                qStart: 0, timeUsed: 0, locked: true, finished: false, st: null,
+                el: { panel, score: q('.team-score'), qNum: q('.q-num'), timerNum: q('.timer-num'), timerFill: q('.timer-fill'),
+                      play: q('.play'), flash: q('.team-flash'), doneScore: q('.done-score') }
+            };
+        }
+        function clearTeam(team) {
+            team.intervals.forEach(clearInterval); team.intervals = [];
+            team.timeouts.forEach(clearTimeout); team.timeouts = [];
+            if (team.timerInt) { clearInterval(team.timerInt); team.timerInt = null; }
+        }
+        function stopAll() {
+            running = false;
+            if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+            if (endTimeout) { clearTimeout(endTimeout); endTimeout = null; }
+            document.getElementById('countdown').classList.remove('show');
+            teams.forEach(clearTeam);
+            if (canSpeak) try { speechSynthesis.cancel(); } catch (e) {}
+        }
+        function returnToMenu() { stopAll(); switchScreen('main-menu'); }
+
+        function startGame(gameId) {
+            try { if (audioCtx) audioCtx.resume(); } catch (e) {}
+            stopAll();
+            currentGameId = gameId;
+            runMode = currentMode;
+            arena.innerHTML = '';
+            const sectionName = SECTION_NAMES[currentSection];
+
+            if (runMode === 'solo') {
+                questionTime = 0;
+                arena.className = 'arena solo';
+                teams = [createTeam(0, '🎯 Your Score', buildSet(gameId, countFor(gameId, 'solo')), true)];
+                document.getElementById('comp-title').innerText = GAME_NAMES[gameId] + ' — ' + sectionName;
+                document.getElementById('comp-time-wrap').style.display = 'none';
+                document.getElementById('btn-stop').innerHTML = '<i class="fas fa-arrow-left"></i> Back';
+                switchScreen('game-screen');
+                running = true;
+                loadQuestion(teams[0]);
+                return;
+            }
+
+            questionTime = parseInt(document.getElementById('q-time').value, 10) || 20;
+            const names = [val('team1-name') || 'Team A', val('team2-name') || 'Team B'];
+            const n = countFor(gameId, 'comp');
+            let sets;
+            if (document.getElementById('q-mode').value === 'same') {
+                const base = buildSet(gameId, n);
+                sets = [0, 1].map(() => shuffle(base).map(reshuffleQ));
+            } else {
+                const all = buildSet(gameId, n * 2);
+                sets = [all.slice(0, n), all.slice(n, n * 2)];
+            }
+            arena.className = 'arena';
+            teams = [0, 1].map(i => createTeam(i, names[i], sets[i], false));
+            document.getElementById('comp-title').innerText = '🏆 ' + GAME_NAMES[gameId] + ' — ' + sectionName;
+            document.getElementById('comp-time-wrap').style.display = '';
+            document.getElementById('comp-time-label').innerText = questionTime;
+            document.getElementById('btn-stop').innerHTML = '<i class="fas fa-stop"></i> Stop';
+            switchScreen('game-screen');
+            runCountdown(() => { running = true; teams.forEach(t => loadQuestion(t)); });
+        }
+
+        function runCountdown(done) {
+            const ov = document.getElementById('countdown');
+            let n = 3;
+            ov.innerText = n; ov.classList.add('show'); playSound('tick');
+            countdownTimer = setInterval(() => {
+                n--;
+                if (n > 0) { ov.innerText = n; playSound('tick'); }
+                else if (n === 0) { ov.innerText = 'GO!'; playSound('go'); }
+                else { clearInterval(countdownTimer); countdownTimer = null; ov.classList.remove('show'); done(); }
+            }, 800);
+        }
+
+        function promptHTML(q) {
+            let h = '<div class="prompt">';
+            if (q.listen && !q.text) h += '<button class="say-btn huge pulse"><i class="fas fa-volume-high"></i></button>';
+            const row = [];
+            if (q.pic) row.push(pic(q.pic, 'big'));
+            if (q.sayBtn && canSpeak) row.push('<button class="say-btn"><i class="fas fa-volume-high"></i></button>');
+            if (q.listen && q.text && canSpeak) row.push('<button class="say-btn"><i class="fas fa-volume-high"></i></button>');
+            if (row.length) h += '<div class="prompt-row">' + row.join('') + '</div>';
+            if (q.text) h += '<div class="p-text">' + q.text + '</div>';
+            if (q.sub) h += '<div class="p-sub">' + q.sub + '</div>';
+            if (q.listen && !q.text && !canSpeak) h += '<div class="p-text"><span class="word-big">' + esc(q.say) + '</span></div>';
+            return h + '</div>';
+        }
+        function wireSay(team, q) {
+            team.el.play.querySelectorAll('.say-btn').forEach(b => onTap(b, () => speak(q.say)));
+        }
+
+        function loadQuestion(team) {
+            if (!running) return;
+            clearTeam(team);
+            if (team.qIndex >= team.questions.length) { finishTeam(team); return; }
+            const q = team.questions[team.qIndex];
+            team.locked = false;
+            team.el.qNum.innerText = team.qIndex + 1;
+            const play = team.el.play;
+            play.innerHTML = '';
+            if (q.type === 'choice') renderChoice(team, q);
+            else if (q.type === 'spell') renderSpell(team, q);
+            else if (q.type === 'match') renderMatch(team, q);
+            else if (q.type === 'bubble') renderBubble(team, q);
+            wireSay(team, q);
+            if (q.autoSay && team.solo) team.timeouts.push(setTimeout(() => speak(q.say), 250));
+            startTimer(team, q);
+        }
+
+        function renderChoice(team, q) {
+            const play = team.el.play;
+            play.innerHTML = promptHTML(q) + '<div class="opts ' + q.layout + '"></div>';
+            const grid = play.querySelector('.opts');
+            q.options.forEach(o => {
+                const b = document.createElement('button');
+                b.className = 'opt' + (o.cls ? ' ' + o.cls : '');
+                b.dataset.id = o.id;
+                b.innerHTML = o.html;
+                onTap(b, () => {
+                    if (team.locked || !running) return;
+                    const ok = o.id === q.answer;
+                    grid.querySelectorAll('.opt').forEach(x => {
+                        x.disabled = true;
+                        if (x.dataset.id === q.answer) x.classList.add('correct');
+                        else if (x === b && !ok) x.classList.add('wrong');
+                    });
+                    finishQ(team, q, ok ? 1 : 0, ok ? [] : [q.review]);
+                });
+                grid.appendChild(b);
+            });
+        }
+
+        function renderSpell(team, q) {
+            const play = team.el.play;
+            const word = q.word;
+            let letters = word.split('');
+            let mixed = shuffle(letters);
+            for (let g = 0; g < 10 && word.length > 1 && mixed.join('') === word; g++) mixed = shuffle(letters);
+            play.innerHTML = promptHTML({ pic: q.pic, sayBtn: true, sub: 'Tap the letters in order <span class="ar" dir="rtl">— رتّب الحروف</span>' }) +
+                '<div class="slots"></div><div class="tiles"></div><div class="spell-answer"></div>';
+            const slotsEl = play.querySelector('.slots'), tilesEl = play.querySelector('.tiles');
+            const slots = word.split('').map(() => null);
+            const slotEls = slots.map((_, i) => {
+                const s = document.createElement('div');
+                s.className = 'slot';
+                onTap(s, () => {
+                    if (team.locked || !running || slots[i] === null) return;
+                    tileEls[slots[i]].classList.remove('used');
+                    slots[i] = null; s.textContent = ''; s.classList.remove('filled');
+                });
+                slotsEl.appendChild(s); return s;
+            });
+            const tileEls = mixed.map((ch, ti) => {
+                const t = document.createElement('button');
+                t.className = 'tile'; t.textContent = ch;
+                onTap(t, () => {
+                    if (team.locked || !running || t.classList.contains('used')) return;
+                    const i = slots.indexOf(null);
+                    if (i < 0) return;
+                    playSound('tap');
+                    slots[i] = ti; t.classList.add('used');
+                    slotEls[i].textContent = ch; slotEls[i].classList.add('filled');
+                    if (slots.indexOf(null) < 0) {
+                        const built = slots.map(x => mixed[x]).join('');
+                        const ok = built === word;
+                        slotEls.forEach(s => s.classList.add(ok ? 'good' : 'bad'));
+                        if (!ok) play.querySelector('.spell-answer').textContent = '✔ ' + word;
+                        finishQ(team, q, ok ? 1 : 0, ok ? [] : [q.review]);
+                    }
+                });
+                tilesEl.appendChild(t); return t;
+            });
+            team.st = { onTimeout: () => { play.querySelector('.spell-answer').textContent = '✔ ' + word; } };
+        }
+
+        function renderMatch(team, q) {
+            const play = team.el.play;
+            play.innerHTML = promptHTML({ sub: q.letters ? 'Match the big letter with its small letter <span class="ar" dir="rtl">— وصّل</span>' : 'Tap a picture, then tap its word <span class="ar" dir="rtl">— دوس على الصورة وبعدين الكلمة</span>' }) +
+                '<div class="match-board"><div class="match-col left"></div><div class="match-col right"></div></div>';
+            const L = play.querySelector('.left'), R = play.querySelector('.right');
+            const st = { sel: null, done: {}, missed: {}, count: 0 };
+            team.st = st;
+            function make(p, side) {
+                const b = document.createElement('div');
+                b.className = 'm-item' + (q.letters ? ' let' : '');
+                b.innerHTML = side === 'L' ? p.left : p.right;
+                b.dataset.id = p.id;
+                onTap(b, () => {
+                    if (team.locked || !running || st.done[p.id] === true && b.classList.contains('done')) return;
+                    if (b.classList.contains('done')) return;
+                    if (!st.sel || st.sel.side === side) {
+                        if (st.sel) st.sel.el.classList.remove('sel');
+                        st.sel = { side, id: p.id, el: b };
+                        b.classList.add('sel');
+                        playSound('tap');
+                        if (side === 'L' && team.solo && p.say) speak(p.say);
+                        return;
+                    }
+                    const other = st.sel;
+                    other.el.classList.remove('sel');
+                    st.sel = null;
+                    if (other.id === p.id) {
+                        const c = 'c' + (st.count % 4);
+                        [other.el, b].forEach(x => x.classList.add('done', c));
+                        st.done[p.id] = true; st.count++;
+                        playSound('correct');
+                        if (team.solo && p.say) speak(p.say);
+                        if (st.count === q.pairs.length) {
+                            const misses = q.pairs.filter(x => st.missed[x.id]);
+                            finishQ(team, q, q.pairs.length - misses.length, misses.map(x => x.review), false, true);
+                        }
+                    } else {
+                        playSound('wrong');
+                        const leftId = side === 'L' ? p.id : other.id;
+                        st.missed[leftId] = true;
+                        [other.el, b].forEach(x => { x.classList.add('bad'); setTimeout(() => x.classList.remove('bad'), 450); });
+                    }
+                });
+                return b;
+            }
+            shuffle(q.pairs).forEach(p => L.appendChild(make(p, 'L')));
+            shuffle(q.pairs).forEach(p => R.appendChild(make(p, 'R')));
+            st.onTimeout = () => {
+                const lost = q.pairs.filter(x => st.missed[x.id] || !st.done[x.id]);
+                return { gained: q.pairs.length - lost.length, mistakes: lost.map(x => x.review) };
+            };
+        }
+
+        function renderBubble(team, q) {
+            const play = team.el.play;
+            play.innerHTML = promptHTML(q) + '<div class="bubbles-container"></div>';
+            const area = play.querySelector('.bubbles-container');
+            const width = area.clientWidth, height = area.clientHeight;
+            const seg = width / q.options.length;
+            const base = Math.max(60, Math.min(seg - 14, width < 480 ? 96 : 124));
+            shuffle(q.options).forEach((o, i) => {
+                const bub = document.createElement('div');
+                bub.className = 'bubble' + (o.let ? ' let' : '');
+                bub.innerHTML = o.html;
+                const size = base - Math.random() * base * 0.08;
+                bub.style.width = size + 'px'; bub.style.height = size + 'px';
+                const minL = i * seg + 4;
+                let maxL = (i + 1) * seg - size - 4;
+                if (maxL < minL) maxL = minL;
+                bub.style.left = (minL + Math.random() * (maxL - minL)) + 'px';
+                let top = -size - Math.random() * 120;
+                bub.style.top = top + 'px';
+                onTap(bub, () => {
+                    if (team.locked || !running) return;
+                    const ok = o.id === q.answer;
+                    bub.style.background = ok ? 'var(--success)' : 'var(--danger)';
+                    finishQ(team, q, ok ? 1 : 0, ok ? [] : [q.review]);
+                });
+                area.appendChild(bub);
+                const speed = 0.35 + Math.random() * 0.35;
+                const iv = setInterval(() => {
+                    top += speed;
+                    bub.style.top = top + 'px';
+                    if (top > height) {
+                        if (o.id === q.answer) { clearInterval(iv); finishQ(team, q, 0, [q.review]); }
+                        else { top = -size - Math.random() * 80; }
+                    }
+                }, 20);
+                team.intervals.push(iv);
+            });
+        }
+
+        function startTimer(team, q) {
+            team.qStart = performance.now();
+            if (!questionTime) return;
+            const secs = Math.round(questionTime * (TIME_MUL[currentGameId] || 1));
+            const total = secs * 1000;
+            const fillEl = team.el.timerFill, num = team.el.timerNum;
+            fillEl.classList.remove('warn', 'danger');
+            fillEl.style.width = '100%';
+            num.innerText = secs;
+            team.timerInt = setInterval(() => {
+                const left = Math.max(0, total - (performance.now() - team.qStart));
+                const pct = left / total * 100;
+                fillEl.style.width = pct + '%';
+                fillEl.classList.toggle('warn', pct <= 50 && pct > 25);
+                fillEl.classList.toggle('danger', pct <= 25);
+                num.innerText = Math.ceil(left / 1000);
+                if (left <= 0) {
+                    if (q.type === 'match' && team.st && team.st.onTimeout) {
+                        const r = team.st.onTimeout();
+                        finishQ(team, q, r.gained, r.mistakes, true);
+                    } else {
+                        if (team.st && team.st.onTimeout) team.st.onTimeout();
+                        team.el.play.querySelectorAll('.opt').forEach(x => { x.disabled = true; if (x.dataset.id === q.answer) x.classList.add('correct'); });
+                        finishQ(team, q, 0, [q.review], true);
+                    }
+                }
+            }, 100);
+        }
+
+        function flashTeam(team, ok, timeout) {
+            const f = team.el.flash;
+            const icon = ok ? 'fa-check-circle' : (timeout ? 'fa-hourglass-end' : 'fa-times-circle');
+            f.className = 'team-flash show ' + (ok ? 'correct' : 'wrong');
+            f.innerHTML = '<i class="fas ' + icon + '"></i>';
+            setTimeout(() => f.classList.remove('show'), 650);
+        }
+
+        function finishQ(team, q, gained, mistakes, timeout, quiet) {
+            if (team.locked || !running) return;
+            team.locked = true;
+            const spent = performance.now() - team.qStart;
+            const limit = questionTime ? questionTime * (TIME_MUL[currentGameId] || 1) * 1000 : spent;
+            team.timeUsed += Math.min(limit, spent);
+            clearTeam(team);
+            team.st = null;
+            const full = gained >= (q.points || 1);
+            team.score += gained;
+            team.el.score.innerText = team.score;
+            (mistakes || []).forEach(m => team.mistakes.push(m));
+            if (!quiet) playSound(full ? 'correct' : 'wrong');
+            flashTeam(team, full, timeout);
+            if (team.solo) {
+                const s = q.speakAfter || (q.type !== 'match' && !q.autoSay ? q.say : (full ? '' : q.say));
+                if (s) setTimeout(() => speak(s), 150);
+            }
+            const wait = q.type === 'match' ? 900 : (team.solo ? 1500 : 1100);
+            team.timeouts.push(setTimeout(() => { team.qIndex++; loadQuestion(team); }, wait));
+        }
+
+        function finishTeam(team) {
+            if (team.finished) return;
+            team.finished = true; team.locked = true;
+            if (team.solo) { endTimeout = setTimeout(endSolo, 300); return; }
+            team.el.timerFill.style.width = '0%';
+            team.el.doneScore.innerText = 'Score: ' + team.score + ' / ' + team.total;
+            team.el.panel.classList.add('finished');
+            if (teams.every(t => t.finished)) endTimeout = setTimeout(endCompetition, 1200);
+        }
+
+        function mistakesHtml(list) {
+            if (!list.length) return '<div style="color:var(--success);font-weight:800;font-size:1.3rem;text-align:center">Excellent! No mistakes. 🌟</div>';
+            return list.map(m => `<div class="mistake-item rev">${m.pic ? pic(m.pic, 'mini') : ''}<div>${m.text ? '<div class="mistake-q">' + esc(m.text) + '</div>' : ''}<div class="mistake-a"><i class="fas fa-check"></i> ${esc(m.ans)}</div></div></div>`).join('');
+        }
+
+        function endSolo() {
+            stopAll();
+            const t = teams[0];
+            const pct = t.total ? t.score / t.total : 0;
+            const n = pct >= 0.9 ? 3 : pct >= 0.6 ? 2 : pct > 0 ? 1 : 0;
+            document.getElementById('stars').innerHTML = [0, 1, 2].map(i => '<span class="' + (i < n ? '' : 'off') + '">⭐</span>').join('');
+            document.getElementById('final-score').innerText = t.score;
+            document.getElementById('final-total').innerText = t.total;
+            document.getElementById('mistakes-container').innerHTML = mistakesHtml(t.mistakes);
+            const input = document.getElementById('student-name-input');
+            input.value = ''; input.classList.remove('input-error');
+            if (n >= 2) playSound('win');
+            switchScreen('solo-results');
+        }
+
+        function endCompetition() {
+            stopAll();
+            const [a, b] = teams;
+            let winner = null, byTime = false;
+            if (a.score !== b.score) winner = a.score > b.score ? a : b;
+            else if (Math.abs(a.timeUsed - b.timeUsed) >= 100) { winner = a.timeUsed < b.timeUsed ? a : b; byTime = true; }
+            const banner = document.getElementById('winner-banner');
+            if (winner) {
+                banner.innerHTML = '🏆 Winner: ' + esc(winner.name) +
+                    (byTime ? '<div style="font-size:1rem;color:#64748b;font-weight:600;margin-top:6px">Same score — won by faster time</div>' : '');
+                lastResultText = 'Winner: ' + winner.name + (byTime ? ' (faster time)' : '');
+                playSound('win');
+            } else { banner.innerHTML = "🤝 It's a Draw!"; lastResultText = "It's a draw"; }
+            const cards = document.getElementById('score-cards');
+            cards.innerHTML = '';
+            teams.forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'score-card t' + t.idx + (winner === t ? ' win' : '');
+                card.innerHTML = `
+                    <h4>${winner === t ? '🏆 ' : ''}${esc(t.name)}</h4>
+                    <div class="big">${t.score} / ${t.total}</div>
+                    <div class="meta"><i class="fas fa-stopwatch"></i> Time: ${(t.timeUsed / 1000).toFixed(1)}s</div>
+                    <div class="results-list">${mistakesHtml(t.mistakes)}</div>`;
+                cards.appendChild(card);
+            });
+            document.getElementById('class-name-input').value = '';
+            switchScreen('results-screen');
+        }
+
+        function resultHeader() {
+            return '📘 ' + PREP_LABEL + ' - Unit ' + UNIT_NUM + ': ' + UNIT_NAME + '\n' +
+                '📝 Section: ' + SECTION_NAMES[currentSection] + '\n' +
+                '🎮 Game: ' + (GAME_NAMES[currentGameId] || 'Game') + '\n';
+        }
+        function openWhatsApp(message) { window.open('https://wa.me/' + TEACHER_PHONE + '?text=' + encodeURIComponent(message), '_blank'); }
+        function sendSoloResult() {
+            const input = document.getElementById('student-name-input');
+            const name = input.value.trim();
+            if (!name) {
+                input.classList.add('input-error'); input.focus();
+                setTimeout(() => input.classList.remove('input-error'), 500);
+                return;
+            }
+            const t = teams[0];
+            openWhatsApp('📚 *Game Result*\n👤 Student: ' + name + '\n' + resultHeader() + '✅ Score: ' + t.score + ' / ' + t.total);
+        }
+        function sendCompResult() {
+            if (teams.length < 2) return;
+            const cls = val('class-name-input');
+            const [a, b] = teams;
+            openWhatsApp('🏆 *Competition Result*\n' + (cls ? '🏫 Class: ' + cls + '\n' : '') + resultHeader() + '\n' +
+                '🔵 ' + a.name + ': ' + a.score + ' / ' + a.total + ' (' + (a.timeUsed / 1000).toFixed(1) + 's)\n' +
+                '🟠 ' + b.name + ': ' + b.score + ' / ' + b.total + ' (' + (b.timeUsed / 1000).toFixed(1) + 's)\n\n' +
+                '🥇 ' + lastResultText);
+        }
+    </script>
+
+</body>
+</html>
