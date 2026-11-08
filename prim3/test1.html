@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prim 3 Test 1 * المستـــR - Mr Ahmed Usama</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --primary: #047857;
+    --secondary: #10b981;
+    --primary-dark: #064e3b;
+    --accent: #f5b301;
+    --success: #16a34a;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --dark: #0f2a22;
+    --light: #f0fdf4;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+.arabic-text { font-family: 'Cairo', sans-serif; }
+
+body {
+    background: radial-gradient(circle at top, #ecfdf5, #86efac);
+    color: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== Header ===== */
+header {
+    background: linear-gradient(135deg, #052e22, #064e3b 45%, #047857);
+    color: white;
+    padding: 26px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+    border-bottom: 5px solid var(--accent);
+}
+.header-content { display: flex; align-items: center; gap: 30px; }
+.logo-container {
+    width: 190px; height: 230px; border-radius: 22px; overflow: hidden;
+    background: #052e22; border: 4px solid var(--accent);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    transition: transform 0.3s ease; flex-shrink: 0;
+}
+.logo-container:hover { transform: scale(1.03) rotate(-2deg); }
+.logo-container img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.brand { display: inline-block;
+    font-family: 'Cairo', sans-serif; font-weight: 900; font-size: 3.2rem; line-height: 1.15;
+    color: var(--accent); text-shadow: 2px 3px 0 rgba(0,0,0,0.35); letter-spacing: 1px;
+}
+.titles h2 { font-size: 1.45rem; font-weight: 600; color: #d1fae5; letter-spacing: 0.5px; }
+.titles h3 {
+    font-size: 1.05rem; font-weight: 400; color: #ecfdf5; margin-top: 10px;
+    background: rgba(0,0,0,0.25); padding: 6px 15px; border-radius: 20px; display: inline-block;
+}
+.header-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.social-links a {
+    color: #25D366; font-size: 2.5rem; text-decoration: none; background: white; border-radius: 50%;
+    width: 65px; height: 65px; display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.social-links a:hover { transform: scale(1.15) translateY(-5px); box-shadow: 0 8px 15px rgba(37,211,102,0.4); }
+.home-link {
+    color: white; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.35);
+    border-radius: 12px; padding: 8px 14px; display: flex; align-items: center; gap: 8px; white-space: nowrap;
+}
+.home-link:hover { background: rgba(255,255,255,0.22); }
+
+/* ===== Layout ===== */
+.container { max-width: 960px; margin: 36px auto; padding: 20px; flex-grow: 1; width: 100%; }
+.screen {
+    display: none; background: white; border-radius: 20px; padding: 40px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1); text-align: center;
+    animation: fadeIn 0.4s ease-out; border: 1px solid #d1fae5;
+}
+.screen.active { display: block; }
+.screen h2 { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
+.screen p { font-size: 1.1rem; color: #64748b; margin-bottom: 25px; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; margin-top: 25px; }
+.game-card {
+    background: linear-gradient(135deg, #ffffff, #f0fdf4);
+    border: 2px solid #d1fae5; border-bottom: 6px solid var(--primary); border-radius: 20px;
+    padding: 28px 20px; cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex; flex-direction: column; align-items: center; gap: 15px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+}
+.game-card:hover {
+    transform: translateY(-10px);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-bottom-color: var(--primary-dark); color: white;
+    box-shadow: 0 15px 25px rgba(4,120,87,0.3);
+}
+.game-card h3 { font-size: 1.3rem; font-weight: 600; }
+.game-card i { font-size: 3.5rem; color: var(--primary); transition: color 0.3s; }
+.game-card:hover i { color: white; }
+
+.btn-back {
+    background: var(--danger); color: white; border: none; padding: 12px 25px; border-radius: 12px;
+    cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: 0 4px 0 #b91c1c;
+    transition: all 0.1s; display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-back:active { transform: translateY(4px); box-shadow: 0 0 0 #b91c1c; }
+.btn-section {
+    background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 12px;
+    cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: 0 4px 0 var(--primary-dark);
+    transition: all 0.1s; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px;
+}
+.btn-section:active { transform: translateY(4px); box-shadow: 0 0 0 var(--primary-dark); }
+
+/* ===== Mode switch ===== */
+.mode-switch { display: inline-flex; flex-wrap: wrap; justify-content: center; background: #e2e8f0; border-radius: 16px; padding: 6px; gap: 6px; margin-bottom: 14px; }
+.mode-btn {
+    border: none; background: transparent; padding: 12px 24px; border-radius: 12px;
+    font-weight: 700; font-size: 1.05rem; cursor: pointer; color: #334155;
+    display: inline-flex; gap: 9px; align-items: center; font-family: inherit; transition: all 0.2s;
+}
+.mode-btn.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(4,120,87,0.35); }
+.screen p.mode-hint { font-size: 0.98rem; color: #475569; margin-bottom: 10px; }
+
+.comp-settings {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px;
+    background: #f0fdf4; border: 2px dashed #86efac; border-radius: 16px; padding: 20px;
+    margin: 10px 0 10px; text-align: left;
+}
+.comp-settings label { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; color: #334155; }
+.comp-settings input, .comp-settings select {
+    width: 100%; padding: 10px 12px; border: 2px solid #cbd5e1; border-radius: 10px;
+    font-size: 1rem; font-family: inherit; background: white;
+}
+.comp-settings input:focus, .comp-settings select:focus { outline: none; border-color: var(--primary); }
+
+/* ===== Game screen ===== */
+#game-screen.screen { padding: 16px; }
+.comp-topbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.comp-topbar h3 { font-size: 1.15rem; color: #475569; }
+
+.arena { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.arena.solo { grid-template-columns: 1fr; max-width: 880px; margin: 0 auto; }
+
+.team-panel.solo { --team: var(--primary); --team-dark: var(--primary-dark); --team-soft: #f0fdf4; }
+.t0 { --team: #2563eb; --team-dark: #1e3a8a; --team-soft: #eff6ff; }
+.t1 { --team: #ea580c; --team-dark: #9a3412; --team-soft: #fff7ed; }
+
+.team-panel {
+    border: 4px solid var(--team); border-radius: 18px; padding: 14px; background: var(--team-soft);
+    display: flex; flex-direction: column; position: relative; overflow: hidden; min-height: 520px;
+}
+.team-panel.solo { min-height: 0; padding: 20px; }
+.team-head {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--team); color: white; border-radius: 12px; padding: 10px 14px; margin-bottom: 10px;
+}
+.team-name { font-size: 1.3rem; font-weight: 800; }
+.team-score { font-size: 1.5rem; font-weight: 800; background: rgba(255,255,255,0.22); padding: 2px 14px; border-radius: 10px; }
+.team-meta { display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--team-dark); margin-bottom: 6px; }
+.timer-num { font-size: 1.4rem; min-width: 48px; text-align: right; }
+.timer-bar { height: 12px; background: #e2e8f0; border-radius: 6px; overflow: hidden; margin-bottom: 12px; }
+.timer-fill { height: 100%; width: 100%; background: var(--success); transition: width 0.1s linear, background 0.3s; }
+.timer-fill.warn { background: var(--warning); }
+.timer-fill.danger { background: var(--danger); }
+.team-panel.solo .timer-num, .team-panel.solo .timer-bar { display: none; }
+.team-panel.solo .team-meta { margin-bottom: 14px; }
+
+.question-text { font-size: 1.8rem; margin-bottom: 30px; font-weight: 800; color: var(--dark); line-height: 1.4; }
+.team-panel .question-text { font-size: 1.35rem; margin-bottom: 16px; min-height: 3.8em; display: flex; align-items: center; justify-content: center; }
+.team-panel.solo .question-text { font-size: 1.75rem; margin-bottom: 26px; }
+
+.options-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+.team-panel .options-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+.team-panel.solo .options-grid { grid-template-columns: 1fr; gap: 14px; }
+
+.option-btn {
+    background: white; border: 2px solid #e2e8f0; color: var(--dark); padding: 18px; border-radius: 15px;
+    font-size: 1.3rem; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 5px 0 #cbd5e1; position: relative;
+}
+.team-panel .option-btn { font-size: 1.15rem; padding: 14px 10px; }
+.team-panel.solo .option-btn { font-size: 1.3rem; padding: 18px; }
+.option-btn:active { transform: translateY(5px); box-shadow: 0 0 0 #cbd5e1; }
+.option-btn:hover { border-color: var(--team, var(--primary)); background: #f8fafc; }
+.option-btn.correct { background: var(--success); border-color: var(--success); color: white; box-shadow: 0 5px 0 #15803d; }
+.option-btn.wrong { background: var(--danger); border-color: var(--danger); color: white; box-shadow: 0 5px 0 #b91c1c; }
+.option-btn, .bubble, .target { touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+
+.bubbles-container {
+    position: relative; height: 340px; background: linear-gradient(to bottom, #a7f3d0, #f0fdf4);
+    border-radius: 20px; overflow: hidden; border: 4px solid var(--team, var(--primary));
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+}
+.team-panel.solo .bubbles-container { height: 450px; }
+.bubble {
+    position: absolute;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(209,250,229,0.95));
+    border: 2px solid rgba(255,255,255,0.6); border-radius: 50%;
+    display: flex; justify-content: center; align-items: center; font-weight: 800; color: var(--primary-dark);
+    cursor: pointer; box-shadow: 0 8px 15px rgba(0,0,0,0.1), inset -5px -5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.1s; text-align: center; padding: 4px; font-size: 0.85rem; line-height: 1.1;
+    overflow: hidden; word-break: break-word; z-index: 2;
+}
+.bubble:active { transform: scale(0.9); }
+
+.targets-container {
+    position: relative; height: 320px; background: linear-gradient(135deg, #052e22, #065f46);
+    border-radius: 20px; overflow: hidden; border: 4px solid var(--accent); box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
+}
+.team-panel.solo .targets-container { height: 400px; }
+.target {
+    position: absolute; background: radial-gradient(circle, #fff, #fcd34d, #f59e0b);
+    border: 4px solid white; padding: 15px 25px; border-radius: 30px; font-weight: 800; color: white;
+    text-shadow: 1px 1px 2px black; cursor: crosshair; display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4); white-space: nowrap; text-align: center; z-index: 2;
+}
+
+.team-flash {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 7rem; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 5;
+}
+.team-flash.show { opacity: 1; }
+.team-flash.correct { color: var(--success); background: rgba(22,163,74,0.12); }
+.team-flash.wrong { color: var(--danger); background: rgba(239,68,68,0.12); }
+
+.team-done {
+    position: absolute; inset: 0; background: rgba(255,255,255,0.93);
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 6; text-align: center; gap: 10px; padding: 20px;
+}
+.team-panel.finished .team-done { display: flex; }
+
+.countdown-overlay {
+    position: fixed; inset: 0; background: rgba(5,46,34,0.82); display: none; align-items: center; justify-content: center;
+    z-index: 2000; color: var(--accent); font-size: 10rem; font-weight: 900; font-family: 'Poppins', sans-serif;
+}
+.countdown-overlay.show { display: flex; }
+
+/* ===== Results ===== */
+.results-list {
+    text-align: left; margin-top: 20px; max-height: 400px; overflow-y: auto;
+    border: 2px solid #e2e8f0; padding: 18px; border-radius: 15px; background: #f8fafc;
+}
+.mistake-item { background: white; padding: 14px; border-left: 5px solid var(--danger); margin-bottom: 12px; border-radius: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.05); }
+.mistake-q { font-weight: 600; margin-bottom: 8px; font-size: 1.05rem; color: var(--dark); }
+.mistake-a { color: var(--success); font-weight: 800; }
+
+.final-score { margin: 18px 0; font-size: 1.9rem; color: var(--primary); }
+.winner-banner { font-size: 2.2rem; font-weight: 900; margin: 10px 0 20px; color: #b45309; }
+.score-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: center; }
+.score-card { border: 4px solid var(--team); background: var(--team-soft); border-radius: 18px; padding: 18px; }
+.score-card.win { box-shadow: 0 0 0 6px var(--accent), 0 10px 25px rgba(0,0,0,0.15); }
+.score-card h4 { font-size: 1.4rem; color: var(--team-dark); }
+.score-card .big { font-size: 3rem; font-weight: 900; color: var(--team-dark); line-height: 1.2; }
+.score-card .meta { color: #475569; font-weight: 600; }
+.score-card .results-list { max-height: 260px; margin-top: 12px; padding: 12px; }
+.results-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 25px; }
+.results-actions button { margin: 0; padding: 15px 30px; font-size: 1.15rem; }
+
+.whatsapp-share { margin-top: 28px; padding: 25px; background: #f0fdf4; border: 2px dashed #25D366; border-radius: 18px; }
+.screen .whatsapp-share p { margin-bottom: 15px; color: var(--dark); font-weight: 700; font-size: 1.1rem; }
+.name-input {
+    width: 100%; max-width: 340px; padding: 14px 18px; border: 2px solid #cbd5e1; border-radius: 12px;
+    font-size: 1.1rem; font-family: 'Poppins', sans-serif; margin-bottom: 15px; text-align: center;
+}
+.name-input:focus { outline: none; border-color: #25D366; }
+.name-input.input-error { border-color: var(--danger); animation: shakeInput 0.4s; }
+@keyframes shakeInput { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.btn-whatsapp {
+    background: #25D366; color: white; border: none; padding: 14px 28px; border-radius: 12px; cursor: pointer;
+    font-size: 1.1rem; font-weight: 700; box-shadow: 0 4px 0 #128C3E; transition: all 0.1s;
+    display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-whatsapp:active { transform: translateY(4px); box-shadow: 0 0 0 #128C3E; }
+
+.main-footer {
+    background: #052e22; color: white; text-align: center; padding: 20px; font-size: 1.15rem;
+    font-weight: 600; letter-spacing: 1px; margin-top: auto; border-top: 4px solid var(--accent);
+}
+.main-footer .brand-mini { font-family: 'Cairo', sans-serif; color: var(--accent); font-weight: 900; }
+
+@media (max-width: 900px) {
+    .arena, .score-cards { grid-template-columns: 1fr; }
+    .team-panel { min-height: auto; }
+}
+@media (max-width: 768px) {
+    header { padding: 22px 18px; flex-direction: column; text-align: center; }
+    .header-content { flex-direction: column; gap: 14px; }
+    .logo-container { width: 140px; height: 170px; }
+    .brand { font-size: 2.4rem; }
+    .titles h2 { font-size: 1.1rem; }
+    .header-actions { flex-direction: row; }
+    .screen { padding: 24px 16px; }
+    .question-text, .team-panel.solo .question-text { font-size: 1.35rem; }
+    .option-btn, .team-panel.solo .option-btn { font-size: 1.1rem; }
+    .social-links a { width: 55px; height: 55px; font-size: 2.2rem; }
+    .team-panel.solo .bubbles-container { height: 380px; }
+    .bubble { font-size: 0.68rem; padding: 2px; }
+    .team-panel.solo .targets-container { height: 320px; }
+    .target { padding: 8px 12px; font-size: 0.72rem; white-space: normal; max-width: 42%; line-height: 1.15; }
+}
+@media (max-width: 480px) {
+    .team-panel.solo .bubbles-container { height: 320px; }
+    .bubble { font-size: 0.6rem; }
+    .team-panel.solo .targets-container { height: 280px; }
+    .target { font-size: 0.65rem; padding: 6px 10px; max-width: 46%; }
+}
+
+/* compact header while a competition is running */
+body.compact header { padding: 10px 20px; flex-direction: row; text-align: left; }
+body.compact .header-content { flex-direction: row; gap: 14px; }
+body.compact .logo-container { width: 54px; height: 66px; border-radius: 10px; border-width: 2px; }
+body.compact .brand { font-size: 1.5rem; }
+body.compact .titles h2 { font-size: 0.9rem; }
+body.compact .titles h3 { display: none; }
+body.compact .header-actions { flex-direction: row; }
+body.compact .home-link { display: none; }
+body.compact .social-links a { width: 44px; height: 44px; font-size: 1.6rem; }
+body.compact .main-footer { display: none; }
+body.compact .container { max-width: 1500px; margin: 12px auto; padding: 10px; }
+/* reorder the sentence (drag & drop) */
+.ro-line {
+    display: flex; align-items: center; gap: 6px; width: 100%; max-width: 620px; min-height: 74px;
+    border: 3px dashed #94a3b8; border-radius: 16px; padding: 10px; background: #f8fafc; transition: background 0.15s, border-color 0.15s;
+}
+.ro-slots { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; flex: 1; min-height: 50px; }
+.ro-end { font-size: 2rem; font-weight: 800; color: var(--primary-dark); }
+.ro-line.over { border-color: var(--accent); background: #fef9c3; }
+.ro-line.good { border-style: solid; border-color: var(--success); background: #dcfce7; }
+.ro-line.bad { border-style: solid; border-color: var(--danger); background: #fee2e2; }
+.ro-pool { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; min-height: 58px; width: 100%; max-width: 620px; }
+.ro-chip {
+    background: var(--accent); color: #3f2d00; font-weight: 800; font-size: 1.5rem; padding: 8px 16px; border-radius: 12px;
+    box-shadow: 0 4px 0 #b45309; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; white-space: nowrap;
+}
+.ro-slots .ro-chip { background: white; color: var(--primary-dark); box-shadow: 0 3px 0 #cbd5e1; border: 2px solid var(--primary); }
+.ro-chip.ghosting { opacity: 0.3; }
+.ro-ghost { position: fixed; z-index: 9999; pointer-events: none; transform: translate(-50%, -50%) scale(1.12); box-shadow: 0 10px 20px rgba(0,0,0,0.25); }
+.btn-check {
+    background: var(--primary); color: white; border: none; border-radius: 14px; padding: 12px 34px; font-family: inherit;
+    font-size: 1.2rem; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 var(--primary-dark); touch-action: manipulation;
+}
+.btn-check:disabled { opacity: 0.4; cursor: default; }
+@media (max-width: 768px) {
+    .ro-chip { font-size: 1.2rem; padding: 6px 12px; }
+    .ro-end { font-size: 1.6rem; }
+    .ro-line { padding: 8px 6px; min-height: 64px; }
+}
+.p-sub { font-size: 0.95rem; color: #64748b; font-weight: 600; font-family: 'Cairo', sans-serif; }
+.spell-answer { font-size: 1.15rem; font-weight: 800; color: var(--success); min-height: 1.4em; text-align: center; }
+.reorder-box { flex-direction: column; align-items: center; gap: 12px; width: 100%; }
+.test-info { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin: 18px 0 10px; }
+.test-info div { background: white; border: 3px solid var(--primary); border-radius: 16px; padding: 10px 22px; min-width: 110px; box-shadow: 0 4px 0 var(--primary-dark); }
+.test-info b { display: block; font-size: 2rem; color: var(--primary); line-height: 1.1; }
+.test-info span { font-weight: 600; color: #475569; font-size: 0.9rem; }
+.test-forms { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 8px auto 6px; max-width: 700px; }
+.test-forms span { background: #ecfdf5; color: var(--primary-dark); border: 2px solid #a7f3d0; border-radius: 999px; padding: 5px 12px; font-weight: 700; font-size: 0.9rem; }
+.ar-note { font-family: 'Cairo', sans-serif; font-weight: 700; color: var(--primary-dark); margin: 6px 0 14px; }
+.btn-start { display: block; margin: 22px auto 6px; background: var(--accent); color: #3f2d00; border: none; border-radius: 18px; padding: 16px 56px;
+    font-family: inherit; font-size: 1.5rem; font-weight: 800; cursor: pointer; box-shadow: 0 6px 0 #b45309; }
+.btn-start:active { transform: translateY(5px); box-shadow: 0 1px 0 #b45309; }
+.q-tag { align-self: center; background: #ecfdf5; color: var(--primary-dark); border-radius: 999px; padding: 4px 14px; font-weight: 700; font-size: 0.85rem; margin-bottom: 4px; text-align: center; }
+.q-tag span { color: #64748b; font-weight: 600; margin-left: 6px; }
+.options-grid.tf { grid-template-columns: 1fr 1fr; }
+.stars { font-size: 3rem; letter-spacing: 6px; margin: 6px 0 4px; }
+.stars .off { filter: grayscale(1); opacity: 0.3; }
+.final-score .pct { color: var(--primary); }
+.grade-label { font-size: 1.3rem; font-weight: 800; color: var(--accent-dark, #b45309); margin-bottom: 12px; font-family: 'Cairo', 'Poppins', sans-serif; }
+.mistake-q i { color: var(--primary); margin-right: 4px; }
+@media (max-width: 768px) {
+    .test-info div { padding: 8px 14px; min-width: 90px; }
+    .test-info b { font-size: 1.6rem; }
+    .btn-start { font-size: 1.3rem; padding: 14px 44px; }
+    .q-tag { font-size: 0.78rem; }
+}
+
+.q-emo { font-size: 4.5rem; line-height: 1.1; display: inline-block; margin-bottom: 4px; }
+@media (max-width: 768px) { .q-emo { font-size: 3.6rem; } }
+</style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQDAwQDAwQEBAQFBQQFBwsHBwYGBw4KCggLEA4RERAOEA8SFBoWEhMYEw8QFh8XGBsbHR0dERYgIh8cIhocHRz/2wBDAQUFBQcGBw0HBw0cEhASHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBz/wgARCAF5ARIDASIAAhEBAxEB/8QAHAAAAgIDAQEAAAAAAAAAAAAAAwQBAgAFBgcI/8QAGQEAAwEBAQAAAAAAAAAAAAAAAAECAwQF/9oADAMBAAIQAxAAAAHw44jdOLMWrNBraqLWrM1MTicZMhTLYnEWgK1vUIiaItEQFh3o1gyiZE5NKCiJJYlCzTA2xZ6q4TKlUwGOvmYresUCLVCbZaKjL4nTL4imXgdaksAKvLAGl4RSLVayJgLBOFmTFmqkoROTgPFbENxZbizMvNJhZrs5GaEpNioSqMvloqZnJquSUKC3PpGPR5IL3xTHbxMPrqLXmyHUc90cq1b0vOImAuEwgy1SMoSpJcEpccxMBGRghMqtdODNbVmqVvRO963ipmciq3hkfpfUareeV7O1ZGWo1+l6DT5a8r5X7H5N2ceioQfZ52RMMuE4U8JQgQShE4zIDImrU5GMoyuz04MZkxVKFpLm8Ei8y+TUbPX+gxrsdR0tefsr1WjYl6rW9ZzWudvPfRdTlflI3VOzzaZMUiBOJPCjMnW+Fmg2IRNcWwFUoY1lyq2o50YMVvE1SLxNWvF86tN8io9n8c9Nw6uheQS5+xnZeebC46PYcn2E3pyprRXj2scV9LxwxatyURhJyYRU7sAbx1o1TYZ6bFfqU8N+Ox3OnDknU3fR85sRhRUZmTRC1LndpvOd5utQznfpAdK/j17zdctj0oYKxOw4fpuCeWoVfV7OJOpabZlAwvNSUBk7ua9rDRvY6d/Lb0RLV05enWYDOrn5h5J70fNaAcE3NoJFMX2gebdS2FahqjWdvlvucehHZasdOwCbxVreTF22mPnCW61XTyoCZDvnZZpUKlCQKnVNDZd17GWu4Lq2MtbZXGuf2CGw7eE4Dhmr3i82yQJsqscbWd3eHtcteZ7Lx/2NabFxkHJ238wT5z0POc+jPPPVNceX869rmX8vq/TvB7Z+RKdzx9pK0y5XKMsspQnzu7YlZo2K45G+i70YnHaJo1sJnVi363O+a6zsuoi+S1fcIs+YfcvDO/V+teQew+O83RxWU3Xo+d9AdBM46jodcJIM6FdduhM8r8y+muUtfOh8jXI5zK8+wTLTpmTB4EOJt7ZHmt5pg42stO19H1+7z0JlbND4vsPNhePEsTbP1DzIN89B+i+de9XHeDILLTAksElrIWCegKJPoB5J5p9I/OekPhtGWlltlgtFlc2xMyufSWCiMm7vtL3HNt6Y2PB0JEsV8g9g8GqeVMMusRUq4E+ofGPeMrWVPzU1nUeYdSq6+tCEkzMYgm6uGv8Amz6R+b7mjaFBbEKgkRkZpmycRrDMAYl7L03zP2Dn26a9cZW1LgP5v+k/mK5BMW0jB171P1Tp6Fx01h6jB5DYa8GiDEDOBMC67qwJfP30N4nS4MJpvNTLY5rlsBo656DMqtp7L3HxX3bDUt8GO85gW+b/AKU8fqfMyAvrGfTXnHr+V2IO81q67OgE1rywMKHVB0gyANZkQA8l9W85a8fqTLhWWIGLMwCloTSDNqty+p9o8p9Wx0KFgI4YTaA2q2utDy3nPb9bU7kzsRRh5DDZMAIbAwWFaoMsoMhCWwTBXnOlXD5oA6nrmxKc53GRlSyQZNYO6q/D9Y7TWbbLXF2Ewgo5B/XPJBsrQRECIqyzI7gS1LBlLVDX3rYNXvtBsQLQsgug/pw8G1LiGkDkUtWyMltHqbSD7RLfxXtTSzWelU3UAuSpQERVsGiLmRUV7svNZC8xIQMgQTtGBqtwgQHo1+zQuoXUt+Q8fvNJeac3mpplsT2h4O0z3vF+r530ba55qqTqTDEDgIvcP3Qcp2driiaAG5bLBFowMAdUAZmBqx7CAcsyNGu1r+N+AaHqdJUafNswzR50WRQm1Ni4d9k8r9fmzHCVlUHFAYoSA0m+17wMzEhFxGC0TIZNbBRNpQKwQYA2Gs2wFCUIKaHd8qn5ao/qZbtteSNDYPE67XW7fXDrvQ+U61MpomkqkzpWb+JGhZtLYByPcxLQmFzjtg7hOTQFwYQKUOMA7DX7ALDlYF9LvvP5pPzrcpxWqN1XG6Q3imBuN3r+kzrud0s3csYEbSw4TZ0ISiQo/r9iDOa5xknAyGTkBI5oCd5WA+qNrg2zwWgxZhZCnmHp/lafBl6UiOYt1Expy+dPg6dat2mLeZVe68YpZINPsNZ0DRYtgakomA13S8R3QgOptjtE0AciIFEWlgTEbYIbtaGACVMB+J7jmJodRyyEdhYNPm4xr3Po/Luj4d9+6k724KpbTng3wdrqUjxGvYtqDbtmg7ZAwNE17AOLmWChh3AImKAIpOOR3MaPcMFx3VrB55yPb8HlokuxTXMMZjLYPA6nuvOPQ8b7d1J3SQpuaKHtI1uyl5zvQ87rOx2WvfE1OXYkzWQfSdRC2UsFrDIEcR12py24Gu/88V+x7nzn0G8fFecZWqchhVrB4VpfLYz/xAAvEAACAgECBQMEAgICAwAAAAABAgADBAUREBITITEGFEEgIiMyFTMwQDRDJDVC/9oACAEBAAEFAosEb/aHFfDDisEf/aHARB2ccVgj/wC0OAieH4rBH/x9RQfcR7kshX/IOAiN2YzfgsEb/Dy7KqPdDh2T2tigVQDY21fb/iHHebzfgsEafH1Iu7UYr574emVUr7CppkaSLE/hlQW6NVtmYL4MtQI/+EfWsEafH1b8q6Zje3xqh3RZsNrFEsmbQLqbQvT+k/41gjT4+qteZsbc11lFicrDlMdI6y48q3AQ/SfoH1CLBGnx9WInPZlvYk9rWxx6bsKe+PSyEuyHOLlIKmseZKcn1j6dptCOAiwRp8cBxExtLX2qYaiuvS61GazBGXoY+GxRb8X7+m9jfxRyabU6dh4/EHECbQCckKTkgiwRp8cRwEwm5tJr5mXnuRCUNmTbV08cNWzVSwhFxF3x83Y5R4jxxEAm0RJj4nVGRi9I8kEWCNPiDgOCzTHL6djvM/LNc6eVkMyXcuPndCV39SvKYAPeadNYQ8fiDgIs+ahMAfZqC/dtBFgjz4ggg4LMfKsomO+6XANZhgbPVj7ZaEjDJFeQPszdQsethDxHgwcBFm8qmnD8eojZoIsEefAg4DgIswryo6v5drp/5k++VW/ktt6l9o7sIRDwHgwcN4pm8rbaYuZ0hlZPVPPBFgjQeBETeFdoOAEUTGH5MhHQ4mfXF1Kt2vzeaUfjH2Ytd9TIWEYQ8T9C8EMRoe85YIkEaCCY3LtdtuOCiAShZagsXo7z29IIpJlOMKU1XURkv7GzM0y6soWEPD4b6F4KYrwWTqxYvBoPAiNtCd4IIoiiatm9KrSd7cGr7LGVSQiUV6vrLZhw8VszJSnpjM0urLmZoGVVLEZGnwfPFeAi7mcoUdQxYvAxYIvARRK0llXtse0m63Tx0K7auoCasarVdXfNt3no/CDnlnLAJk4GPlrmekqnl/p7NoF1FlLcDF4IN47BITvwWLwMXxBwRd5j6Pe7U6dTRNdwjl6bzcr4rLkY1fev1NlO+Y3hT20PH9rpe02m3Ze82hSZGLXcub6Xotmfp92n2RIE5mP2zyeCxeBiwCIm8xNFstmLplFE2BHJtLnCJzEn07mcmRtsPUyCrP7sdNxPd5yryiHaOdog2ghnLvHSatpoz8a2s1WLKx+N/E34LBBwTws0LDF1gWABFHhpr1nS0hl7h2qbG9T0Ng5WRZnZA7T0fj9TO4GIPuHYz4+G2hsnqrTApE/6vMXHUy2k1zeCCDgnhF76fj+2wq5bws8erLOXHb9mHbpbDafs3pPH6WmmAzyfmVmHwV3jJtDtMzGXKxivKVO9cQxzvCO4iwcKxNOo62Vt9p2rX4jz1bbzaj8+ZtGOwrWYNHtsS1uUV2Basf1BhWxLkvrPgcbjGG8c8oc7ujbEibxn4rBBK5oNe+X8j7i3ifOvvz6wsHBu7emtP91mbbTKsFdWs15F+n1+m8h003TbNNsHhZ8mOIZlVdWhl5WnOVnVMJ34iCCVCen6+zTwhhg/bU36uowQxRu2kYPsMOZdQtSj9DD3sP6+AsJhEMfxrFXR1GEfSIIJTNGTkwj34NDF/a7+6bHl3npbTfd5o8zLPLTQdh8E/lb9XP2r4EMIjDt6oq5M6NNptNp4IgiyqYScmL+s+TwWatV0dShY8iVta+lYC6bgpwy0Ni0kz4P9v/w5+1BwM3hE9XLweCHiIIsxV53XtG/UT4T9fCeqtOJI78PSOk8zb7RPDHYKOzjvymMPuXw0SGbGERp6rA9rHERN46bcRBFmkpz5iiN4glfiz+taA1Wt+nOgNH0Z9Utr/EnI0WE7tw++MNgst7RDBHcCEsZyiazhUX4zbbsZSZbxEEWen6efKWND2UHtUZb/AFY5Y05t1lWNpLNcNtp8s3KqDYcW8CXDeqpgYSWgQCO4BZSZdji6m6o1WuIpjHiIsSen8fkxFjQ/ovhDytb/AF439OwgUKJ8n8j/AEN4h8UWdww2dyYAqxjLLukuoWrfnPFjcRFiDvh19KhY037L4Mc/hxv6x5hjNsEXYQcW8cKiFsNh3XmMJSEiahi+8xbazXZZBDxWKJQPyJFjeIvgxm2x6Rsg8wmKvfgOBh4uv5qkbYr32E7R7E3151bU7YIeG0URBNPo6+UsXw0HleF/ahT26irwPf628cFH5rGRYnI5I7WHtb9gzrOrlWQCEcNooiCaBRzXbQRovkcMs7os1LT78nLrHJVN/qfxwu5pjLs6sgnUjEMLU5hnY/tsm2AwngIolYmj09PDm8MHmc80q572SDxwVD9T8WXeV44LAARp+r2D7dQbqZTUM09jbBp1k/jYsUSkTFr6dQHeHwncxhK6a8eLBw+fpMc8WMr42KDMzI9vVb+/vbEI1XIUtrGU8/k8iJFmDXz3rB5j+KuNy/YIIZ87fS3g+YYBzOvBoTNTq3quE277QCbRJUJo9e+SIg4WntW/DeXH7BNMGT7sj6jGbtzTmm8pEWGEx+x1P7sWvT6Xqvt6VnuxPerPepElQmjpskHiXGY+11m3aX9wB2EMP0mHvxY8oxj1F+6H7h1BDsRrt3ILrApTDXJsyfTAopOJPZysStZpq8mId9l7Tml53mEF6HB/2BgPAzb6WPKQ6w2KJkZKFaF/CrbTnEsTnHieo7A9tdQYe2nt57LefxxlVZMox2lKiuodyxPDIPKmjv1MDefNjflH605VOR9R4OJttGG87G1OUwCFgIbN5YNpqyb5baxVtVq2nEnL057G9kT0klKTDU8wEEMPaatZyYWDV7bEhEt/vtTrUaVphwSfpMEaH7jYd4lMRdgZsN2/a20LMu7nZURocStidPEbCYT2tkxsNjMfDNaiKOx7RiTM2trU24nvk3ZFeHj+ntd/lYRDxPAS0w/ry7nwB4lvgmNe2ZlXeRzTdp1DOqROsZjZ+8a/mpHbg6mdQCYqhqPmGY4aXEahZRp2PRajc4Ii+Ix4L5t7ttFSN54OdhrWdZgYGHi1VaTeqiFoTOecwM7SrJFcxL+ow7zaMezVl7rAKcX53mbke2xk6ltVdY25Ip5S+TWsofnWHgDsfJ2gmoa5Xp+XiaviZsJjmWUrbXriKGsVQPuUsxad534V2zSDzsn7RolipbZf1BN5qn3xZX4m06YEp+1j43+lyES/H7jSF501p8bIoyvcV+BqeSbsksZ9055vvCDwSaFF/Yx/Fnmr9viZ3/sBK+HwYP2jeeI85n9Of/V/2Z3/ADsD/l5H9D8X88f/xAAoEQACAgEDBAICAgMAAAAAAAAAAQIREAMSMAQgITETIkFRFDJAQmH/2gAIAQMBAT8BXI8IRXgrleUfjg0tB6nkfSn8OTJwcHTy8LhRGoxLIs6xeV2IXDpabk/BODmacXXk2ScvBqQlNUNZQihxK7Fjp/bG1VnyV+BST9F0PKIiRsVG0WViLo3fU3L/AKOX2s1ZMeGIiyLNyo3Czs8WIRGNo2Mjp+TVmpOoksMRFiYpFoXYsdM25NnijW17+sSI/I4jQhCPRbFlI9DOn1NsqOpvZ3OIvZ67Usv1ierKSpi7pLzisojl5jhpdkhSoc8oXrMuGRRRWELLwu9+sbXV8FcW761/irmZWVzNChI+KXOjzYt37Pt+xD5Y+ycr/qbpo+WRFD5asqP7NkWfFESpcy9Hg2xNsSVVzf612XiPsn74NB/c6mChVE40x9n/xAAlEQACAQIGAQUBAAAAAAAAAAAAAQIQEQMSICEwMQQTIjJBURT/2gAIAQIBAT8B40KjpfcvV8Soxi70MdcXGWGLybn9MSMlLdVQ9Lq64l5MsSR4r2dVqdXSU1HsU0jEauXjYjKMWKiGMuJlx1dMX6N72Mn6NW7pFFqMkNkcR5jMOrpLcXYj6MNESwkNEkOIoPOWHRmf3WGMzWZnRKexCDSuyDEIkSRJDibjoxoY93ZGPFRikXZg4FvdIk9xOxHERFjJDOyw6MbGriVjyMPNG54yWfUpsfRe70Mk6rukMKMXdEutUXtTM71ZJ1j3Wb1RHG4oVY+6wo9cey+hj7rF0k9a7pmVXpzcWXe9Xz2q+ZF6XG+ZMc4nqwG+Zm1txqP4ez8JMjyy62MODW8hKEuj0ok5C5W7DlP8PUmvo9WRKV3zPuxuXkZpEIvNVO/Gvk3otvTE+LML48GKvaYEnK9yLuLR/8QAPRAAAQIDBQcCAwUGBwEAAAAAAQACAxEhEBIgMVEEIjAyQWFxE1JAQoEjYnKhsRQzQ1OR0SQ0YIKSosHw/9oACAEBAAY/Av8AW4utn5VWtkgPTl4VD8deOSoslO7u2iI3I/GVyQa07rc0BKZXKpNUpKUlNu9DOYRAy+LOqZSpqcTgUQM2H4to7pi3nBbpFtE5RZafFt8oQ4PNqpRNqDCt2LNorXRTDmmdM1L15eFubSHItijeH5raKdvi4UQFzYjwDNFsMSmVK51mpDmdupm6NyRRdIV6dk8w5glMJJa5unVP9R8iT8oTmHNpl8VDdo0Bbmfdb0Fv/NCJGLW3MgmzcBPVGHIOYOUjML92UfcUTo9RiMrx+Kuj5Z2SbzBXiHfRCQcLoV1wzWaoopHtPxZDHSBzUwjnWs1diQp/eDqo70XxNENbIalOJ8JupTtnEvTy4w411SW466uYI3nTRYrrenGlx2rd5m5K68ycOicLwTmw953ZSFYp6ouP1KIIkfhqqmK8KhbzA8Bf5dSa26OyvPp3K9OF+6b+a2aJ/GEMfVEHMfF+hDO8eYqFP2q49SCdEcQA2pJRhQ6QR/2UOCzmeZINHK0SRvNk/wBwRuD1G9kWuEiOh4e9xXR4lAMu5RrVxUIdJSU0YkRwY0dSixhls4yFkXa3Dl3G/wDuD7aC1yvbPFLD7XVVGB/4VKIxzT3GOQz4m+Lg7rU6lRQ2d9m+PomkDrNQ4jMjYNnnKHDE/Jt2dkpGUz9cB0tlEY1w7hF0EmEdMwrkUZ5EZG2XEnE3G/mhdbN2pWVkV7uRjSSmzyGS/Znu3YnL5sD5zL22bPA9zq+EAMhZmqZlSwuZ82bT3TmOEnNobC7XhmK4TbD/AFs727RrEkxBA9RUJz4wIjtpdHzJ0eKanpoplRIxHI39cBcbJ4W7bDFHUfY2zNajgQ29cypqXU27JC9zi61pIocrJdAvUlWK6dsrZHBkosE5OCI0Xi2SOKE3UoBDVTOZthQ/5cP9cIHUqDCHytAsc80hipKnN4J1amxYZvNPWwOtFl52QzTj3XbhT0Cai4oW7UdDdw+q8fZwf1sdNMgbLDLvVofwoDdhfVO/xXqMf/Du9bCMMRnuEkQcxw4r/oh4sFgW1HWIcHcqFClv8z/NjQdV3ysCCni2gdCZ8Np9xmvohgik5lx/Wy9KmtnrvbOFAr/u6I2HVEcJjuj2cOE37tpsK2ln3ybLvSc02GwTe4yAUOCObN3c20+VCdk7G+cWzHzwmN1MlLAE7wm7dCFJSif3t/b4raCkP++ELOlsu+CqzUOed6nCgjvid4Q8I7RsrTdzdDHTwg4zbszeZ2vZNhwmyY2gUzZLS2VPNs7dSvavmK9SPeDINaFU4N/owWmySf4TD90J7mDe/RPDxJrdMlSyeN2tkhZICblUp8I8rxJPhnNplwfUOcQ4Qn+FD/CLJASFvYcACVkhlqqWFxMgFHiN5XOnwAocPQWm134UzwMEhmeDEB1VGqsh4sookGdXCic1wkRTgM84DbF7NKHjBePBpmqmqqVkslzKLdGk+BCZqcBtjfhsq4CeUzxJ9JKr5nQLlslWSF2o0UZ+ruA6J7RgNrWj5ngWQ3s3ocpZykmNJmQM9eHu5lG+GiGBTUlbqqCqIgUmokKc7pz4DT764HW7Rfe51zaDn0phq88EKZVLZ6KKdXKjSuQqoOGGzQYHWzYwNvRJu7z4zcLpGskXFboCyCyC6WsbqcLrT9D+fGHbDEdwJ+0YSLXWO9UvlPros+FknHCRqU5z37yIkslksrXu1ph9VtWctrRq4cKuCaoVoVI0NkFk7oJW7HmgHbQ0T6leo3bIL+y5mrp/W1veytu7kCbYfnhDRZhZqQKZVVOBsPQW9VmuazJMGgVbSVDf7yT+dsMebD6URrpZy4UzkhPJZLoLMlNOePl6INibIyY6hfaQHAdluuc1q3NoH1X71v8AWxtgtjkZ3SoEL2MAtZ4KiQ7xF4Smi590ntwewsYdDPCQTUCck4zzW8qKjrOqyV+WWFsICZe4f0ngd2aAnx4pkxgmVFhv3YrTMD7vDFs7Nr2299mPsWaqmKjGj6ItOZwVUWNLsMD3Pze4n6dPyVWz2ZuQ951TY0GC2HEHVqnwhaU98NoLshNQnF5nEF8zRkZ4eZUzsFtwZoQx0tixfY0lQ4ZoC3fOvZUFnZSDrztG1U5S7cBrYkN5hyq5vQqUKKL2hobbj2hzT0KhsbuybkFnVUKqslla7sELb3WSlbs8D+bEr4FcNAvOMko+oJti1qnthPu3iDd17JzQ9xYDK6RRNJbcea3Z2RH3qE0tlLAFF+iGPYvD8QxuTPKgeVG8LZ//ALoon4eB/8QAKRABAAICAgIBBAIDAQEBAAAAAQARITEQQVFhcSCBkaGx0cHh8PFAMP/aAAgBAQABPyHv6uf/AAs6+uQXGSVKz/8AEn6WdRh9IcDJKjv6kc1zX1P0u51HcPpdOLfjv6F1wQlSpXONuDzM8PPrBLtnVQKjTaoVXd67jKifR1GH0O+AEGvA39D64IQ+jwH+cTKNdFQYekbMkbuAZp8MseyFsBtDqPDz1GHBw7hBR4Df0tUIECPAF0ZlIzc8QQDyMqHjAuP5iq7XuI1E0xJbS9EYtfJj9HUdwlY5VmdQI8G/pYhAhGVM6FoohiBXZxAo4BMw3eMwBumbRbndeI/R1NocVA4uXL4N/SxuEIRhPGFY8DWIhhvi5RWvhj4odNsotyhJfDLfnVv34PPU2gSsSuDKlcXNuUSuBA5COIcBWF4yow0Q6hhLtuXqXrDAgYulbMY2MfiRNQemm4adqU6eZirHT8xI8momeFcBEhDwKm3LtGCBwCJBMYAHnFzOUSu2X/c7HbKQ9PwYg02UOPDLEG/a4pZfu3qVrlb0+RF6L9F3fuO0yPoCHfA1A4NuFb1Hlpty7RghAgiQSw+p+zAIQHPgxuiHkwf1FzGnovuVwrEtVs3wcigevcryi+6/uIqHZC1eyLear8/SHcIQcW8sl49TAvHbl34BBAgiQQiV7Dx3MQxqkQ70TJe/ZiPqYM04Y6vtqb3NlYJ88S++1benriMeCHfAm8EDgZcwPiOc24mbcDgIIkFMP6goYtuF6imDqVgQaQKOzdaiiTpW4rjgKMChIVki6GUvgMTgRtxIo5tFBZL4Edzfn2hA4BBEhgl56D9RRYj49kGBfxmN2x5gHajpxDSJS2xbiyblyQlcG8U6hlwmfCbwJluG/HSb8Ai6RHBK5jEOlplpy/IPEwkbSKSU5DrM0VVvSBvO/wBCPX5s7YxMPMr4DEhqb8XiXmKDnlnKpvNJpN5pzo8YHL5B8Zl5RMiRZ8UWSkQCSnPbrCJ6KFsCW435xqQbj1gBJsHiMTMI246i5ilzDKJTw2hxDU24sI3bgCDiyzTY8XR4lX8BAMGOlmH9niHiLoifyEb5ep/Acx2wdHJ+CHrwG+Io+txfxFR7wUkSBB4dR3xY8SxiNos+I2bm81hN4MQQQIeFllXKWH4CWJaZzdBBBWbERQSh8vXyxSzy2TDVxHKUNeZTl/KUn3lt4WKRBQ+X/iMfEdUqOptDHc72oCQpky5vNITfgOJbGQBlwQge+isaTgJdKnz4fiOwgBABx38Q0XhgJoFPJ3DXhcr+EHJ37/KN4nwxe1faLJdiJS4T1F/iu6IJP/h4mgPKYdw3EEYO2ItWiDkdzFSptNIcDjgdVUp/vRlHVSexjlLRHgkp8LY8VKYsFemZ7q1uv94YBKDA1PFYjsd6mFrD/kf1BwgKCGbyHzADs+o4Cuo9e5RrPCGN9uiBWJXmj8CLYQo8MwhiNqpvhLS5tHwSCBmdK9D3F788Dao6JveX7C5/UqL3Dvts7GfOFFeknqEbQ6JjZevT9PDvhfsnXoisYl4SiHEIEEu4QIao89MFQ+xEpTCcqZoeFvzMEXQVXS/LB4TA/wDFNEUZd3P2P9zM8QdTRJwGpUxeKjb+jB/DMYaWZjj88sCmQMs2bibCaEqMPsnXraf0z2IqVp5cUEr6ZlQXpm30GCYNwN/EflohO0RVuCMyQlF6O/lf+RzKaTHHU+bZ7R6hYAfrIwNYe4hYFZoDcFC6yQPHpCZNJp29x2S5dHWlUlAkAFpTMC7Qik1MZULHLcPoBmo72B8IXD1iLB7uOolmeGA/AgtudozQ8TeTKX29f3AiW13o8xqqynFbP51Exbu21fYgirJdB5DcSTj4twz8OCcWucqE6ajbsIx3Os48S7oivMqG+YzVKUHiXkRdB2z+fibk43s/eVRXBRiAVKA7h1YZd5ULZ1w3uG7LY/hNIsg+IKgp8CLF+Z0xnN8dr2QhSqP75j9MFv0fpLY7ooxhyx09MM7vEt3hv5capVa8Ljab5I9Ho/zDbQxHUF2xAAvGY5ionqa4lfc9kENyuAqPU4P6WG5rLS8vKweIZtBOkxVoXEoPUGDZF2XDVvBKKKAH3z/mDiA03/JGslE7Waxxb5dzt8xmZMZMFbVMtYmMYb8OoZij4RNlzU0YziZkr8f4lZmkcWeDjvw9CUaAaKghZg2oLglj2luhgjqtf4R0uLjMsOlL29wkb4gZlHt3Mp1phTX6swB1oKi0maeBZXNz0jIXYgpowmQsfuYzDcKv/wAO/wDcb+Jom2dL6jww6wB86HN2JEcjiYH28p8vT1CpS/pJSlZQaCCIveoKJ6pkwiWIwBVkflKiKYySzPjGaz4CbhB+WX+XzEdLN80QdGur4sEZxWeBzBE8tP3ZsTSfguLYsfsZgk2n6gQ9S3p5l9WlYUfGJXDSOQSy/A8sfLt3Disw8WKaFkz/AKnSJ5guN+Z/XJQS3+CZ/Ev7zczl9pQRjUR3xWeIglkGx9iDM0mS4fUmL83+Il/5MQxXmFheIJUNvxFQf72GIM3NTODcFqVpw0sJjAnB2gj+UCEAbSwgckTWVizxfEywCEd1kFTSEeqYVLn9v4gT/uxNEuaRvQZ69wDCVw3yYuOp5k79omkqBgHUepcqSh1MweZbkdj3MI488VBxDk1X+YQD4mQ8Bxhcrb/4IBfAOIZizqMrY/qDX0joZ3CMtZh+YgakXafRKv8ASNN/eQ+BHxEcCgezW/pByHwzl+JhMBiaTUgxKj3N0lQmHd4ii5cNg5IMudR0uFxGXaC9e5ICUfm8wSlofMG2T5RiDbHu2hl/HUOTvR4qPlmHcFEyufryvCbl9qu39EDC2oVNjy/zHVhhcCXGBuVz1wkYcrUFXMBwFvkP8TUL+CIpw/iZKfvMhEKY3RN7cKIjMQcGCec0uCFcdHiGCKIPO073vweocTVExO5bbP2CFHUvlcRYIRhZZRm/mG0AgsinivcudPKeR0m3HwQRx+KP0vtLe/xzb2p6EyYUrExjB/E1ASXOkV2wvjrGDhCuTjAZkCEZnPlgQjHid/LqI12C3BYxPMGJ+OdQ/E9PAbnpo5THSnZ5Yx1Cx9MGsRRFOnA47nUWUyjqaSi/LgstUscw/B0kysQOUgyviDUums4VlqqJmeuABk7i6jH6P+Y8dzIXatGsP7qCahxL4vjSUzXM+MbXlN35qZx08FruoKFLKY5MwXLvsDiEIPHnU1TFOxBgthxmpQTPVginGHMYXUFD0/w3/iBGhBiHEuXCdRwDwutXAxiZYSty6Ti2pQ0PqXoqL4B2RKJtmCsop4bn4+HYQKPT/wBmRLK9y3mWYmMZmJlrOtE4RozzJRBoJ+bzHUq2H83+GVkCoty1Qis8MYanbCz/AG6biEGY4gFFP1AGyLdrCuNncA7z3m/zEWMx9WDSrpA6Mnt/mMGI07E8KQqXuGDREFBUzCf6Ln+sTVMpdRV7zlFPiO5zqzXFweO+ISwZU2yjZ90o3IOvMWhsQ6hsWawvmKKdyz4tC3qVRPuMCnkEZcd7NR5W/Dj7FRRZ3M3ELlIHoOPmCKV+QrMJdBZ3p/2TOpejqXHK6W5HzFbgqK2SoRYr44seV/umUS1qzEUzGg1PRuFiCMmaid+LB8LiqwSrgiWL4FRtFKRW4rmFFZneRDQN9ZF/E+UCo5uG5/uLf6hybwhiqubvp+JZBDIQjlxyjW3EFU8Qgqr7huNbmNDMC394FMejt5fiO1SAGBgDPkniM9UwT4qLWWNVDSHibJmZtD8z5QN/cIMkwIS1+I/6BMBsVsnoePE1cRxSl8pgiscxwCiuo3IQ3NT3BxHO5QGM8SNoXCgswds2ZX1KjAwe7iDVQ2GuPGQZhbxMnBRFTsnHu5o3qS5IBDoDy9fuDDuUOcNIIgAYANSkw/YzFGiexEuLPZjgmU1wFDxq7xDNWLHZ4mVlmL/vJVLIj2DCxlEw1GszDk/CXY1ep1W/RF0Jx8JbMxmXnqGhHMpUwMUoMqg93Oo0IqpoKfff4hzHpOol/EcAA9QWEZKYYZdkuXmbmtIJQoakfqE2BHR9oRc+YANfaXDgyWxOxwBBzb8BHuFlzcyhfaeQzM2jTg2n0nmf8/wc/U/wm/GOM3x3zT/i9T/p8z9F/BP1X+M/ZfxNZ3DrjJ1x/9oADAMBAAIAAwAAABDKHNdLvJLwYRWLC+eX4DOnb3PZvVoHZJUCtL98IuMABXAILV5thK3n9/bUGOseSp5dRIYUf7BQrPrbBuy0PfVGJmULIt2AfOxgFWwd7qwbEI+1E+SAORrRXukojuorEPzabC2T4r5ep5wmWPG98CkMgowH09czPIWUMZxttNIzUtzw6xDUyMNs42gAtfsVATDTX4jb8PEccD2HWbgHojdSUYID+0BygXqCSTxzogus+skHQjGX5ByABBR2vTDYYHyzB35iQyjh0HiM47vADSwZxSCgVXxGSjOPmGACAbATBjWFMisI+UEcDDjWyCyR1FcjBD0/mFBQTThTDDGwCHnoD+/LhKf3Cjx2VCVjiAMGVOBaMxBAz23lfO+LwkgiQhwmDBwF/TGSgEy0xzm6QhgjD3+T3pNIGISlLArSwnQVcmfvwkH/xAAgEQEBAQADAAIDAQEAAAAAAAABABEQITEgQTBRYXGh/9oACAEDAQE/EIcD+BeGXqGzxSODnLLPiI4qTYjgOC/TCE8bBo2cZ5HAMnbWIiOBrlgkl8Y/NiUnhhDuZtiIgiRfp3Hb9xnjsvAOf7Aydlg48PnAXea3EQQs6uofshaN3dOYx5/LtU+ieq2y9HA627P1bPAjgTLSwhYFHp/jFgf9iHT7wZdE7vu2fhQLAdcDaxHX3I6W+uxDJvBO7Luhz4AhchsAGsjPJxpk34XQ2B6l3qYL7XuGuSnX1+ACViLTuLR4yDx+47j4B6XWZjYbYi2l5DTuBJ5HX4lhonEJOWtnAdbPHmbIZ3wU6e+S+sQxgzrjOD+MG9R18uxdi1a5eOTpwfv5+kHTEGcHsefDO/Mk27NimX3FnX4nnYeuCHf48sgvtazbbIz8Mz8GyPkgwL+MEGE/h3ns5GMEvBP94wx5LIM+ByWAbDgGM+3hVlrZPG/Ess4FDxYfeHh7Bnh5Mzr4HOSzUa9JX6v7SS5TPmXt75Pk+Mca22sePDiPgcNgD99RA66wZF+s9cZf/8QAIREBAAIDAAMBAQADAAAAAAAAAQARECExIDBBUWFxgfD/2gAIAQIBAT8QYm4xLleNSvB5jDATU+4MuXio4MdxYpxAxUfEYJXWa2pU0wSBjqKLgrwPc7qPlgw5GN1EohjuLFgwlZOaR+9RunkrKeyrd3GSOmOzHWCxPJcXC9x9fjATG5dNo0AU/wAygrANwR1HCLrepfD7GKLuV6gb1BfaiWiAtOBGyVMvjVB2l8Ds1l1UijhN/CBwQ/3ZZh1BNM0xBsykUC7jlvsQm9gjRCJ1l1JY1OBgrhxEBbKd+ErN8dQb1gAtRKHSINxaIt5NchGmbxxSsLhRAwbES9MRB2OvJbRnFgEawpurJysawX4HsuWRPsqXOIbz6cKi4tvkuI0lksxxOmamsXtHol3GypZm98BhXoOz6RmrD91bI7TcWPXu+Yi8rvG79JnYFtZ/TAbX2qi5taPpivxlE4vxW/QVRFytmXIEFB7l0Cj9A/1P+aggEDxbvfoFn8RBxgf25/KAP5ha2wzZ6dnYNQVc7CUYqFyB6FjfybluiKLYTsG4Y//EACcQAQACAgEDBAMBAQEBAAAAAAEAESExQVFhcRCBkaGxwdHw4fEg/9oACAEBAAE/EBgQamM4Y7jzBjmVKixLlelRjGX3l94t8+m5GXcDO4YjsisnMK1HCMenhOcOpsRMM5hCVKgelSvVjMI+lwzN4zt6nZMSG5qlg8f/ACL4Q6nETJBAgeipXoqJExceJuGO4+gzREgZQRKIFpNIbIYA+yUipd+nwmxKiszecoYetVemBZkq2pko8h9A4j4py8ZjvuGB2OSuJw02ih5gu4j0HfpyRjZ9LkgWkEMCKglUuYiynonEGJuSs5WfU4xPQCo2QclLi3SZ+soKURy0dgjt4AupqBprAJOT/bm5A5E2MxNtE2ur8Y+ZpCUv05PRswxMQZglRgQWmKuVlvT1mQTciRkwcTL6BgXiECdgNtce8ao6wLF0/XtBGoyeWVJF3p8wGjO2mFgGziwmmIQCmM5fZ4W4Dg0gU5IKjEnJAjGDMIDMEYEBTCXKmrrNY8TYlZQZgmiFg7ek2ub6K7gfgwHLLyvLH4CO/ogSC7hkFIseuLHNRJ9KK0VivFHy+l9HcNoPRqyAWYtRwy0vGzLmuYHpOSI29ATP0DMFwGC7CdSEChWjTC9gcIw+wSMpoqoJBwdZeQF6NwmbBvGJYTVjqGUGWpt6O4HpLoKCjBiHMLRRFqVgUwY9NyRkGYLlFQMET06rHbAiltxy9g7yl2oGw3VZ+IMNlwPMuntC2Brm3Fee0H72oF7N6lcZVBRXzKPlQKE6OHdxw1lwNmt/iVdoMyo7IZSBmCqBfEapk1FqYZT60Q6gwggZ9ISxlUyEPcqJR2CJRzUbk09bGrbYWNmbLfFrv7gguNhoGmDnBEk5pNYm/OIlHNso8WzbuGbSDGugDFe02SwNDo6xiAkeQojW7a1DAKBOUah9HZDO6CCMssIydxUAwoHhnZmmHENEM6Icwy+pTLWXsrEKBN8n5mKN6ntPPuQCanNTtd/qYyoK7qzt4vEExccAmg6y+QgH8Ei75NwisHhgCKpQ2aoDtESKdJyLv4YituLqWgqO47IJEnMEsSWBMgTEsxMI4RUMpLIm3EOMxILTpABlRYyiXJ6FbLU5irLByIwfhiVKpAguxwHaL06wvWBBouwzA4MkA2ZHvXSFafIMGjN8wUQJzs8y0C3CiV/rSVZikyN5byyhhqckPo6PpUXEwoLWJrjlmzgLa36QsJiIMYaTNuCaZSTNGBj1zhQI/MaCgHGdx5USUvCvaqgupCed02ai4WopglF8QzJRGYVnQN33gUWQM2bYUVde9jLdt2wCwL0uXWyu5xRM+iFKLMdFwLh0QFYakVNhaxws2iLeYMYYME0wXFG4bD0nqZfTtZiLeL7n9TEkuNGSpQpMlyPMpgioKGM5jCVJwjHaZPbJrvKnMlTRURe7WN0m6Z5tPwTbKHcH0SqszBjUYipa4jEygMRzfROCGhHOiIpiatcpCRqmfpZYIDdY7OP3LBu0XMBtMk5UKBKalZ3MEJQtgYyvHv0ji57o/wA1Ez0C7z4PtmUoCDrqPbEqWbZQwo5i4NJ6Aye/MPMxGYZzEFEsM0wYejnJxhzBdjcuGlQal9YlidJRUqTjkcVU2jwdidmXjjhXXS5QDVCGMzpbQU+p04QSjqsQirSuDnwcfMIzBXNOB6oVUQm1ApGVL6FEDKbZWvRRGchkSqGUt7xHLUE4kcG5PugVMOIIrVmKXVL0JjCTqIYUt19XmW8VfaBUqEXOFL5nIucUMREAJYq6r0nXo6CEvhW+Q7AL7QpypTgAPxE4EYBXz1hNpn4CrnwxwEUgjuMzejqUq4mfpbTCITqCwvm9CBQOrxBGMaQw0ovvLGUMsqI1iDwNxsGE+FsB78xOqUt5VP7MU3xiCMKmWoa27wM9DqvSKw4sx9q8cQkbvpLDC7hgUFHekPdgPlKuQMbBxovWVbjHxUMzOWF+Ejs+5WC+CvypnUSiN+d+kU/QaYQGivynlnHSX6K83LTRHD1n0TBzLmoVIvxQA2vScixdqdjmCgGOXPY4jgFJbYtHy+pkuMnqI/qBURgOXJ5GAegGRj3U08G7eCg94lwiywQb1zg9phYHFStZe+a9ogNSld3dZYDC62fmWAbKzz1mFL6MyO3jE0HhWPtcs4o4KvjfsYZBQ2SPZ69oSQWdRXDanBLsr1y3e07ieWUmuKFmG0Z9eIuICCt6S/i9JkB6HHvHy/2Z0IfyKoviO3XcGSX1FulEv1DJPjdhT+47gMQ9Ro8PuoVxcHqG+8w9mUSM6OkEGvx2Nr7GAwAA4CPUA5VT4dxiIEF6tOfZ+YZA0FRJlolOYCU9HvHpzThihNxB4vZ0+YkBVPA0kfsgOaDwRNwc5iTzDkZeaZiIrlyeqREKNSx9D43F6ioyUtmIt26lqx6DDudi/AwABLtBjEOmJsR4zAZKWthkcGM9IZRoDQNHYhB/GCLa2JOkUHwMbBrMG8tyqqtAWvaLe8IX2iFUYIANLFrLqULG8rHd7dSqBIPcWNO17mHwQtOI0HoX7YKBYy9Be091hyeZb0liYUwXTLx3lEVdsMxPqyrP7mG1uhEkGwt7JQYdJWw3UcbIb1CD7UHYEBvig3MmDN0yG8cRFCuTGgHme8DQJbLUXjJ7xUu4hxOpBY/xcHz+IuczoigJsiecniUMjLULkrpActHBNRQl9FtaLqw7jUR/Kirs1OsKH7huCUFVhg3FMNIQ1pFZHiBZETL1t7ENv0SoBshXS4JCywTOaF9wFR/AQX2eHRq/RGaVzK7XDuDAFq2Hf/Edq6EagEAAZV0QPBIDqC/u4nNkyoMeI6LBKEtX4GWXzKLrFVsqoj+0wLppK4R4mVM07jEXCozAObigbigF1eaiEcEIdCAOpSj8n3NTrvCrLJKwvaKIFaTmNeHURxisW1ubRzT0XATnoz3F4/cMs2V8zrIY7BLuoxR0pm2rjNtivBn9lg46VzEssQyRjrQIYxj7Z9hDNaiNSFBLUZo9iFE0EVqtVxp7mUVNN7UGitHWGD68zGLiS+Ssywpt1CJSk0PMZ4lTIZcurBlqMVDMjbgip+YAVCXcaZui2sTlqPVHiXx326egtIZrUyEuILo5Pyv6lHJaPi2JCxE0l6IzJCJ1YyGLfYM/UCQ0EO2AEEcADKWgO9w/dQkLJ7FHtNlNS7ACo4iAMuY8L+3EiamnlCoqFk2rmZBzizH5KVWDMCtQ6QWYNQ4Gi5enw+x/pmS1F3Dkl+sCog3uJUmkVUbRfej8QA+ogocARqrofmWPtCBBaFiXN0dWF4XmZSZGDBF1fWjUM7qJYbhcbXcr8CHzpi4KV1hhqQO7KAGFHoh/2UsNQ6O6bj/ZlVi8ZiqMFD6lgbIGIAZywg1FsmoE9ScBUPVI/klN5SkuyRD0lIkXobiJBGYYEKGZd9MN3S/7GCt0+YaOsTtxhX6iAH5H6hVco7OsaEoDgNZKV+IDhBssoIQQ1r5D20dia98C3OorzPQrV3vG6OO8CdjAUXA54xMsmZYUaCGt0lxX10ij7z3agFF0l2cS2JgOFrszIEwRXTteUOWKoT0A4mCRUYZlBxHNLflkIa4gB7Sxj5lbewzadjFd2lO7E+psQSX8EJl3COSS7qEWRRmM1CpvZE6BgetxMOTxcJTvmMHjjrKu8LPlBVlqydU/9jMu2rwe8pWhj+WZ0EbyfZ3+o02RZoXEXSEWTzIrJOFwpFTX3L9CAc5QV6C52moGYMTFgsINDYFny/U5GFYALtMeAlubFwF9Cz/L2GXJYI5chHCdoQ4cJQ7ebu4cSxUmusM28r1NXKagz6BgCNxqFOkIhdx0L6RYYWdCZjGAXKz4TGleq8ylSISapqCcLamWcI9NjvsZvsSC20VtNQXsx2saqssosXepV8xXEDkRwA3MQpBl0a66xMhzz2D8sKtfOpRZ2jEVa49mX6Q+S2RJXlPwsW1iHGxH4RRkEaUdiVpGV2FqBV0ffvUF0Dwa3HfmssOktMdQ0SxO2td5SO4owj3sjpjUdrLuZlIWrskyTZuEaLW+TKmkdGoyJfCEs9Hq3QEs7m592JSqZCMZYjVKBgmCmUyTTiY2Ei/Efdw6VxmYI7RYvAw3lzBUvAzImf6oGX/54UALYR5gx5qkHsRFY3G3Jm6QwBdK65H218zBW5oxEMMRCmYLfEVPzEMuEbjY+r0zMWUy3HVTfsTmlcq2szirhI2tNAQXhWuk6+9XK+kJAQcTJYcSyPsC1C9oe81n7l5e0WT0jJdmZP2hsujcAdw/lQzeC+kZQ8EyuKkq4IFo3C3TmAU0Vc0iamIQJW1TB9biFnaUQOBRpUn7mSI4UnhFLPy6hAFr3TEqwsQkjpUcg9nT5jZl1cBpjQ3M8RENbhlNHpM74+KTQ5hFYvmbjrBgHCwYygEvplB8oI/5BHeXBEpgfMa6TYl0HRwQBU2QIdobuZMTso7veLC9oeArotUuohAhQRGCeMidqr3jlJUKfzG2bmLCyKw7+xHYzePMHBEuWVAoj1LUX0GX8Q1xgCiIA2UuLxmfVFywEMZgVFR5cQbrxFwQqAmcF7hgKMprBVwKouA5mFSklMxPrLBB5mV4iDqGN+cTKNHIo8f2MNe9snsQYK3VpdYwp0h/1Ug1/wBmDEFg8A0HwehchHmAolvoI0R5jOnn/h+YIFzQvYip2Eou8RixHBibUR+H5RLVcSmqQSGKyZo0rMUQ/wBlBS+7AXeCWVkpnWXMEmsQRitpU23cU0YEDYkgqqoectj0/K4fueaNAFNwkXZ0KqCIWgNXirHhi+zPUwHPfMFGdxX3iBBoYY6Hp41F1B1nWhzR9ESDlXmF7AxMn6zFe5+5cE5lHdSg6CwDkNUVo4gAMvdgGgrLAoXERAbGLS/bAEZ1pjoaDVeYFhVrLtlNpddBmPNdomVVjqUykcGT7sFgDgJb4GJBKYB0wChhRJYWW165mrWBqivfHcb3cK8sBeIfJKAF2y5GrA71n7mArJzCjsLig22xa/MAAJxEGLxFmy3Ok2d7SMomuHUIucalDsYZCAjuPD5jnxF2UvI6IDd8x1eZQbo/TDDRUZWo8O5lHfWWYskPXB8sGEXLzcpCuhLwk7oRk3Yz/wA+CkZjUR6/FrxdsGBCgl1N3LBMgwBCI+wP98zKoRpAMqfcAP6gAVuobLxAYDv5hRczAqViEXSx6IM0So3Qs6it5I6KqqmKoRgzboojLZ71X3AYXkTLgiTXorGNBma29wOCWLTvKyWs4imNoQ8pNIluL4iZdolQjiuvyT9xS7lXETeAmjswri9Fd40XImbgWN8zwlhHgwp1L2o4lUt24cQvXPkiKcl7X/Ipp8D/ACMoEqtehn9y+eQZjlhI9KhAeWYA+ynjMzWo0ivaLfhC6kv5EKpnt5Y0JW9W5SuQHsX+5fgIb0NxLPYgZek5yyjJdK2JUpCMsqYahz1cgP6UplVxqYlVUQGAL9IYkVfMOsbjVKolAxEUFhoe0MqQ8FSkbWKbAMxaVTW5hqedFS9dHJfMQvAkjCRsi32zngo/cdX3KxiLe1livtDr1eh+bSkaFWJFB+hOAjIN1P8AuANfqBIrqU1GCIs6xBWBGjyIGM6vlhZfKihLpvq/cOp4IoWy1iavLBamI6QxviMqNbzDRqyhro/7rKlmaAbGussTtahK+ofO6VrlHwC4ptmAfIJVpJrjZMVKgCK64V/yAlqOoCyEOtotqCZB7zowGtBdXKx2VdYgzJg61Kz70x5TdWLpbgij4dfEZ3j+9H9VCipWvqzUVKPYP7NIFLt6QF0tarx+5p3Hjda9BFpuWgGLiWXUoiQXwBnUZKHAjnTz1AsIRlulQDJ+nMMX4yOa0eUeE4ZlvrcC0hCJ0tnuyRzQ3Tj4SNjFBup9yrXDgEW6q8ZpjDRsLhGXGIPyYCLu9ylaQSFFT1FH2wHgbDsflcsxaN6gqVajyf6hggbvubrnxzHpGKK4OwarEuXI46ShcXKATSVEvNehbOZYbDHdMAuol2ppMcMMYpekqMZ7SwKPRla0KwiS4qFANtdMbj8au56sNNp5hAC9YVq3tHg33GJNXDeC3SHRLFkfGpRaOoKehUvwpniV8Y0ugK7AYZkVLioI5pj3hJ9QhraMr0A5VwHeHrqUHfto+0oXUQNVUdzsQZlVxq65lzUYouB5g1NCNV3gaanBjD1i2rDvBTobqWMQBeWolPnQFBY7LzzczwZbIrgn3Bqx7Jiehn9u+SunAHEGkMsWBdIVRArhZYBq2kIbAHnMlj8R2DpFgjH6uIgAhUcW0f8ADLEg3o5oFopGT3MRe1hXXIg0iYquYA1CMnRmYbuahrEuriZzErBFK0FsUhgumYhOZpGBURaAyoTBCjiQunmooJ9NxFF8AFRZ1GHBJSFs77lWyG4OXTCasdp4Phgg46L0isFlAgHaRwF32mrgqwR7Gnw3cQyyd6t5fmAHWoVTJX2UDD3RLaOn6F9C27emCBZ/AAGgJUaLrpCFCaDh6wrmyVHZrB7pHrSwiU6ajtWUauoFr4m9Nxs7H5HCCZeJrA+zDgHtncuFbDq61T6uNg4YQ3mBIyzvIGY+XoKsqxKzowkVNO1lxaIatUcswRJ3Je88iiXcfRKLHnmUO4B7r/yA8i4kAtEsF6Iyd4bsFLmUazh2g2XmIkZmrt28D4ukQtXEZsgCutRS2pLzetCi0gXNH5ENI2xad0AGcxyIE0q+TmFLUwvoW4hd67QLt+ColmqHZHI4b1FzyzAli0cHfjrFDx0l1pE4rOaYcLYK8EVS+AdDB9TYh5l5m0qJWg9ahyFPESZY8zyfSf7vPpts/DNXibvH8h6kbc8TYjt7w0j85+H0mj65yR1mmfTn+/uj/t2+vyx/g9U0QnSd02J+sds//9k=" alt="Mr Ahmed Usama">
+            </div>
+            <div class="titles">
+                <div class="brand" dir="rtl">المستـــR</div>
+                <h2>Mr Ahmed Usama</h2>
+                <h3>Prim 3 - Test 1 | Units 1 & 2</h3>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="social-links">
+                <a href="https://wa.me/201278040762" target="_blank" title="Contact via WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <a class="home-link" href="../index.html"><i class="fas fa-th-large"></i> All Units</a>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div id="main-menu" class="screen active">
+            <h2>📝 Prim 3 — Test 1: Units 1 & 2</h2>
+            <p>Unit 1: Let's Learn Together! · Unit 2: My Family and I</p>
+            <div class="test-info">
+                <div><b>20</b><span>questions</span></div>
+                <div><b>5</b><span>question types</span></div>
+                <div><b>150</b><span>question bank</span></div>
+            </div>
+            <div class="test-forms">
+                <span><i class="fas fa-list-ul"></i> Multiple Choice</span>
+                <span><i class="fas fa-check-circle"></i> True or False</span>
+                <span><i class="fas fa-soap"></i> Falling Bubbles</span>
+                <span><i class="fas fa-crosshairs"></i> Target Practice</span>
+                <span><i class="fas fa-sort"></i> Reorder</span>
+            </div>
+            <p class="ar-note" dir="rtl">كل مرة بيظهر 20 سؤال مختلفين بشكل عشوائي من بنك 150 سؤال</p>
+
+            <div class="mode-switch">
+                <button class="mode-btn active" id="mode-solo" onclick="setMode('solo')"><i class="fas fa-user"></i> Take the Test</button>
+                <button class="mode-btn" id="mode-comp" onclick="setMode('comp')"><i class="fas fa-users"></i> Team Competition</button>
+            </div>
+            <p class="mode-hint" id="mode-hint"></p>
+
+            <div class="comp-settings" id="comp-settings" style="display:none">
+                <div>
+                    <label><i class="fas fa-users" style="color:#2563eb"></i> Team 1 name</label>
+                    <input type="text" id="team1-name" value="Team A" maxlength="20">
+                </div>
+                <div>
+                    <label><i class="fas fa-users" style="color:#ea580c"></i> Team 2 name</label>
+                    <input type="text" id="team2-name" value="Team B" maxlength="20">
+                </div>
+                <div>
+                    <label><i class="fas fa-random"></i> Questions</label>
+                    <select id="q-mode">
+                        <option value="different" selected>Different questions for each team</option>
+                        <option value="same">Same questions, different order</option>
+                    </select>
+                </div>
+                <div>
+                    <label><i class="fas fa-stopwatch"></i> Time per question</label>
+                    <select id="q-time">
+                        <option value="15">15 seconds</option>
+                        <option value="20" selected>20 seconds</option>
+                        <option value="30">30 seconds</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-start" onclick="startTest()"><i class="fas fa-play"></i> Start</button>
+        </div>
+
+        <div id="game-screen" class="screen">
+            <div class="comp-topbar">
+                <button class="btn-back" id="btn-stop" onclick="returnToMenu()"><i class="fas fa-arrow-left"></i> Back</button>
+                <h3 id="comp-title"></h3>
+                <h3 id="comp-time-wrap"><i class="fas fa-stopwatch"></i> <span id="comp-time-label">20</span>s / question</h3>
+            </div>
+            <div class="arena" id="arena"></div>
+        </div>
+
+        <div id="solo-results" class="screen">
+            <h2>Test Finished! 🎉</h2>
+            <div class="stars" id="stars"></div>
+            <h3 class="final-score">Your Score: <span id="final-score"></span> / <span id="final-total"></span> <span id="final-pct" class="pct"></span></h3>
+            <div class="grade-label" id="grade-label"></div>
+            <div id="mistakes-container" class="results-list"></div>
+
+            <div class="whatsapp-share">
+                <p>📩 Send your result to Mr Ahmed Usama</p>
+                <input type="text" id="student-name-input" class="name-input" placeholder="Type your name here">
+                <br>
+                <button class="btn-whatsapp" onclick="sendSoloResult()"><i class="fab fa-whatsapp"></i> Send Result via WhatsApp</button>
+            </div>
+
+            <div class="results-actions">
+                <button class="btn-section" onclick="startTest()"><i class="fas fa-redo"></i> New Test</button>
+                <button class="btn-back" style="background: var(--dark); box-shadow: 0 5px 0 #000;" onclick="returnToMenu()"><i class="fas fa-home"></i> Main Menu</button>
+            </div>
+        </div>
+
+        <div id="results-screen" class="screen">
+            <h2>Competition Over!</h2>
+            <div class="winner-banner" id="winner-banner"></div>
+            <div class="score-cards" id="score-cards"></div>
+
+            <div class="whatsapp-share">
+                <p>📩 Send the competition result to Mr Ahmed Usama</p>
+                <input type="text" id="class-name-input" class="name-input" placeholder="Class name (optional)">
+                <br>
+                <button class="btn-whatsapp" onclick="sendCompResult()"><i class="fab fa-whatsapp"></i> Send Result via WhatsApp</button>
+            </div>
+
+            <div class="results-actions">
+                <button class="btn-section" onclick="startTest()"><i class="fas fa-redo"></i> Rematch</button>
+                <button class="btn-back" style="background: var(--dark); box-shadow: 0 5px 0 #000;" onclick="returnToMenu()"><i class="fas fa-home"></i> Main Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        Mr Ahmed Usama — <span class="brand-mini" dir="rtl">المستـــR</span>
+    </footer>
+
+    <div class="countdown-overlay" id="countdown"></div>
+
+    <script>
+        const T = {"title": "Prim 3 — Test 1: Units 1 & 2", "unitsLine": "Unit 1: Let's Learn Together! · Unit 2: My Family and I", "bank": [{"text": "🏆  =  ______", "ans": "trophy", "wrong": ["6th of October", "farmer", "photo"], "unit": 2, "sec": "V", "base": 120, "form": "mcq", "id": 0}, {"text": "I have a balloon. ___ balloon is yellow.", "ans": "My", "wrong": ["His", "Her"], "unit": 2, "sec": "G", "base": 82, "form": "targets", "id": 1}, {"text": "Complete the word:  ______oe", "ans": "sh", "wrong": ["wh", "th", "ch"], "unit": 1, "sec": "P", "base": 63, "form": "targets", "id": 2}, {"text": "Complete the word:  ______an", "ans": "f", "wrong": ["x", "ph", "qu"], "unit": 2, "sec": "P", "base": 132, "form": "mcq", "id": 3}, {"text": "The ___ grows vegetables.", "ans": "farmer", "wrong": ["pilot", "doctor"], "unit": 2, "sec": "G", "base": 79, "form": "reorder", "sentence": "The farmer grows vegetables.", "id": 4}, {"text": "🤫  =  ______", "ans": "don't shout", "wrong": ["teacher", "do my homework", "hello"], "unit": 1, "sec": "V", "base": 45, "form": "bubbles", "id": 5}, {"text": "My father's father is my ___.", "ans": "grandfather", "wrong": ["uncle", "cousin"], "unit": 2, "sec": "G", "base": 91, "form": "reorder", "sentence": "My father's father is my grandfather.", "id": 6}, {"text": "Mariam ___ her teeth every morning.", "ans": "brushes", "wrong": ["brush", "brushing"], "unit": 1, "sec": "G", "base": 27, "form": "bubbles", "id": 7}, {"text": "Complete the word:  ______rog", "ans": "f", "wrong": ["x", "wh", "ph"], "unit": 2, "sec": "P", "base": 134, "form": "mcq", "id": 8}, {"text": "🌙  =  ______", "ans": "good night", "wrong": ["good morning", "listen carefully", "sleep"], "unit": 1, "sec": "V", "base": 38, "form": "mcq", "id": 9}, {"text": "😂  =  ______", "ans": "funny", "wrong": ["get dressed", "watch TV", "whale"], "unit": 1, "sec": "V", "base": 39, "form": "mcq", "id": 10}, {"text": "Amira has a kite. ___ kite is flying high.", "ans": "Her", "wrong": ["His", "My"], "unit": 2, "sec": "G", "base": 90, "form": "bubbles", "id": 11}, {"text": "I have an ___ today.", "ans": "exam", "wrong": ["exit", "elephant"], "unit": 2, "sec": "G", "base": 87, "form": "reorder", "sentence": "I have an exam today.", "id": 12}, {"text": "I ___ eight years old.", "ans": "am", "wrong": ["is", "are"], "unit": 1, "sec": "G", "base": 16, "form": "reorder", "sentence": "I am eight years old.", "id": 13}, {"text": "Omar has a dog. ___ dog is brown.", "ans": "His", "wrong": ["Her", "My"], "unit": 2, "sec": "G", "base": 88, "form": "reorder", "sentence": "Omar has a dog. His dog is brown.", "id": 14}, {"text": "🧑‍⚕️  =  ______", "ans": "doctor", "wrong": ["sister", "alphabet", "police officer"], "unit": 2, "sec": "V", "base": 119, "form": "targets", "id": 15}, {"text": "Complete the word:  ______eel", "ans": "wh", "wrong": ["ph", "x", "qu"], "unit": 2, "sec": "P", "base": 149, "form": "tf", "id": 16}, {"text": "You ___ very kind.", "ans": "are", "wrong": ["is", "am"], "unit": 1, "sec": "G", "base": 26, "form": "reorder", "sentence": "You are very kind.", "id": 17}, {"text": "Complete the word:  ______air", "ans": "ch", "wrong": ["sh", "wh", "th"], "unit": 1, "sec": "P", "base": 60, "form": "targets", "id": 18}, {"text": "✈️  =  ______", "ans": "airplane", "wrong": ["6th of October", "baker", "dolphin"], "unit": 2, "sec": "V", "base": 106, "form": "tf", "id": 19}, {"text": "Complete the word:  ______araoh", "ans": "ph", "wrong": ["wh", "x", "f"], "unit": 2, "sec": "P", "base": 133, "form": "bubbles", "id": 20}, {"text": "😳  =  ______", "ans": "shy", "wrong": ["wake up", "have breakfast", "do my homework"], "unit": 1, "sec": "V", "base": 43, "form": "mcq", "id": 21}, {"text": "🤗  =  ______", "ans": "be kind", "wrong": ["have breakfast", "write", "get dressed"], "unit": 1, "sec": "V", "base": 42, "form": "targets", "id": 22}, {"text": "She doesn't talk a lot. She is ___.", "ans": "shy", "wrong": ["funny", "tall"], "unit": 1, "sec": "G", "base": 20, "form": "targets", "id": 23}, {"text": "My uncle's son is my ___.", "ans": "cousin", "wrong": ["brother", "father"], "unit": 2, "sec": "G", "base": 97, "form": "reorder", "sentence": "My uncle's son is my cousin.", "id": 24}, {"text": "👋  =  ______", "ans": "hello", "wrong": ["school", "be kind", "brush my hair"], "unit": 1, "sec": "V", "base": 40, "form": "tf", "id": 25}, {"text": "Complete the word:  ______ell", "ans": "sh", "wrong": ["th", "wh", "ch"], "unit": 1, "sec": "P", "base": 68, "form": "tf", "id": 26}, {"text": "📝  =  ______", "ans": "exam", "wrong": ["uncle", "elephant", "cousin"], "unit": 2, "sec": "V", "base": 118, "form": "bubbles", "id": 27}, {"text": "📖  =  ______", "ans": "read", "wrong": ["listen carefully", "good morning", "school"], "unit": 1, "sec": "V", "base": 41, "form": "targets", "id": 28}, {"text": "Complete the word:  lun______", "ans": "ch", "wrong": ["th", "sh", "wh"], "unit": 1, "sec": "P", "base": 69, "form": "mcq", "id": 29}, {"text": "Complete the word:  ______ich", "ans": "wh", "wrong": ["f", "ph", "x"], "unit": 2, "sec": "P", "base": 148, "form": "tf", "id": 30}, {"text": "🧑‍✈️  =  ______", "ans": "pilot", "wrong": ["teacher", "sister", "Eid Al-Fitr"], "unit": 2, "sec": "V", "base": 109, "form": "targets", "id": 31}, {"text": "👴  =  ______", "ans": "grandfather", "wrong": ["uncle", "baby", "pilot"], "unit": 2, "sec": "V", "base": 112, "form": "mcq", "id": 32}, {"text": "They ___ my friends.", "ans": "are", "wrong": ["is", "am"], "unit": 1, "sec": "G", "base": 18, "form": "bubbles", "id": 33}, {"text": "She ___ my mom.", "ans": "is", "wrong": ["are", "am"], "unit": 1, "sec": "G", "base": 0, "form": "tf", "id": 34}, {"text": "My sister ___ kind.", "ans": "is", "wrong": ["are", "am"], "unit": 2, "sec": "G", "base": 81, "form": "targets", "id": 35}, {"text": "A ___ flies the airplane.", "ans": "pilot", "wrong": ["baker", "farmer"], "unit": 2, "sec": "G", "base": 76, "form": "tf", "id": 36}, {"text": "This is Laila. ___ dress is pink.", "ans": "Her", "wrong": ["His", "My"], "unit": 2, "sec": "G", "base": 92, "form": "tf", "id": 37}, {"text": "🛏️  =  ______", "ans": "make my bed", "wrong": ["shy", "get dressed", "write"], "unit": 1, "sec": "V", "base": 36, "form": "mcq", "id": 38}, {"text": "My aunt works as a doctor. She ___ patients.", "ans": "helps", "wrong": ["help", "helping"], "unit": 2, "sec": "G", "base": 101, "form": "tf", "id": 39}, {"text": "✍️  =  ______", "ans": "write", "wrong": ["friendly", "make my bed", "get dressed"], "unit": 1, "sec": "V", "base": 50, "form": "tf", "id": 40}, {"text": "Complete the word:  wat______", "ans": "ch", "wrong": ["th", "wh", "sh"], "unit": 1, "sec": "P", "base": 64, "form": "tf", "id": 41}, {"text": "🙋  =  ______", "ans": "raise your hand", "wrong": ["get dressed", "friendly", "hello"], "unit": 1, "sec": "V", "base": 33, "form": "tf", "id": 42}, {"text": "If you want to answer, ___ your hand.", "ans": "raise", "wrong": ["close", "eat"], "unit": 1, "sec": "G", "base": 7, "form": "tf", "id": 43}, {"text": "👂  =  ______", "ans": "listen carefully", "wrong": ["be kind", "wake up", "write"], "unit": 1, "sec": "V", "base": 54, "form": "targets", "id": 44}, {"text": "My mother ___ us food every day.", "ans": "cooks", "wrong": ["cook", "cooking"], "unit": 2, "sec": "G", "base": 75, "form": "reorder", "sentence": "My mother cooks us food every day.", "id": 45}, {"text": "Complete the word:  ______onics", "ans": "ph", "wrong": ["f", "x", "wh"], "unit": 2, "sec": "P", "base": 137, "form": "targets", "id": 46}, {"text": "Complete the word:  ______at", "ans": "wh", "wrong": ["wr", "kn", "ph"], "unit": 1, "sec": "P", "base": 58, "form": "targets", "id": 47}, {"text": "🐋  =  ______", "ans": "whale", "wrong": ["friendly", "read", "school"], "unit": 1, "sec": "V", "base": 51, "form": "mcq", "id": 48}, {"text": "My grandmother ___ me a story.", "ans": "reads", "wrong": ["read", "reading"], "unit": 2, "sec": "G", "base": 100, "form": "reorder", "sentence": "My grandmother reads me a story.", "id": 49}, {"text": "We ___ in the classroom.", "ans": "are", "wrong": ["is", "am"], "unit": 1, "sec": "G", "base": 14, "form": "reorder", "sentence": "We are in the classroom.", "id": 50}, {"text": "Amir ___ his homework after school.", "ans": "does", "wrong": ["do", "doing"], "unit": 1, "sec": "G", "base": 12, "form": "reorder", "sentence": "Amir does his homework after school.", "id": 51}, {"text": "📷  =  ______", "ans": "photo", "wrong": ["elephant", "aunt", "family"], "unit": 2, "sec": "V", "base": 128, "form": "mcq", "id": 52}, {"text": "He ___ a pilot.", "ans": "is", "wrong": ["are", "am"], "unit": 2, "sec": "G", "base": 80, "form": "reorder", "sentence": "He is a pilot.", "id": 53}, {"text": "Complete the word:  mou______", "ans": "th", "wrong": ["sh", "ch", "wh"], "unit": 1, "sec": "P", "base": 73, "form": "tf", "id": 54}, {"text": "Complete the word:  ______ile", "ans": "wh", "wrong": ["ch", "th", "sh"], "unit": 1, "sec": "P", "base": 74, "form": "tf", "id": 55}, {"text": "___ do you live?", "ans": "Where", "wrong": ["What", "Who"], "unit": 1, "sec": "G", "base": 4, "form": "tf", "id": 56}, {"text": "I'm fine, ___ you.", "ans": "thank", "wrong": ["think", "sorry"], "unit": 1, "sec": "G", "base": 21, "form": "targets", "id": 57}, {"text": "👕  =  ______", "ans": "get dressed", "wrong": ["brush my hair", "good night", "listen carefully"], "unit": 1, "sec": "V", "base": 31, "form": "tf", "id": 58}, {"text": "My mother's sister is my ___.", "ans": "aunt", "wrong": ["uncle", "grandmother"], "unit": 2, "sec": "G", "base": 77, "form": "bubbles", "id": 59}, {"text": "Dina has a cat. ___ cat is cute.", "ans": "Her", "wrong": ["His", "My"], "unit": 2, "sec": "G", "base": 94, "form": "reorder", "sentence": "Dina has a cat. Her cat is cute.", "id": 60}, {"text": "My brother ___ me do my homework.", "ans": "helps", "wrong": ["help", "helping"], "unit": 2, "sec": "G", "base": 95, "form": "reorder", "sentence": "My brother helps me do my homework.", "id": 61}, {"text": "The ___ of October reminds us of brave soldiers.", "ans": "6th", "wrong": ["1st", "9th"], "unit": 2, "sec": "G", "base": 78, "form": "bubbles", "id": 62}, {"text": "Complete the word:  ______one", "ans": "ph", "wrong": ["wh", "x", "qu"], "unit": 2, "sec": "P", "base": 147, "form": "targets", "id": 63}, {"text": "He ___ football every day.", "ans": "plays", "wrong": ["play", "playing"], "unit": 1, "sec": "G", "base": 5, "form": "reorder", "sentence": "He plays football every day.", "id": 64}, {"text": "👨  =  ______", "ans": "father", "wrong": ["mother", "doctor", "photo"], "unit": 2, "sec": "V", "base": 121, "form": "mcq", "id": 65}, {"text": "👱‍♀️  =  ______", "ans": "long hair", "wrong": ["shy", "student", "white"], "unit": 1, "sec": "V", "base": 52, "form": "tf", "id": 66}, {"text": "Complete the word:  bru______", "ans": "sh", "wrong": ["th", "wh", "ch"], "unit": 1, "sec": "P", "base": 59, "form": "mcq", "id": 67}, {"text": "I ___ my teeth every morning.", "ans": "brush", "wrong": ["brushes", "brushing"], "unit": 1, "sec": "G", "base": 6, "form": "reorder", "sentence": "I brush my teeth every morning.", "id": 68}, {"text": "Complete the word:  ______ree", "ans": "th", "wrong": ["sh", "wh", "ch"], "unit": 1, "sec": "P", "base": 57, "form": "mcq", "id": 69}, {"text": "My father ___ me to school.", "ans": "takes", "wrong": ["take", "taking"], "unit": 2, "sec": "G", "base": 86, "form": "reorder", "sentence": "My father takes me to school.", "id": 70}, {"text": "⏰  =  ______", "ans": "wake up", "wrong": ["don't shout", "go to school", "teacher"], "unit": 1, "sec": "V", "base": 30, "form": "targets", "id": 71}, {"text": "When the teacher talks, listen ___.", "ans": "carefully", "wrong": ["loudly", "fast"], "unit": 1, "sec": "G", "base": 2, "form": "tf", "id": 72}, {"text": "🧑‍🍳  =  ______", "ans": "baker", "wrong": ["airplane", "farmer", "Sham El-Nessim"], "unit": 2, "sec": "V", "base": 123, "form": "mcq", "id": 73}, {"text": "📱  =  ______", "ans": "phone", "wrong": ["airplane", "uncle", "graph"], "unit": 2, "sec": "V", "base": 116, "form": "bubbles", "id": 74}, {"text": "Good ___! Have a nice day.", "ans": "morning", "wrong": ["night", "bye"], "unit": 1, "sec": "G", "base": 19, "form": "reorder", "sentence": "Good morning! Have a nice day.", "id": 75}, {"text": "This is ___ bag. I take it to school.", "ans": "my", "wrong": ["his", "her"], "unit": 2, "sec": "G", "base": 89, "form": "tf", "id": 76}, {"text": "👧  =  ______", "ans": "sister", "wrong": ["dolphin", "baby", "exam"], "unit": 2, "sec": "V", "base": 129, "form": "mcq", "id": 77}, {"text": "🏫  =  ______", "ans": "school", "wrong": ["good morning", "whale", "make my bed"], "unit": 1, "sec": "V", "base": 34, "form": "mcq", "id": 78}, {"text": "Complete the word:  ______ish", "ans": "f", "wrong": ["wh", "x", "ph"], "unit": 2, "sec": "P", "base": 141, "form": "tf", "id": 79}, {"text": "We give our mothers gifts on ___.", "ans": "Mother's Day", "wrong": ["Sham El-Nessim", "Eid Al-Fitr"], "unit": 2, "sec": "G", "base": 103, "form": "reorder", "sentence": "We give our mothers gifts on Mother's Day.", "id": 80}, {"text": "My friend makes me laugh. He is ___.", "ans": "funny", "wrong": ["shy", "angry"], "unit": 1, "sec": "G", "base": 3, "form": "reorder", "sentence": "My friend makes me laugh. He is funny.", "id": 81}, {"text": "Complete the word:  ______ick", "ans": "ch", "wrong": ["wh", "sh", "wr"], "unit": 1, "sec": "P", "base": 62, "form": "bubbles", "id": 82}, {"text": "🍽️  =  ______", "ans": "eat", "wrong": ["sleep", "funny", "watch TV"], "unit": 1, "sec": "V", "base": 49, "form": "mcq", "id": 83}, {"text": "🧑‍🌾  =  ______", "ans": "farmer", "wrong": ["elephant", "grandmother", "aunt"], "unit": 2, "sec": "V", "base": 125, "form": "tf", "id": 84}, {"text": "🥚  =  ______", "ans": "Sham El-Nessim", "wrong": ["baker", "alphabet", "farmer"], "unit": 2, "sec": "V", "base": 113, "form": "bubbles", "id": 85}, {"text": "Complete the word:  ______ink", "ans": "th", "wrong": ["sh", "wh", "qu"], "unit": 1, "sec": "P", "base": 67, "form": "tf", "id": 86}, {"text": "🔤  =  ______", "ans": "alphabet", "wrong": ["phone", "elephant", "airplane"], "unit": 2, "sec": "V", "base": 126, "form": "tf", "id": 87}, {"text": "🐬  =  ______", "ans": "dolphin", "wrong": ["grandmother", "6th of October", "baker"], "unit": 2, "sec": "V", "base": 122, "form": "mcq", "id": 88}, {"text": "👦  =  ______", "ans": "brother", "wrong": ["farmer", "exam", "airplane"], "unit": 2, "sec": "V", "base": 115, "form": "mcq", "id": 89}, {"text": "Complete the word:  ______our", "ans": "f", "wrong": ["ph", "x", "wh"], "unit": 2, "sec": "P", "base": 135, "form": "mcq", "id": 90}, {"text": "👨‍👩‍👧‍👦  =  ______", "ans": "family", "wrong": ["teacher", "pilot", "uncle"], "unit": 2, "sec": "V", "base": 117, "form": "mcq", "id": 91}, {"text": "She ___ my sister.", "ans": "is", "wrong": ["am", "are"], "unit": 1, "sec": "G", "base": 17, "form": "reorder", "sentence": "She is my sister.", "id": 92}, {"text": "I see the ___ sign.", "ans": "exit", "wrong": ["exam", "phone"], "unit": 2, "sec": "G", "base": 93, "form": "reorder", "sentence": "I see the exit sign.", "id": 93}, {"text": "📊  =  ______", "ans": "graph", "wrong": ["police officer", "pilot", "phone"], "unit": 2, "sec": "V", "base": 111, "form": "targets", "id": 94}, {"text": "🌅  =  ______", "ans": "good morning", "wrong": ["funny", "teacher", "whale"], "unit": 1, "sec": "V", "base": 44, "form": "bubbles", "id": 95}, {"text": "That is Adam. ___ book is blue.", "ans": "His", "wrong": ["Her", "My"], "unit": 2, "sec": "G", "base": 99, "form": "reorder", "sentence": "That is Adam. His book is blue.", "id": 96}, {"text": "Complete the word:  ______istle", "ans": "wh", "wrong": ["sh", "ch", "qu"], "unit": 1, "sec": "P", "base": 61, "form": "targets", "id": 97}, {"text": "😊  =  ______", "ans": "friendly", "wrong": ["good night", "school", "white"], "unit": 1, "sec": "V", "base": 37, "form": "bubbles", "id": 98}, {"text": "Complete the word:  ______irt", "ans": "sh", "wrong": ["wh", "ch", "th"], "unit": 1, "sec": "P", "base": 65, "form": "bubbles", "id": 99}, {"text": "💐  =  ______", "ans": "Mother's Day", "wrong": ["Sham El-Nessim", "brother", "teacher"], "unit": 2, "sec": "V", "base": 110, "form": "bubbles", "id": 100}, {"text": "👩‍🦰  =  ______", "ans": "aunt", "wrong": ["graph", "Eid Al-Fitr", "doctor"], "unit": 2, "sec": "V", "base": 124, "form": "mcq", "id": 101}, {"text": "🍳  =  ______", "ans": "have breakfast", "wrong": ["long hair", "teacher", "student"], "unit": 1, "sec": "V", "base": 35, "form": "bubbles", "id": 102}, {"text": "We eat salted fish on ___.", "ans": "Sham El-Nessim", "wrong": ["Mother's Day", "6th of October"], "unit": 2, "sec": "G", "base": 104, "form": "targets", "id": 103}, {"text": "___ is your name?", "ans": "What", "wrong": ["Where", "When"], "unit": 1, "sec": "G", "base": 1, "form": "reorder", "sentence": "What is your name?", "id": 104}, {"text": "I ___ a student.", "ans": "am", "wrong": ["is", "are"], "unit": 1, "sec": "G", "base": 22, "form": "reorder", "sentence": "I am a student.", "id": 105}, {"text": "Complete the word:  dol______in", "ans": "ph", "wrong": ["f", "x", "wh"], "unit": 2, "sec": "P", "base": 143, "form": "bubbles", "id": 106}, {"text": "Complete the word:  ______y", "ans": "wh", "wrong": ["ph", "x", "qu"], "unit": 2, "sec": "P", "base": 136, "form": "tf", "id": 107}, {"text": "I ___ my bed every day.", "ans": "make", "wrong": ["makes", "making"], "unit": 1, "sec": "G", "base": 29, "form": "bubbles", "id": 108}, {"text": "Complete the word:  ______oto", "ans": "ph", "wrong": ["x", "wh", "f"], "unit": 2, "sec": "P", "base": 131, "form": "bubbles", "id": 109}, {"text": "My teacher can reach the top shelf. She is ___.", "ans": "tall", "wrong": ["short", "shy"], "unit": 1, "sec": "G", "base": 8, "form": "targets", "id": 110}, {"text": "🧔  =  ______", "ans": "uncle", "wrong": ["trophy", "grandmother", "photo"], "unit": 2, "sec": "V", "base": 114, "form": "targets", "id": 111}, {"text": "Complete the word:  e______ist", "ans": "x", "wrong": ["ph", "wh", "f"], "unit": 2, "sec": "P", "base": 130, "form": "targets", "id": 112}, {"text": "Complete the word:  e______am", "ans": "x", "wrong": ["ph", "f", "wh"], "unit": 2, "sec": "P", "base": 140, "form": "targets", "id": 113}, {"text": "My teacher ___ tall.", "ans": "is", "wrong": ["are", "am"], "unit": 1, "sec": "G", "base": 23, "form": "targets", "id": 114}, {"text": "My uncle ___ delicious bread.", "ans": "bakes", "wrong": ["bake", "baking"], "unit": 2, "sec": "G", "base": 96, "form": "tf", "id": 115}, {"text": "She has long brown ___.", "ans": "hair", "wrong": ["eyes", "teeth"], "unit": 1, "sec": "G", "base": 28, "form": "reorder", "sentence": "She has long brown hair.", "id": 116}, {"text": "⬜  =  ______", "ans": "white", "wrong": ["don't shout", "student", "wake up"], "unit": 1, "sec": "V", "base": 47, "form": "mcq", "id": 117}, {"text": "Complete the word:  ______ive", "ans": "f", "wrong": ["x", "ph", "wh"], "unit": 2, "sec": "P", "base": 142, "form": "bubbles", "id": 118}, {"text": "Complete the word:  ______eese", "ans": "ch", "wrong": ["wh", "th", "sh"], "unit": 1, "sec": "P", "base": 66, "form": "mcq", "id": 119}, {"text": "😴  =  ______", "ans": "sleep", "wrong": ["student", "eat", "friendly"], "unit": 1, "sec": "V", "base": 32, "form": "bubbles", "id": 120}, {"text": "I call my friend on the ___.", "ans": "phone", "wrong": ["photo", "graph"], "unit": 2, "sec": "G", "base": 85, "form": "reorder", "sentence": "I call my friend on the phone.", "id": 121}, {"text": "Sara loves drawing. ___ pictures are nice.", "ans": "Her", "wrong": ["His", "My"], "unit": 2, "sec": "G", "base": 102, "form": "targets", "id": 122}, {"text": "👩‍🦱  =  ______", "ans": "curly hair", "wrong": ["make my bed", "funny", "hello"], "unit": 1, "sec": "V", "base": 48, "form": "targets", "id": 123}, {"text": "My father is a teacher. He works at a ___.", "ans": "school", "wrong": ["farm", "plane"], "unit": 2, "sec": "G", "base": 84, "form": "targets", "id": 124}, {"text": "Complete the word:  gi______t", "ans": "f", "wrong": ["ph", "x", "wh"], "unit": 2, "sec": "P", "base": 146, "form": "mcq", "id": 125}, {"text": "She ___ up at 7 a.m.", "ans": "wakes", "wrong": ["wake", "waking"], "unit": 1, "sec": "G", "base": 13, "form": "tf", "id": 126}, {"text": "Complete the word:  ______umb", "ans": "th", "wrong": ["wh", "sh", "ch"], "unit": 1, "sec": "P", "base": 70, "form": "bubbles", "id": 127}, {"text": "🇪🇬  =  ______", "ans": "6th of October", "wrong": ["trophy", "Mother's Day", "Eid Al-Fitr"], "unit": 2, "sec": "V", "base": 127, "form": "tf", "id": 128}, {"text": "Complete the word:  ______ale", "ans": "wh", "wrong": ["th", "ch", "qu"], "unit": 1, "sec": "P", "base": 55, "form": "bubbles", "id": 129}, {"text": "He ___ my brother.", "ans": "is", "wrong": ["am", "are"], "unit": 1, "sec": "G", "base": 15, "form": "reorder", "sentence": "He is my brother.", "id": 130}, {"text": "Complete the word:  ______amily", "ans": "f", "wrong": ["x", "ph", "wh"], "unit": 2, "sec": "P", "base": 139, "form": "targets", "id": 131}, {"text": "Nice to ___ you!", "ans": "meet", "wrong": ["eat", "sit"], "unit": 1, "sec": "G", "base": 11, "form": "bubbles", "id": 132}, {"text": "Complete the word:  lea______", "ans": "f", "wrong": ["x", "wh", "ph"], "unit": 2, "sec": "P", "base": 144, "form": "tf", "id": 133}, {"text": "👩  =  ______", "ans": "mother", "wrong": ["graph", "farmer", "alphabet"], "unit": 2, "sec": "V", "base": 108, "form": "targets", "id": 134}, {"text": "🧑‍🏫  =  ______", "ans": "teacher", "wrong": ["funny", "friendly", "listen carefully"], "unit": 1, "sec": "V", "base": 53, "form": "mcq", "id": 135}, {"text": "___ do you wake up? At 7 a.m.", "ans": "When", "wrong": ["What", "Where"], "unit": 1, "sec": "G", "base": 9, "form": "bubbles", "id": 136}, {"text": "They ___ farmers.", "ans": "are", "wrong": ["is", "am"], "unit": 2, "sec": "G", "base": 98, "form": "bubbles", "id": 137}, {"text": "Complete the word:  ______armer", "ans": "f", "wrong": ["wh", "ph", "x"], "unit": 2, "sec": "P", "base": 138, "form": "mcq", "id": 138}, {"text": "🧑‍🎓  =  ______", "ans": "student", "wrong": ["brush my hair", "long hair", "do my homework"], "unit": 1, "sec": "V", "base": 46, "form": "mcq", "id": 139}, {"text": "They ___ to school every day.", "ans": "go", "wrong": ["goes", "going"], "unit": 1, "sec": "G", "base": 10, "form": "reorder", "sentence": "They go to school every day.", "id": 140}, {"text": "Complete the word:  e______ample", "ans": "x", "wrong": ["f", "wh", "ph"], "unit": 2, "sec": "P", "base": 145, "form": "bubbles", "id": 141}, {"text": "👮  =  ______", "ans": "police officer", "wrong": ["elephant", "photo", "sister"], "unit": 2, "sec": "V", "base": 105, "form": "bubbles", "id": 142}, {"text": "Complete the word:  ______en", "ans": "wh", "wrong": ["sh", "qu", "kn"], "unit": 1, "sec": "P", "base": 56, "form": "bubbles", "id": 143}, {"text": "🧒  =  ______", "ans": "cousin", "wrong": ["trophy", "bread", "uncle"], "unit": 2, "sec": "V", "base": 107, "form": "tf", "id": 144}, {"text": "He ___ in the kitchen.", "ans": "is", "wrong": ["are", "am"], "unit": 1, "sec": "G", "base": 24, "form": "reorder", "sentence": "He is in the kitchen.", "id": 145}, {"text": "Judy ___ breakfast at 8 o'clock.", "ans": "eats", "wrong": ["eat", "eating"], "unit": 1, "sec": "G", "base": 25, "form": "targets", "id": 146}, {"text": "Complete the word:  ______eat", "ans": "wh", "wrong": ["sh", "th", "qu"], "unit": 1, "sec": "P", "base": 72, "form": "mcq", "id": 147}, {"text": "My mother is a ___. She helps patients.", "ans": "doctor", "wrong": ["pilot", "farmer"], "unit": 2, "sec": "G", "base": 83, "form": "bubbles", "id": 148}, {"text": "Complete the word:  ______ip", "ans": "sh", "wrong": ["th", "wr", "kn"], "unit": 1, "sec": "P", "base": 71, "form": "targets", "id": 149}]};
+        const BANK = T.bank;            // 150 questions: {text, ans, wrong[3], unit, sec: 'G'|'V', form, sentence?}
+        const SHOW = 20;
+        const TEACHER_PHONE = '201278040762';
+        const FORMS = ['mcq', 'tf', 'bubbles', 'targets', 'reorder'];
+        const FORM_NAMES = { mcq: 'Multiple Choice', tf: 'True or False', bubbles: 'Falling Bubbles', targets: 'Target Practice', reorder: 'Reorder' };
+        const FORM_ICONS = { mcq: 'fa-list-ul', tf: 'fa-check-circle', bubbles: 'fa-soap', targets: 'fa-crosshairs', reorder: 'fa-sort' };
+        const TIME_MUL = { reorder: 2, bubbles: 1.2, targets: 1.2 };
+
+        /* ---------- sound ---------- */
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+        try { audioCtx = new AudioContext(); } catch (e) {}
+        function tone(type, f1, f2, dur, delay) {
+            const t0 = audioCtx.currentTime + (delay || 0);
+            const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = type;
+            osc.frequency.setValueAtTime(f1, t0);
+            osc.frequency.exponentialRampToValueAtTime(f2, t0 + dur);
+            gain.gain.setValueAtTime(0.1, t0);
+            gain.gain.exponentialRampToValueAtTime(0.01, t0 + dur);
+            osc.start(t0); osc.stop(t0 + dur);
+        }
+        function playSound(type) {
+            if (!audioCtx) return;
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                if (type === 'correct') tone('sine', 400, 800, 0.15);
+                else if (type === 'wrong') tone('sawtooth', 300, 100, 0.3);
+                else if (type === 'tick') tone('sine', 600, 600, 0.12);
+                else if (type === 'tap') tone('sine', 520, 620, 0.06);
+                else if (type === 'go') tone('square', 700, 1000, 0.3);
+                else if (type === 'win') [523, 659, 784, 1047].forEach((f, i) => tone('triangle', f, f, 0.25, i * 0.15));
+            } catch (e) {}
+        }
+
+        let currentMode = 'solo';
+        let runMode = 'solo';
+        let questionTime = 20;
+        let teams = [];
+        let running = false;
+        let countdownTimer = null;
+        let endTimeout = null;
+        let lastResultText = '';
+        const screens = document.querySelectorAll('.screen');
+        const arena = document.getElementById('arena');
+
+        function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+        function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+            return a;
+        }
+        function onTap(el, fn) {
+            if (window.PointerEvent) el.addEventListener('pointerdown', e => { e.preventDefault(); fn(); });
+            else {
+                el.addEventListener('touchstart', e => { e.preventDefault(); fn(); }, { passive: false });
+                el.addEventListener('mousedown', fn);
+            }
+        }
+        function switchScreen(id) {
+            screens.forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.body.classList.toggle('compact', id === 'game-screen' && runMode === 'comp');
+            window.scrollTo(0, 0);
+        }
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('mode-solo').classList.toggle('active', mode === 'solo');
+            document.getElementById('mode-comp').classList.toggle('active', mode === 'comp');
+            document.getElementById('comp-settings').style.display = mode === 'comp' ? 'grid' : 'none';
+            document.getElementById('mode-hint').innerHTML = mode === 'solo'
+                ? '<i class="fas fa-info-circle"></i> 20 random questions from the 150-question bank, all question types mixed. No time limit.'
+                : '<i class="fas fa-info-circle"></i> Two teams answer 20 questions each at the same time, on their own half of the screen. Highest score wins; if scores are equal, the faster team wins.';
+        }
+
+        /* ---------- choosing 20 varied questions ---------- */
+        // every form gets an equal share, units and grammar/vocabulary are spread evenly
+        function posSeq(n, k) {
+            let a = [];
+            while (a.length < n) a = a.concat(shuffle([...Array(k).keys()]));
+            return a.slice(0, n);
+        }
+        function spreadPick(items, n, used) {
+            // round-robin over unit+section groups so one unit never dominates
+            const groups = {};
+            shuffle(items.filter(q => !used.has(q.base))).forEach(q => { const k = q.unit + q.sec; (groups[k] = groups[k] || []).push(q); });
+            const keys = shuffle(Object.keys(groups));
+            const out = [];
+            let i = 0, guard = 0;
+            while (out.length < n && guard++ < 1000) {
+                const g = groups[keys[i % keys.length]];
+                if (g && g.length) { const q = g.shift(); if (!used.has(q.base)) { out.push(q); used.add(q.base); } }
+                i++;
+                if (keys.every(k => !groups[k].length)) break;
+            }
+            return out;
+        }
+        function pickSet(n, used) {
+            const per = {};
+            const base = Math.floor(n / FORMS.length);
+            const extra = shuffle(FORMS).slice(0, n - base * FORMS.length);
+            FORMS.forEach(f => { per[f] = base + (extra.indexOf(f) >= 0 ? 1 : 0); });
+            let chosen = [];
+            FORMS.forEach(f => { chosen = chosen.concat(spreadPick(BANK.filter(q => q.form === f), per[f], used)); });
+            if (chosen.length < n) chosen = chosen.concat(spreadPick(BANK, n - chosen.length, used));
+            return mixOrder(chosen);
+        }
+        function mixOrder(list) {
+            // no two questions of the same type next to each other: always take a different type,
+            // preferring the type with the most questions left
+            const left = {};
+            shuffle(list).forEach(q => { (left[q.form] = left[q.form] || []).push(q); });
+            const out = [];
+            let prev = null;
+            while (out.length < list.length) {
+                const forms = shuffle(Object.keys(left).filter(f => left[f].length));
+                let cand = forms.filter(f => f !== prev);
+                if (!cand.length) cand = forms;
+                const max = Math.max(...cand.map(f => left[f].length));
+                const f = cand.find(x => left[x].length === max);
+                out.push(left[f].shift());
+                prev = f;
+            }
+            return out;
+        }
+        function buildQuestions(items) {
+            const tfSeq = posSeq(items.filter(q => q.form === 'tf').length, 2);
+            const mcqItems = items.filter(q => q.form !== 'tf' && q.form !== 'reorder');
+            // answer positions are spread evenly for each question type (and each number of options)
+            const posBy = {}, counter = { tf: 0 };
+            const kOf = q => q.form + ':' + (q.wrong.length + 1);
+            items.filter(q => q.form !== 'tf' && q.form !== 'reorder').forEach(q => { posBy[kOf(q)] = (posBy[kOf(q)] || 0) + 1; });
+            Object.keys(posBy).forEach(k => { posBy[k] = posSeq(posBy[k], +k.split(':')[1]); counter[k] = 0; });
+            return items.map(q => {
+                const tag = 'Unit ' + q.unit + ' · ' + ({ G: 'Grammar', V: 'Vocabulary', P: 'Phonics' }[q.sec] || 'Vocabulary');
+                if (q.form === 'tf') {
+                    const isTrue = tfSeq[counter.tf++] === 0;
+                    const shown = isTrue ? q.ans : q.wrong[Math.floor(Math.random() * q.wrong.length)];
+                    return { form: 'tf', tag, q: q.text.replace(/_{3,}/, '[ ' + shown + ' ]'), options: ['True', 'False'], answer: isTrue ? 'True' : 'False',
+                             review: q.text.replace(/_{3,}/, '[ ' + shown + ' ]'), correct: isTrue ? 'True' : 'False — ' + q.ans };
+                }
+                if (q.form === 'reorder') {
+                    return { form: 'reorder', tag, sentence: q.sentence, review: 'Reorder the sentence', correct: q.sentence };
+                }
+                const opts = shuffle(q.wrong);
+                opts.splice(posBy[kOf(q)][counter[kOf(q)]++], 0, q.ans);
+                return { form: q.form, tag, q: q.text.replace(/_{3,}/, '_____'), options: opts, answer: q.ans,
+                         review: q.text.replace(/_{3,}/, '_____'), correct: q.ans };
+            });
+        }
+
+        /* ---------- test flow ---------- */
+        function createTeam(i, name, questions, solo) {
+            const panel = document.createElement('div');
+            panel.className = 'team-panel ' + (solo ? 'solo' : 't' + i);
+            panel.innerHTML = `
+                <div class="team-head"><span class="team-name"></span><span class="team-score">0</span></div>
+                <div class="team-meta">
+                    <span>Question <span class="q-num">0</span> / ${questions.length}</span>
+                    <span class="timer-num">${questionTime}</span>
+                </div>
+                <div class="timer-bar"><div class="timer-fill"></div></div>
+                <div class="q-tag"></div>
+                <div class="question-text">Get ready...</div>
+                <div class="options-grid" style="display:none"></div>
+                <div class="bubbles-container" style="display:none"></div>
+                <div class="targets-container" style="display:none"></div>
+                <div class="reorder-box" style="display:none"></div>
+                <div class="team-flash"></div>
+                <div class="team-done">
+                    <i class="fas fa-flag-checkered" style="font-size:4rem;color:var(--team)"></i>
+                    <h3 style="font-size:1.6rem;color:var(--team-dark)">Finished!</h3>
+                    <div class="done-score" style="font-size:1.3rem;font-weight:800"></div>
+                    <div style="color:#64748b">Waiting for the other team...</div>
+                </div>`;
+            panel.querySelector('.team-name').textContent = name;
+            arena.appendChild(panel);
+            const q = s => panel.querySelector(s);
+            return {
+                idx: i, name, questions, solo, score: 0, qIndex: 0, mistakes: [],
+                intervals: [], timeouts: [], timerInt: null, qStart: 0, timeUsed: 0, locked: true, finished: false, cleanup: null,
+                el: { panel, score: q('.team-score'), qNum: q('.q-num'), timerNum: q('.timer-num'), timerFill: q('.timer-fill'),
+                      tag: q('.q-tag'), question: q('.question-text'), options: q('.options-grid'), bubbles: q('.bubbles-container'),
+                      targets: q('.targets-container'), reorder: q('.reorder-box'), flash: q('.team-flash'), doneScore: q('.done-score') }
+            };
+        }
+        function clearTeam(team) {
+            team.intervals.forEach(clearInterval); team.intervals = [];
+            team.timeouts.forEach(clearTimeout); team.timeouts = [];
+            if (team.timerInt) { clearInterval(team.timerInt); team.timerInt = null; }
+            if (team.cleanup) { team.cleanup(); team.cleanup = null; }
+            team.el.bubbles.innerHTML = '';
+            team.el.targets.innerHTML = '';
+        }
+        function stopAll() {
+            running = false;
+            if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+            if (endTimeout) { clearTimeout(endTimeout); endTimeout = null; }
+            document.getElementById('countdown').classList.remove('show');
+            teams.forEach(clearTeam);
+        }
+        function returnToMenu() { stopAll(); switchScreen('main-menu'); }
+
+        function startTest() {
+            try { if (audioCtx) audioCtx.resume(); } catch (e) {}
+            stopAll();
+            runMode = currentMode;
+            arena.innerHTML = '';
+            if (runMode === 'solo') {
+                questionTime = 0;
+                arena.className = 'arena solo';
+                teams = [createTeam(0, '🎯 Your Score', buildQuestions(pickSet(SHOW, new Set())), true)];
+                document.getElementById('comp-title').innerText = T.title;
+                document.getElementById('comp-time-wrap').style.display = 'none';
+                document.getElementById('btn-stop').innerHTML = '<i class="fas fa-arrow-left"></i> Back';
+                switchScreen('game-screen');
+                if (window.innerWidth < 900) setTimeout(() => { try { document.getElementById('game-screen').scrollIntoView({ block: 'start' }); } catch (e) {} }, 30);
+                running = true;
+                loadQuestion(teams[0]);
+                return;
+            }
+            questionTime = parseInt(document.getElementById('q-time').value, 10) || 20;
+            const names = [val('team1-name') || 'Team A', val('team2-name') || 'Team B'];
+            let sets;
+            if (document.getElementById('q-mode').value === 'same') {
+                const base = pickSet(SHOW, new Set());
+                sets = [0, 1].map(() => buildQuestions(mixOrder(base)));
+            } else {
+                const used = new Set();
+                sets = [buildQuestions(pickSet(SHOW, used)), buildQuestions(pickSet(SHOW, used))];
+            }
+            arena.className = 'arena';
+            teams = [0, 1].map(i => createTeam(i, names[i], sets[i], false));
+            document.getElementById('comp-title').innerText = '🏆 ' + T.title;
+            document.getElementById('comp-time-wrap').style.display = '';
+            document.getElementById('comp-time-label').innerText = questionTime;
+            document.getElementById('btn-stop').innerHTML = '<i class="fas fa-stop"></i> Stop';
+            switchScreen('game-screen');
+            runCountdown(() => { running = true; teams.forEach(t => loadQuestion(t)); });
+        }
+        function runCountdown(done) {
+            const ov = document.getElementById('countdown');
+            let n = 3;
+            ov.innerText = n; ov.classList.add('show'); playSound('tick');
+            countdownTimer = setInterval(() => {
+                n--;
+                if (n > 0) { ov.innerText = n; playSound('tick'); }
+                else if (n === 0) { ov.innerText = 'GO!'; playSound('go'); }
+                else { clearInterval(countdownTimer); countdownTimer = null; ov.classList.remove('show'); done(); }
+            }, 800);
+        }
+
+        function loadQuestion(team) {
+            if (!running) return;
+            clearTeam(team);
+            if (team.qIndex >= team.questions.length) { finishTeam(team); return; }
+            const qd = team.questions[team.qIndex];
+            const el = team.el;
+            team.locked = false;
+            el.qNum.innerText = team.qIndex + 1;
+            el.tag.innerHTML = '<i class="fas ' + FORM_ICONS[qd.form] + '"></i> ' + FORM_NAMES[qd.form] + ' <span>' + esc(qd.tag) + '</span>';
+            if (qd.form === 'reorder') el.question.innerText = 'Put the words in the correct order.';
+            else if (/^\S+  =  /.test(qd.q)) el.question.innerHTML = esc(qd.q).replace(/^(\S+)  =  /, '<span class="q-emo">$1</span><br>= ');
+            else el.question.innerText = qd.q;
+            el.options.style.display = 'none'; el.bubbles.style.display = 'none'; el.targets.style.display = 'none'; el.reorder.style.display = 'none';
+            if (qd.form === 'mcq' || qd.form === 'tf') {
+                el.options.style.display = 'grid';
+                el.options.classList.toggle('tf', qd.form === 'tf');
+                el.options.innerHTML = '';
+                qd.options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerText = opt;
+                    onTap(btn, () => handleAnswer(team, opt === qd.answer, opt, qd));
+                    el.options.appendChild(btn);
+                });
+            } else if (qd.form === 'bubbles') { el.bubbles.style.display = 'block'; startBubbles(team, qd); }
+            else if (qd.form === 'targets') { el.targets.style.display = 'block'; startTargets(team, qd); }
+            else if (qd.form === 'reorder') { el.reorder.style.display = 'flex'; startReorder(team, qd); }
+            startTimer(team, qd);
+        }
+
+        function startTimer(team, qd) {
+            team.qStart = performance.now();
+            if (!questionTime) return;
+            const secs = Math.round(questionTime * (TIME_MUL[qd.form] || 1));
+            const total = secs * 1000;
+            const fill = team.el.timerFill, num = team.el.timerNum;
+            fill.classList.remove('warn', 'danger');
+            fill.style.width = '100%';
+            num.innerText = secs;
+            team.timerInt = setInterval(() => {
+                const left = Math.max(0, total - (performance.now() - team.qStart));
+                const pct = left / total * 100;
+                fill.style.width = pct + '%';
+                fill.classList.toggle('warn', pct <= 50 && pct > 25);
+                fill.classList.toggle('danger', pct <= 25);
+                num.innerText = Math.ceil(left / 1000);
+                if (left <= 0) handleAnswer(team, false, 'Time up', qd);
+            }, 100);
+        }
+        function flashTeam(team, ok, timeout) {
+            const f = team.el.flash;
+            f.className = 'team-flash show ' + (ok ? 'correct' : 'wrong');
+            f.innerHTML = '<i class="fas ' + (ok ? 'fa-check-circle' : (timeout ? 'fa-hourglass-end' : 'fa-times-circle')) + '"></i>';
+            setTimeout(() => f.classList.remove('show'), 650);
+        }
+        function handleAnswer(team, ok, selected, qd) {
+            if (team.locked || !running) return;
+            team.locked = true;
+            const spent = performance.now() - team.qStart;
+            const limit = questionTime ? questionTime * (TIME_MUL[qd.form] || 1) * 1000 : spent;
+            team.timeUsed += Math.min(limit, spent);
+            clearTeam(team);
+            if (ok) { playSound('correct'); team.score++; team.el.score.innerText = team.score; }
+            else { playSound('wrong'); team.mistakes.push({ q: qd.review, correct: qd.correct, form: qd.form }); }
+            flashTeam(team, ok, selected === 'Time up');
+            if (qd.form === 'mcq' || qd.form === 'tf') {
+                team.el.options.querySelectorAll('button').forEach(btn => {
+                    btn.disabled = true;
+                    if (btn.innerText === qd.answer) btn.classList.add('correct');
+                    else if (btn.innerText === selected && !ok) btn.classList.add('wrong');
+                });
+            }
+            if (qd.form === 'reorder') {
+                const line = team.el.reorder.querySelector('.ro-line');
+                if (line) line.classList.add(ok ? 'good' : 'bad');
+                const ans = team.el.reorder.querySelector('.spell-answer');
+                if (!ok && ans) ans.textContent = '✔ ' + qd.sentence;
+            }
+            team.timeouts.push(setTimeout(() => { team.qIndex++; loadQuestion(team); }, ok ? 1000 : (qd.form === 'reorder' ? 2200 : 1400)));
+        }
+
+        function startBubbles(team, qd) {
+            const area = team.el.bubbles;
+            area.innerHTML = '';
+            const width = area.clientWidth, height = area.clientHeight;
+            const seg = width / qd.options.length;
+            const baseSize = Math.max(46, Math.min(seg - 14, width < 480 ? 78 : 110));
+            qd.options.forEach((opt, i) => {
+                const b = document.createElement('div');
+                b.className = 'bubble';
+                b.innerText = opt;
+                const size = baseSize - Math.random() * (baseSize * 0.12);
+                b.style.width = size + 'px'; b.style.height = size + 'px';
+                const minL = i * seg + 4;
+                let maxL = (i + 1) * seg - size - 4;
+                if (maxL < minL) maxL = minL;
+                b.style.left = (minL + Math.random() * (maxL - minL)) + 'px';
+                let top = -100 - Math.random() * 150;
+                b.style.top = top + 'px';
+                onTap(b, () => handleAnswer(team, opt === qd.answer, opt, qd));
+                area.appendChild(b);
+                const speed = 0.45 + Math.random() * 0.45;
+                const iv = setInterval(() => {
+                    top += speed; b.style.top = top + 'px';
+                    if (top > height) {
+                        if (opt === qd.answer) { clearInterval(iv); handleAnswer(team, false, 'Missed', qd); }
+                        else top = -100 - Math.random() * 100;
+                    }
+                }, 20);
+                team.intervals.push(iv);
+            });
+        }
+        function startTargets(team, qd) {
+            const area = team.el.targets;
+            area.innerHTML = '';
+            const height = area.clientHeight, width = area.clientWidth;
+            const lane = height / qd.options.length;
+            const th = width < 480 ? 46 : 60;
+            qd.options.forEach((opt, i) => {
+                const t = document.createElement('div');
+                t.className = 'target';
+                t.innerText = opt;
+                t.style.top = ((i * lane) + Math.max(0, (lane - th) / 2)) + 'px';
+                let left = -180 - Math.random() * 220;
+                t.style.left = left + 'px';
+                onTap(t, () => handleAnswer(team, opt === qd.answer, opt, qd));
+                area.appendChild(t);
+                const speed = 0.6 + Math.random() * 0.6;
+                const iv = setInterval(() => {
+                    left += speed; t.style.left = left + 'px';
+                    if (left > width) {
+                        if (opt === qd.answer) { clearInterval(iv); handleAnswer(team, false, 'Missed', qd); }
+                        else left = -180 - Math.random() * 120;
+                    }
+                }, 20);
+                team.intervals.push(iv);
+            });
+        }
+
+        function startReorder(team, qd) {
+            const box = team.el.reorder;
+            const end = (qd.sentence.match(/[.!?]$/) || ['.'])[0];
+            const words = qd.sentence.replace(/[.!?]$/, '').split(/\s+/);
+            const target = words.join(' ');
+            let mixed = shuffle(words);
+            for (let g = 0; g < 10 && mixed.join(' ') === target; g++) mixed = shuffle(words);
+            box.innerHTML = '<div class="p-sub" dir="rtl">قم بترتيب الجملة — اسحب الكلمات وحطها في السطر</div>' +
+                '<div class="ro-line"><div class="ro-slots"></div><span class="ro-end">' + end + '</span></div>' +
+                '<div class="ro-pool"></div><div class="spell-answer"></div>' +
+                '<button class="btn-check" disabled><i class="fas fa-check"></i> Check</button>';
+            const line = box.querySelector('.ro-line'), slots = box.querySelector('.ro-slots'), pool = box.querySelector('.ro-pool');
+            const checkBtn = box.querySelector('.btn-check');
+            let ghost = null;
+            team.cleanup = () => { if (ghost) { ghost.remove(); ghost = null; } };
+            const refresh = () => { checkBtn.disabled = pool.children.length > 0; };
+            function insertAt(chip, x, y) {
+                const kids = [...slots.children].filter(c => c !== chip);
+                if (!kids.length) { slots.appendChild(chip); return; }
+                let best = null, bd = Infinity;
+                kids.forEach(c => {
+                    const r = c.getBoundingClientRect();
+                    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+                    const d = Math.abs(x - cx) + Math.abs(y - cy) * 2.5;
+                    if (d < bd) { bd = d; best = { c, cx }; }
+                });
+                if (x < best.cx) slots.insertBefore(chip, best.c); else slots.insertBefore(chip, best.c.nextSibling);
+            }
+            mixed.forEach(w => {
+                const chip = document.createElement('div');
+                chip.className = 'ro-chip';
+                chip.textContent = w;
+                chip.addEventListener('pointerdown', e => {
+                    if (team.locked || !running) return;
+                    e.preventDefault();
+                    const pid = e.pointerId, sx = e.clientX, sy = e.clientY;
+                    let dragging = false;
+                    const move = ev => {
+                        if (ev.pointerId !== pid) return;
+                        if (!dragging && Math.hypot(ev.clientX - sx, ev.clientY - sy) > 6) {
+                            dragging = true;
+                            ghost = chip.cloneNode(true); ghost.classList.add('ro-ghost'); document.body.appendChild(ghost);
+                            chip.classList.add('ghosting');
+                        }
+                        if (dragging) {
+                            ghost.style.left = ev.clientX + 'px'; ghost.style.top = ev.clientY + 'px';
+                            const r = line.getBoundingClientRect();
+                            line.classList.toggle('over', ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top - 20 && ev.clientY <= r.bottom + 20);
+                        }
+                    };
+                    const up = ev => {
+                        if (ev.pointerId !== pid) return;
+                        document.removeEventListener('pointermove', move);
+                        document.removeEventListener('pointerup', up);
+                        document.removeEventListener('pointercancel', up);
+                        chip.classList.remove('ghosting');
+                        if (ghost) { ghost.remove(); ghost = null; }
+                        const overLine = line.classList.contains('over');
+                        line.classList.remove('over');
+                        if (team.locked || !running) return;
+                        if (!dragging) { if (chip.parentNode === pool) slots.appendChild(chip); else pool.appendChild(chip); }
+                        else if (overLine) insertAt(chip, ev.clientX, ev.clientY);
+                        else { const pr = pool.getBoundingClientRect(); if (ev.clientY >= pr.top - 30 && chip.parentNode !== pool) pool.appendChild(chip); }
+                        playSound('tap');
+                        refresh();
+                    };
+                    document.addEventListener('pointermove', move);
+                    document.addEventListener('pointerup', up);
+                    document.addEventListener('pointercancel', up);
+                });
+                pool.appendChild(chip);
+            });
+            onTap(checkBtn, () => {
+                if (team.locked || !running || pool.children.length) return;
+                const built = [...slots.children].map(c => c.textContent).join(' ');
+                handleAnswer(team, built === target, built, qd);
+            });
+        }
+
+        function finishTeam(team) {
+            if (team.finished) return;
+            team.finished = true; team.locked = true;
+            if (team.solo) { endTimeout = setTimeout(endSolo, 300); return; }
+            team.el.timerFill.style.width = '0%';
+            team.el.doneScore.innerText = 'Score: ' + team.score + ' / ' + team.questions.length;
+            team.el.panel.classList.add('finished');
+            if (teams.every(t => t.finished)) endTimeout = setTimeout(endCompetition, 1200);
+        }
+        function mistakesHtml(list) {
+            if (!list.length) return '<div style="color:var(--success);font-weight:800;font-size:1.3rem;text-align:center">Excellent! No mistakes. 🌟</div>';
+            return list.map(m => '<div class="mistake-item"><div class="mistake-q"><i class="fas ' + FORM_ICONS[m.form] + '"></i> ' + esc(m.q) + '</div><div class="mistake-a"><i class="fas fa-check"></i> ' + esc(m.correct) + '</div></div>').join('');
+        }
+        function gradeOf(pct) {
+            return pct >= 90 ? 'Excellent! ممتاز' : pct >= 75 ? 'Very Good! جيد جدًا' : pct >= 60 ? 'Good! جيد' : pct >= 50 ? 'Pass — مقبول' : 'Keep practicing — حاول تاني';
+        }
+        function endSolo() {
+            stopAll();
+            const t = teams[0], total = t.questions.length;
+            const pct = Math.round(t.score / total * 100);
+            const n = pct >= 90 ? 3 : pct >= 60 ? 2 : pct > 0 ? 1 : 0;
+            document.getElementById('stars').innerHTML = [0, 1, 2].map(i => '<span class="' + (i < n ? '' : 'off') + '">⭐</span>').join('');
+            document.getElementById('final-score').innerText = t.score;
+            document.getElementById('final-total').innerText = total;
+            document.getElementById('final-pct').innerText = '(' + pct + '%)';
+            document.getElementById('grade-label').innerText = gradeOf(pct);
+            document.getElementById('mistakes-container').innerHTML = mistakesHtml(t.mistakes);
+            const input = document.getElementById('student-name-input');
+            input.value = ''; input.classList.remove('input-error');
+            if (n >= 2) playSound('win');
+            switchScreen('solo-results');
+        }
+        function endCompetition() {
+            stopAll();
+            const [a, b] = teams;
+            let winner = null, byTime = false;
+            if (a.score !== b.score) winner = a.score > b.score ? a : b;
+            else if (Math.abs(a.timeUsed - b.timeUsed) >= 100) { winner = a.timeUsed < b.timeUsed ? a : b; byTime = true; }
+            const banner = document.getElementById('winner-banner');
+            if (winner) {
+                banner.innerHTML = '🏆 Winner: ' + esc(winner.name) + (byTime ? '<div style="font-size:1rem;color:#64748b;font-weight:600;margin-top:6px">Same score — won by faster time</div>' : '');
+                lastResultText = 'Winner: ' + winner.name + (byTime ? ' (faster time)' : '');
+                playSound('win');
+            } else { banner.innerHTML = "🤝 It's a Draw!"; lastResultText = "It's a draw"; }
+            const cards = document.getElementById('score-cards');
+            cards.innerHTML = '';
+            teams.forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'score-card t' + t.idx + (winner === t ? ' win' : '');
+                card.innerHTML = '<h4>' + (winner === t ? '🏆 ' : '') + esc(t.name) + '</h4><div class="big">' + t.score + ' / ' + t.questions.length + '</div>' +
+                    '<div class="meta"><i class="fas fa-stopwatch"></i> Time: ' + (t.timeUsed / 1000).toFixed(1) + 's</div><div class="results-list">' + mistakesHtml(t.mistakes) + '</div>';
+                cards.appendChild(card);
+            });
+            document.getElementById('class-name-input').value = '';
+            switchScreen('results-screen');
+        }
+        function openWhatsApp(m) { window.open('https://wa.me/' + TEACHER_PHONE + '?text=' + encodeURIComponent(m), '_blank'); }
+        function sendSoloResult() {
+            const input = document.getElementById('student-name-input');
+            const name = input.value.trim();
+            if (!name) { input.classList.add('input-error'); input.focus(); setTimeout(() => input.classList.remove('input-error'), 500); return; }
+            const t = teams[0], total = t.questions.length;
+            openWhatsApp('📝 *Test Result*\n👤 Student: ' + name + '\n📘 ' + T.title + '\n📚 ' + T.unitsLine + '\n✅ Score: ' + t.score + ' / ' + total + ' (' + Math.round(t.score / total * 100) + '%)');
+        }
+        function sendCompResult() {
+            if (teams.length < 2) return;
+            const cls = val('class-name-input');
+            const [a, b] = teams;
+            openWhatsApp('🏆 *Test Competition Result*\n' + (cls ? '🏫 Class: ' + cls + '\n' : '') + '📘 ' + T.title + '\n📚 ' + T.unitsLine + '\n\n' +
+                '🔵 ' + a.name + ': ' + a.score + ' / ' + a.questions.length + ' (' + (a.timeUsed / 1000).toFixed(1) + 's)\n' +
+                '🟠 ' + b.name + ': ' + b.score + ' / ' + b.questions.length + ' (' + (b.timeUsed / 1000).toFixed(1) + 's)\n\n🥇 ' + lastResultText);
+        }
+        setMode('solo');
+    </script>
+
+</body>
+</html>
